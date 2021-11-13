@@ -1,5 +1,4 @@
-package Review;
-import java.util.*;
+package review;
 
 public class Review {
     private int points;
@@ -22,5 +21,9 @@ public class Review {
 
     public void setComment(String comment){
         this.comment = comment;
+    }
+
+    public static void main(String[] args) {
+        System.out.println();
     }
 }

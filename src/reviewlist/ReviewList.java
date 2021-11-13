@@ -1,13 +1,16 @@
-package ReviewList;
-import java.util.*;
-import Review.Review;
+package reviewlist;
+
+import review.Review;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ReviewList {
 
-    private Map<Integer,Review> RevList;
+    private Map<Integer, Review> RevList;
 
     public ReviewList(){
-        RevList = new HashMap<Integer,Review>();
+        RevList = new HashMap<Integer, Review>();
     }
 
     public void addReview(int idItem, Review r){
