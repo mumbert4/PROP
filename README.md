@@ -1,4 +1,3 @@
-
 # PROP - SISTEMA RECOMANADOR
 
 **Grup 12 - subgrup-prop1.3**
@@ -15,6 +14,6 @@
 * aftab.ahmed.choudhry@estudiantat.upc.edu
 * pol.blavia@estudiantat.upc.edu
 * marta.granero.i@estudiantat.upc.edu
-*miquel.umbert.bosch@estudiantat.upc.edu
+* miquel.umbert.bosch@estudiantat.upc.edu
 
 
