@@ -29,7 +29,7 @@ public class Main {
         outputStream.writeChars("marta");
         outputStream.flush();
 
-        //2-aquest millor diria
+        //2-aquesta millor diria
         PrintWriter pw = null;
         try {
             pw = new PrintWriter("DATA/users2.csv");

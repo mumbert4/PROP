@@ -5,8 +5,6 @@ import java.io.FileReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 
 /**
  * @author Marta Granero I Martí
