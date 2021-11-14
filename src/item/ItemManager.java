@@ -5,6 +5,9 @@ public class ItemManager{
 
     Map<Integer, Item> items;
 
+    Map<Integer, Map<Integer ,Double>> mapDistances;
+
+
     public ItemManager(){
         items = new HashMap<Integer, Item>();
     }
