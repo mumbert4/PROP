@@ -1,5 +1,5 @@
 package activeUser;
-import reviewlist.ReviewList;
+import review.ReviewList;
 import review.Review;
 
 public class activeUser {
