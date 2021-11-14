@@ -23,4 +23,8 @@ public class ReviewList {
     public boolean itemAlreadyInList(int idItem) {
         return RevList.containsKey(idItem);
     }
+
+    public int size(){
+        return RevList.size();
+    }
 }

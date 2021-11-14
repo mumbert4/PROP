@@ -1,14 +1,23 @@
 package userManager;
 
 import activeUser.activeUser;
+import review.Review;
 import java.util.*;
+
+
 
 public class userManager {
     Map<String, activeUser> users;
 
+    private static userManager manager;
 
-    public userManager(){
+    private userManager(){
         users = new HashMap<String, activeUser>();
+    }
+
+    public static userManager getInstance(){
+        if(manager == null) manager = new userManager();
+        return manager;
     }
 
 
@@ -38,4 +47,17 @@ public class userManager {
     public activeUser getUser(String user_name){
         return users.get(user_name);
     }
+
+    public void createReview(String user_name, int item_id, double points, String comment){
+        Review r = new Review(points, comment);
+        activeUser user = getUser(user_name);
+        user.addReview(item_id, r);
+        System.out.println("Review afegida amb exit");
+    }
+
+    public int numReviews(String user_name){
+        return users.get(user_name).numReviews();
+    }
+
+
 }
