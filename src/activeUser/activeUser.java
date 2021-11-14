@@ -33,9 +33,29 @@ public class activeUser {
         reviews.addReview(item_id, r);
     }
 
+//    mitjana raitings de un usuari
+
     public int numReviews(){
+
         return reviews.size();
     }
 
+    public void setComment(int item_id, String comment){
+        Review r = reviews.getReview(item_id);
+        r.setComment(comment);
+    }
+
+    public void setPoints(int item_id, int points){
+        Review r = reviews.getReview(item_id);
+        r.setPoints(points);
+    }
+
+    public Review getReview(int item_id){
+        return reviews.getReview(item_id);
+    }
+
+    public double raiAve(){
+        return reviews.getRaitings();
+    }
 
 }

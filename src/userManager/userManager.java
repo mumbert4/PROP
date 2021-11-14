@@ -31,7 +31,7 @@ public class userManager {
         else {
             activeUser user = new activeUser(user_name, password);
             users.put(user_name, user);
-            System.out.println("User successfully created");
+//            System.out.println("User successfully created");
         }
     }
 
@@ -40,7 +40,7 @@ public class userManager {
         if (existUser(user_name)) System.out.println("This user already exists");
         else{
             users.put(user_name, user);
-            System.out.println("User added");
+//            System.out.println("User added");
         }
     }
 
@@ -52,12 +52,27 @@ public class userManager {
         Review r = new Review(points, comment);
         activeUser user = getUser(user_name);
         user.addReview(item_id, r);
-        System.out.println("Review afegida amb exit");
+//        System.out.println("Review afegida amb exit");
     }
 
     public int numReviews(String user_name){
         return users.get(user_name).numReviews();
     }
 
+    public int numUsu(){ //NOMBRE D'USUARIS QUE HI HA
+        return users.size();
+    }
+
+    public List<String> getUsuaris(){ //LISTA DE TOTS ELS USUARIS
+        List<String> ids = new LinkedList<String>();
+        for(String user_id : users.keySet()){
+            ids.add(user_id);
+        }
+        return ids;
+    }
+
+    public double raiAve(String user_id){
+        return users.get(user_id).raiAve();
+    }
 
 }
