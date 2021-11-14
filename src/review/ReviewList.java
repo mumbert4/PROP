@@ -1,4 +1,4 @@
-package reviewlist;
+package review;
 
 import review.Review;
 
