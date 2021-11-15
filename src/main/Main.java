@@ -12,16 +12,9 @@ import java.util.Objects;
 public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println();
-        CtrlDomini CDom = CtrlDomini.getInstance();
-        CDom.carregarDadesItems();
-        CDom.carregarDadesRatings();
-
-        /*
-        System.out.println()
         CtrlDades CD = CtrlDades.getInstance();
         CD.escriureItems();
         CD.escriureRatings();
-        */
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i

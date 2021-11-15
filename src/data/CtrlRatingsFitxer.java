@@ -3,7 +3,6 @@ package data;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,7 +21,7 @@ public class CtrlRatingsFitxer {
     }
     public CtrlRatingsFitxer() {}
 
-    public List<String> getAll(String filename) throws FileNotFoundException {
+    public LinkedList<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> ratings = new LinkedList<>();
         FileReader fr = new FileReader("DATA/"+filename);
         Scanner scan = new Scanner(fr);

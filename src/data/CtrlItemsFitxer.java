@@ -29,7 +29,7 @@ public class CtrlItemsFitxer {
     public CtrlItemsFitxer() {}
 
 
-    public List<String> getAll(String filename) throws FileNotFoundException {
+    public LinkedList<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> items = new LinkedList<String>();
         FileReader fr = new FileReader("DATA/"+filename);
         Scanner scan = new Scanner(fr);

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import data.CtrlItemsFitxer;
+import data.CtrlRatingsFitxer;
 import java.util.stream.Collectors;
 
 
@@ -18,9 +20,9 @@ import java.util.stream.Collectors;
 public class CtrlDades {
 
     /* Inicialitzem controlador de dades */
-    private static CtrlItemsFitxer CIF = CtrlItemsFitxer.getInstance();
-    private static CtrlRatingsFitxer CRF = CtrlRatingsFitxer.getInstance();
-    private static CtrlUsersFitxer CUF = CtrlUsersFitxer.getInstance();
+    private static final CtrlItemsFitxer CIF = CtrlItemsFitxer.getInstance();
+    private static final CtrlRatingsFitxer CRF = CtrlRatingsFitxer.getInstance();
+    //private static CtrlUsersFitxer CUF = CtrlUsersFitxer.getInstance();
 
     private static CtrlDades singletonO;
 
@@ -29,6 +31,18 @@ public class CtrlDades {
             singletonO = new CtrlDades() {};
         } return singletonO;
     }
+
+    /**
+    public static CtrlDades getItems() throws FileNotFoundException {
+        return CIF.getAll("items.csv");
+    }
+     */
+
+    /**
+    public static CtrlDades getRatings() throws FileNotFoundException {
+        return CRF.getAll("ratings.db.csv");
+    }
+     */
 
     public void escriureItems() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("DATA/items.csv"));
@@ -81,11 +95,6 @@ public class CtrlDades {
         //System.out.println(CRF.getAll("items.csv"));
     }
     public void escriureRatings() throws FileNotFoundException {
-        //System.out.println(CRF.getAll("ratings.db.csv"));
+        System.out.println(CRF.getAll("ratings.db.csv"));
     }
-
-    public void escriureUsuaris() throws  FileNotFoundException{
-        //System.out.println(CUF.getAll("users.csv"));
-    }
-
 }
