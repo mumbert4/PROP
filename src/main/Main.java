@@ -8,9 +8,31 @@ import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.util.Objects;
 
+
+
 public class Main {
     public static void main(String[] args) throws Exception{
-        System.out.println();
+
+ /*       try{
+            double inputDbl = Double.parseDouble("2.2");
+            System.out.println("true");
+            System.out.println(inputDbl);
+        }
+        catch(NumberFormatException ex)
+        {
+            System.out.println("false");
+        }
+
+        try{
+            int inputDbl = Integer.parseInt("1");
+            System.out.println("true");
+            System.out.println(inputDbl);
+        }
+        catch(NumberFormatException ex)
+        {
+            System.out.println("false");
+        }
+*/
         CtrlDades CD = CtrlDades.getInstance();
         CD.escriureItems();
         CD.escriureRatings();
@@ -39,5 +61,6 @@ public class Main {
         String builder = "marta";
         Objects.requireNonNull(pw).write(builder);
         pw.close();
+
     }
 }
