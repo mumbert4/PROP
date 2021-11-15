@@ -8,6 +8,8 @@ public class ItemManager{
 
     Map<Integer, ArrayList<Column>> MatItemsType;
 
+    ArrayList<Integer> IdItems;
+
     Map<Integer, Map<Integer ,Double>> mapDistances;
 
 
@@ -32,10 +34,6 @@ public class ItemManager{
 
     void fillMapDistances(LinkedList<String> items) {
 
-        System.out.println(items.get(0)); //FILA 0 -> COLUMNES
-        //Cada fila és un string de la LinkedList
-        System.out.println(items.size()); //FILA 0 -> COLUMNES
-
         int column_id = -1;
 
         for (int i = 0; i < items.size(); ++i) {
@@ -45,7 +43,7 @@ public class ItemManager{
             int idInt = -1;
 
             for (int j = 0; j < items.get(i).length() && items.get(i).charAt(j) != ','; ++j) {
-                System.out.print(items.get(i).charAt(j));
+
 
                 String elmCol = items.get(items.get(i).length() * i + j);
 
@@ -77,13 +75,62 @@ public class ItemManager{
 
                 else {
                     idInt = Integer.parseInt(elmCol);
+                    IdItems.add(idInt);
                 }
             }
 
             MatItemsType.put(idInt, itmAux);
         }
 
+    //Calculating distances
 
+        for(int i = 0; i < MatItemsType.size(); ++i){
+
+            Map<Integer , Double> internMap = new HashMap<>();
+            int id1 = IdItems.get(i);
+
+            for(int j = i+1; j < MatItemsType.size(); ++j){
+
+                double dist = 0;
+                int id2 = IdItems.get(j);
+
+                for (int k = 0; k < MatItemsType.get(id1).size(); ++k){
+
+                    if (MatItemsType.get(id1).get(k).isBoolean()){
+                        boolean b1 = MatItemsType.get(id1).get(k).valueBoolean();
+                        boolean b2 = MatItemsType.get(id2).get(k).valueBoolean();
+
+                        if (b1 != b2 ) ++dist;
+                    }
+
+                    else if (MatItemsType.get(id1).get(k).isInteger()){
+
+                        int i1 = MatItemsType.get(id1).get(k).valueInteger();
+                        int i2 = MatItemsType.get(id2).get(k).valueInteger();
+                        dist += (Math.abs(i1 -i2)/ (i1 + i2));
+                    }
+
+                    else if (MatItemsType.get(id1).get(k).isDouble()){
+
+                        double d1 = MatItemsType.get(id1).get(k).valueDouble();
+                        double d2 = MatItemsType.get(id2).get(k).valueDouble();
+                        dist += (Math.abs(d1 - d2)/ (d1 + d2));
+                    }
+
+                    else {
+
+                        String s1 = MatItemsType.get(id1).get(k).valueString();
+                        String s2 = MatItemsType.get(id2).get(k).valueString();
+                        if (!s1.equals(s2)) ++dist;
+                    }
+                }
+
+                internMap.put(id2, dist);
+
+            }
+
+            mapDistances.put(id1,internMap);
+        }
 
 
     }

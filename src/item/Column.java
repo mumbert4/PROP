@@ -51,4 +51,21 @@ public class Column {
     public boolean isString(){
         return bString;
     }
+
+
+    public boolean valueBoolean(){
+        return valueB;
+    }
+
+    public Integer valueInteger(){
+        return valueInt;
+    }
+
+    public Double valueDouble(){
+        return valueD;
+    }
+
+    public String valueString() {
+        return valueS;
+    }
 }
