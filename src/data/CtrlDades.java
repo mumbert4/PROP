@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * @author Marta Granero I Martí
@@ -31,9 +33,9 @@ public class CtrlDades {
     public void escriureItems() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("DATA/items.csv"));
         String line;
-        List myList = new ArrayList();
-        List myList1 = new ArrayList();
-        List myList2 = new ArrayList();
+        List<String> myList = new LinkedList<String>();
+        List<String> myList1 = new LinkedList<String>();
+        List<String> myList2 = new LinkedList<String>();
         while ((line = br.readLine()) != null) {
             // use comma as separator
             String[] columna = line.split(",");
@@ -43,8 +45,11 @@ public class CtrlDades {
             System.out.println(columna[0]);
         }
         System.out.println(myList);
+        System.out.println("\n");
         System.out.println(myList1);
+        System.out.println("\n");
         System.out.println(myList2);
+        System.out.println("\n");
         /*
         //COMPTAR EL # DE COLUMNES//
         String s = CRF.getAll("items.csv").get(0);
@@ -73,10 +78,10 @@ public class CtrlDades {
         //printa l'item(que és una llista d'elements)
         System.out.println(cont);
         */
-        System.out.println(CRF.getAll("items.csv"));
+        //System.out.println(CRF.getAll("items.csv"));
     }
     public void escriureRatings() throws FileNotFoundException {
-        System.out.println(CRF.getAll("ratings.db.csv"));
+        //System.out.println(CRF.getAll("ratings.db.csv"));
     }
 
     public void escriureUsuaris() throws  FileNotFoundException{
