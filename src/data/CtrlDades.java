@@ -47,6 +47,10 @@ public class CtrlDades {
 //        System.out.println(CUF.getAll("users.csv"));
 //    }
 
+    public List<String> getItems() throws FileNotFoundException {
+        return CIF.getAll("items.csv");
+    }
+
     String getUID(String s){
         String id="";
         for(int i =0; i < s.length() && s.charAt(i) != ',' ; ++i ){

@@ -1,6 +1,5 @@
-package userManager;
+package user;
 
-import activeUser.activeUser;
 import review.Review;
 import java.util.*;
 

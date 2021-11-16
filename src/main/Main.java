@@ -10,7 +10,8 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.util.Objects;
-import userManager.userManager;
+import user.userManager;
+import item.ItemManager;
 
 
 public class Main {
@@ -38,8 +39,11 @@ public class Main {
 
         System.out.println("USER MANAGER rellenat");
 
-        System.out.println(manager.raiAve("1625"));
-
+//        System.out.println(manager.raiAve("1625"));
+        System.out.println("Ara toca rellenar el item Manager");
+        ItemManager items = new ItemManager();
+        items.createColumns(CD.getItems());
+        items.fillMapDistances();
 
 
 
