@@ -4,7 +4,7 @@ public class Review {
     private int points;
     private String comment;
 
-    public Review(){};
+    public Review(){}
 
     public Review(int points, String comment){
         this.points = points;
