@@ -1,8 +1,13 @@
 package main;
 
+<<<<<<< HEAD
 import data.CtrlDades;
 package main;
 
+=======
+
+
+>>>>>>> a4901dc5d357eec7f5d458fe3dba63367e751240
 import data.CtrlDades;
 import java.util.LinkedList;
 import java.util.List;

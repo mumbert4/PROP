@@ -1,17 +1,17 @@
 package review;
 
 public class Review {
-    private int points;
+    private double points;
     private String comment;
 
     public Review(){}
 
-    public Review(int points, String comment){
+    public Review(double points, String comment){
         this.points = points;
         this.comment = comment;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
@@ -23,7 +23,5 @@ public class Review {
         this.comment = comment;
     }
 
-    public static void main(String[] args) {
-        System.out.println();
-    }
+
 }
