@@ -3,15 +3,10 @@ package item;
 import java.util.*;
 
 public class ItemManager{
-
     Map<Integer, Item> items;
-
     Map<Integer, ArrayList<Column>> MatItemsType;
-
     ArrayList<Integer> IdItems;
-
 //    Map<Integer, Map<Integer ,Double>> mapDistances;
-
 
     public ItemManager(){
         items = new HashMap<>();

@@ -1,14 +1,7 @@
 package main;
 
-<<<<<<< HEAD
 import data.CtrlDades;
-package main;
 
-=======
-
-
->>>>>>> a4901dc5d357eec7f5d458fe3dba63367e751240
-import data.CtrlDades;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.DataOutputStream;
@@ -18,21 +11,18 @@ import java.io.FileNotFoundException;
 import java.util.Objects;
 import userManager.userManager;
 
-
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDades CD = CtrlDades.getInstance();
-//        CD.escriureItems();
-//        CD.escriureRatings();
-        List<String> user_ids= new LinkedList<String>();
-        List<Integer> item_ids= new LinkedList<Integer>();
-        List<Double> raitings = new LinkedList<Double>();
+
+        List<String> user_ids  = new LinkedList<String>();
+        List<Integer> item_ids = new LinkedList<Integer>();
+        List<Double> raitings  = new LinkedList<Double>();
 
         CD.obtenir_dades(user_ids, item_ids, raitings);
-
-        System.out.println("Dades obtingudes, rellenam el USER MANAGER");
+        System.out.println("Dades obtingudes, rellenam el USER MANAGER:");
 
         for(int i = 0; i < user_ids.size(); ++i){
             String user_name = user_ids.get(i);
@@ -43,15 +33,7 @@ public class Main {
         }
 
         System.out.println("USER MANAGER rellenat");
-
         System.out.println(manager.raiAve("1625"));
-
-
-
-
-
-
-
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
@@ -76,6 +58,5 @@ public class Main {
         String builder = "marta";
         Objects.requireNonNull(pw).write(builder);
         pw.close();
-
     }
 }

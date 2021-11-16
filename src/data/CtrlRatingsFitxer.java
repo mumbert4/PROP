@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 /* Implementació de la classe que gestionarà les dades per la classe "Item" */
 public class CtrlRatingsFitxer {
-
     private static CtrlRatingsFitxer singletonO;
 
     public static CtrlRatingsFitxer getInstance() {
