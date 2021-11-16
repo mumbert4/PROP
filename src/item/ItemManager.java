@@ -8,18 +8,22 @@ public class ItemManager{
 
     Map<Integer, ArrayList<Column>> MatItemsType;
 
-    Map<Integer, Map<Integer ,Double>> mapDistances;
-
     ArrayList<Integer> IdItems;
 
+//    Map<Integer, Map<Integer ,Double>> mapDistances;
 
-    public ItemManager(){items = new HashMap<>();}
 
-    public boolean existItem(int id){
+    public ItemManager(){
+        items = new HashMap<>();
+        MatItemsType = new HashMap<>();
+        IdItems= new ArrayList<>();
+    }
+
+    boolean existItem(int id){
         return items.containsKey(id);
     }
 
-    public void createItem(int id, String name, ArrayList<Column> attributes){
+    void createItem(int id, String name, ArrayList<Integer> attributes){
         if(existItem(id)) System.out.println("The item with id: " +id+" already exists");
         else {
             Item item = new Item(id, name, attributes);
@@ -27,89 +31,119 @@ public class ItemManager{
         }
     }
 
-    public void deleteItem(int id) {
+    void deleteItem(int id) {
         if(!existItem(id)) System.out.println("The item with id: " +id+" does not exist");
         else items.remove(id);
     }
 
-    private void createColumns(LinkedList<String> items) {
-        int column_id = -1;
-        for (int i = 0; i < items.size(); ++i) {
+    int getColId(String fila){
+        int col_act=1;
+        int j = 0;
+        String aux = "";
+        while(j < fila.length()){
+            if(fila.charAt(j)==','){
+                if (aux.equals("id")) return col_act;
+                else{
+                    System.out.println("aux actual: " + aux);
+                    aux= "";
+                    ++col_act;
+                    ++j;
+                }
+            }
+            else{
+                aux+= fila.charAt(j);
+                ++j;
+            }
+        }
+        return 0;
+    }
+    public void fillMapDistances(List<String> List_items) {
+
+        System.out.println(List_items.get(0)); //FILA 0 -> COLUMNES
+        //Cada fila és un string de la LinkedList
+//        System.out.println(List_items.size()); //FILA 0 -> COLUMNES
+
+        int column_id = getColId(List_items.get(0));
+
+        System.out.println("Columna del ID: "+ column_id);
+
+        for (int i = 1; i < List_items.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
 
             String id;
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
 
-            for (int j = 0; j < items.get(i).length() && items.get(i).charAt(j) != ','; ++j) {
-                String elmCol = items.get(items.get(i).length() * i + j);
-                if (i == 0) {
-                    if (elmCol.equals("id")) column_id = j;
-                }
-                else if (j != column_id){
-                    Column actItem = new Column();
-                    if (isInt(elmCol)) {
-                        actItem.columnInteger(Integer.parseInt(elmCol));
-                    }
-                    else if (isB(elmCol)) {
-                        boolean val = Boolean.parseBoolean(elmCol);
-                        actItem.columnBool(val);
-                    }
-                    else if (isDbl(elmCol)){
-                        actItem.columnDouble(Double.parseDouble(elmCol));
-                    }
-                    else actItem.columnString(elmCol);
+            System.out.println();
+            System.out.println(List_items.get(i));// cada fila de cada item
 
-                    itmAux.add(actItem);
-                }
-                else {
-                    idInt = Integer.parseInt(elmCol);
+//            System.out.println(List_items.get(i).length()); // longitud de la fila
+
+            int elem_act = 1;
+            String aux = "";
+//            List_items.get(i).charAt(j) != ','
+            int j =0;
+            Boolean desc= false;
+            while(j < List_items.get(i).length()) {
+                if(elem_act == column_id){ // si l'element actual es 6, esteima a la columna del ID
+                    aux = "";
+                    while(List_items.get(i).charAt(j) != ','){ // aixo es el id del item
+                        aux+=List_items.get(i).charAt(j);
+                        ++j;
+                    }
+                    System.out.println("IDITEM: " +aux);
+                    idInt= Integer.parseInt(aux);
                     IdItems.add(idInt);
+                    aux="";
+                    ++elem_act;
+                    ++j;
+                }
+                else{// ELEMENT ACTUAL NO ES EL ITEM ID
+                    if(List_items.get(i).charAt(j) == '"'){
+                        ++j;
+                        aux="";
+                        while(!(List_items.get(i).charAt(j)=='"' && List_items.get(i).charAt(j+1)==',' && List_items.get(i).charAt(j + 2) != ' ')){
+                            aux+= List_items.get(i).charAt(j);
+                            ++j;
+                        }
+                        System.out.println("DESCRIPCIO: " +aux);
+                        j+=2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
+                        Column actItem = new Column();
+                        actItem.columnString(aux);
+                        itmAux.add(actItem);
+                        aux="";
+
+                    } // COMENÇAM UNA DESCRIPCIO
+                    else if (List_items.get(i).charAt(j) == ',') {
+                        if (aux != "") {
+                            System.out.println("NI PUTA IDEA: " +aux);
+                            Column actItem = new Column();
+                            if (isInt(aux)) {
+                                actItem.columnInteger(Integer.parseInt(aux));
+                                System.out.println(Integer.parseInt(aux));
+                            } else if (isB(aux)) {
+                                boolean val = Boolean.parseBoolean(aux);
+                                actItem.columnBool(val);
+                                System.out.println(Boolean.parseBoolean(aux));
+                            } else if (isDbl(aux)) {
+                                actItem.columnDouble(Double.parseDouble(aux));
+                                System.out.println(Double.parseDouble(aux));
+                            } else actItem.columnString(aux);
+
+                            aux="";
+                            itmAux.add(actItem);
+                        }
+
+                        ++elem_act;
+                        ++j;
+                    }
+                    else{
+                        aux+= List_items.get(i).charAt(j);
+                        ++j;
+                    }
                 }
             }
             MatItemsType.put(idInt, itmAux);
-        }
-    }
 
-    public void fillMapDistances(LinkedList<String> items) {
-        createColumns(items);
-
-        //Calcutating distances
-        for(int i = 0; i < MatItemsType.size(); ++i){
-
-            Map<Integer , Double> internMap = new HashMap<>();
-            int id1 = IdItems.get(i);
-
-            for(int j = i+1; j < MatItemsType.size(); ++j){
-
-                double dist = 0;
-                int id2 = IdItems.get(j);
-
-                for (int k = 0; k < MatItemsType.get(id1).size(); ++k){
-
-                    if (MatItemsType.get(id1).get(k).isBoolean()){
-                        boolean b1 = MatItemsType.get(id1).get(k).valueBoolean();
-                        boolean b2 = MatItemsType.get(id2).get(k).valueBoolean();
-                        if (b1 != b2 ) ++dist;
-                    }
-                    else if (MatItemsType.get(id1).get(k).isInteger()){
-                        int i1 = MatItemsType.get(id1).get(k).valueInteger();
-                        int i2 = MatItemsType.get(id2).get(k).valueInteger();
-                        dist += (Math.abs(i1 -i2)/ (i1 + i2));
-                    }
-                    else if (MatItemsType.get(id1).get(k).isDouble()){
-                        double d1 = MatItemsType.get(id1).get(k).valueDouble();
-                        double d2 = MatItemsType.get(id2).get(k).valueDouble();
-                        dist += (Math.abs(d1 - d2)/ (d1 + d2));
-                    }
-                    else {
-                        String s1 = MatItemsType.get(id1).get(k).valueString();
-                        String s2 = MatItemsType.get(id2).get(k).valueString();
-                        if (!s1.equals(s2)) ++dist;
-                    }
-                }
-                internMap.put(id2, dist);
-            }
-            mapDistances.put(id1,internMap);
         }
     }
 
@@ -138,5 +172,4 @@ public class ItemManager{
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
-
 }
