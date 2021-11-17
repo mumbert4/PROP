@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -24,17 +25,9 @@ public class Main {
         List<String> user_ids= new LinkedList<String>();
         List<Integer> item_ids= new LinkedList<Integer>();
         List<Double> raitings = new LinkedList<Double>();
-
         CD.obtenir_dades(user_ids, item_ids, raitings);
-
-
-
-
         //System.out.println("Ara toca rellenar el item Manager");
         ItemManager items = new ItemManager();
-
-
-
         //System.out.println("Dades obtingudes, rellenam el USER MANAGER");
         for(int i = 0; i < user_ids.size(); ++i){
             String user_name = user_ids.get(i);
@@ -46,15 +39,18 @@ public class Main {
 
 //        System.out.println("USER MANAGER rellenat");
         List<String> users = manager.getUsuaris();
-        for (int i = 0; i < users.size()/100; ++i) {
+        Collections.sort(users);
+        for (int i = 0; i < users.size(); ++i) {
             String user_name = users.get(i);
             System.out.println("user_id: " + user_name);
             manager.getReviewsUsers(user_name);
         }
+        System.out.println(manager.existUser("143"));
 
         System.out.println("Calcul distancies");
         items.fillMapDistances(CD.getItems());
         //items.printDistances();
+        items.retornaItemsSemblants();
 
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */

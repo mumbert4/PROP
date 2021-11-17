@@ -64,7 +64,9 @@ public class userManager {
 
     public List<String> getUsuaris(){ //LISTA DE TOTS ELS USUARIS
         List<String> ids = new LinkedList<String>();
-        for(String user_id : users.keySet()){
+        //mapa users ordenat per clau
+        Map<String, activeUser> sortedMap = new TreeMap<String, activeUser>(users);
+        for(String user_id : sortedMap.keySet()){
             ids.add(user_id);
         }
         return ids;

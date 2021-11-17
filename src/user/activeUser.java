@@ -54,6 +54,6 @@ public class activeUser {
     }
 
     public void getReviewsUsers() {
-        reviews.getReviewsUsers();
+        reviews.getReviewsU();
     }
 }

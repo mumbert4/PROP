@@ -43,6 +43,36 @@ public class ItemManager{
         }
     }
 
+    //Retornem k=min(#items,3) items pareguts
+    //Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
+    public void retornaItemsSemblants() {
+        Map<Integer,Double> distances = new HashMap<>();
+        for (Map.Entry<Integer, Map<Integer,Double>> item1 : mapDistances.entrySet()) {
+            int k = Math.min(item1.getValue().entrySet().size(),3); //parametre k
+            //System.out.println(item1.getKey()  + " " + item1.getValue());
+            for (Map.Entry<Integer,Double> item2 : item1.getValue().entrySet()) {
+                //System.out.println(item2.getKey() + " " + item2.getValue());
+                distances.put(item2.getKey(),item2.getValue());
+            }
+            LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
+            distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                    .forEachOrdered(x -> {
+                        dists.put(x.getKey(), x.getValue());
+                    });
+            System.out.println("Mapa ordenat ascendentment: " + dists);
+
+            Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
+            for (Map.Entry<Integer,Double> e : dists.entrySet()) {
+                if (k > 0) {
+                    System.out.println(item1.getKey() + " " + e.getKey() + " " + e.getValue());
+                    --k;
+                } else break;
+            }
+            System.out.println();
+            break;
+        }
+    }
+
     private void createColumns(List<String> List_items) {
 
         int column_id = getColId(List_items.get(0));

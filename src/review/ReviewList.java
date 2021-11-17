@@ -38,7 +38,7 @@ public class ReviewList {
         return points;
     }
 
-    public Map<Integer, Double> getReviewsUsers() { //clau:id_item, valor:rating de l'usuari a l'ítem
+    public Map<Integer, Double> getReviewsU() { //clau:id_item, valor:rating de l'usuari a l'ítem
         Map<Integer, Double> ratings = new HashMap<>();
         for (Map.Entry<Integer, Review> r : RevList.entrySet()) {
             ratings.put(r.getKey(),r.getValue().getPoints());
@@ -49,10 +49,8 @@ public class ReviewList {
                 .forEachOrdered(x -> {
                     ratingsOrdenats.put(x.getKey(), x.getValue());
                 });
-        System.out.println("Reverse Sorted Map   : " + ratingsOrdenats);
-        //List<Map.Entry<Integer, Double>> ratingsOrdenats = new ArrayList<>(ratings.entrySet());
-        //ratingsOrdenats.sort(Map.Entry.comparingByValue());
-        //ratingsOrdenats.forEach(System.out::println);
+        System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
         return ratingsOrdenats;
     }
+
 }
