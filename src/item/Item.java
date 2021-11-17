@@ -20,6 +20,8 @@ public class Item {
 
     public int getSizeAttributes() { return attributes.size(); }
 
-    public Column getColumn(int i){return attributes.get(i);}
+    public Column getColumn(int i){
+        return attributes.get(i);
+    }
 
 }
