@@ -1,7 +1,10 @@
 package main;
 
+
+
 import data.CtrlDades;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.io.DataOutputStream;
@@ -9,31 +12,59 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.util.Objects;
-import userManager.userManager;
+import user.userManager;
+import item.ItemManager;
+import item.Column;
 
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDades CD = CtrlDades.getInstance();
-
-        List<String> user_ids  = new LinkedList<String>();
-        List<Integer> item_ids = new LinkedList<Integer>();
-        List<Double> raitings  = new LinkedList<Double>();
+//        CD.escriureItems();
+//        CD.escriureRatings();
+        List<String> user_ids= new LinkedList<String>();
+        List<Integer> item_ids= new LinkedList<Integer>();
+        List<Double> raitings = new LinkedList<Double>();
 
         CD.obtenir_dades(user_ids, item_ids, raitings);
-        System.out.println("Dades obtingudes, rellenam el USER MANAGER:");
 
+
+
+        System.out.println("Ara toca rellenar el item Manager");
+        ItemManager items = new ItemManager();
+
+        items.createColumns(CD.getItems());
+
+
+        System.out.println("Dades obtingudes, rellenam el USER MANAGER");
         for(int i = 0; i < user_ids.size(); ++i){
             String user_name = user_ids.get(i);
             int item_id = item_ids.get(i);
+
+
+            if(!(items.existItem(item_id))){
+                ArrayList<Column> cols = items.getCols(item_id);
+                items.createItem(item_id,cols);
+
+            }
+
             Double raiting = raitings.get(i);
             if(!(manager.existUser(user_ids.get(i)))) manager.createUser(user_ids.get(i), "",""); //possam les passwords en blanc de moment
             manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
         }
 
-        System.out.println("USER MANAGER rellenat");
-        System.out.println(manager.raiAve("1625"));
+//        System.out.println("USER MANAGER rellenat");
+
+//        System.out.println(manager.raiAve("1625"));
+        System.out.println("Calcul distancies");
+
+        items.fillMapDistances();
+
+        items.printDist(1408);
+
+
+
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
@@ -58,5 +89,6 @@ public class Main {
         String builder = "marta";
         Objects.requireNonNull(pw).write(builder);
         pw.close();
+
     }
 }

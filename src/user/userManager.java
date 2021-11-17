@@ -1,6 +1,5 @@
-package userManager;
+package user;
 
-import activeUser.activeUser;
 import review.Review;
 import java.util.*;
 
@@ -74,5 +73,5 @@ public class userManager {
     public double raiAve(String user_id){
         return users.get(user_id).raiAve();
     }
-
 }
+

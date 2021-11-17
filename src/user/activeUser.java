@@ -1,4 +1,4 @@
-package activeUser;
+package user;
 import review.ReviewList;
 import review.Review;
 

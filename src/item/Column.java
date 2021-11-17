@@ -34,37 +34,29 @@ public class Column {
         this.bString = true;
 
     }
-
     //Getters
-
     public boolean isBoolean(){
         return bBoolean;
     }
     public boolean isInteger(){
         return bInteger;
     }
-
     public boolean isDouble(){
         return bDouble;
     }
-
     public boolean isString(){
         return bString;
     }
 
-
     public boolean valueBoolean(){
         return valueB;
     }
-
     public Integer valueInteger(){
         return valueInt;
     }
-
     public Double valueDouble(){
         return valueD;
     }
-
     public String valueString() {
         return valueS;
     }

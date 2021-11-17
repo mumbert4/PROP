@@ -4,7 +4,7 @@ public class Review {
     private double points;
     private String comment;
 
-    public Review(){}
+    public Review(){};
 
     public Review(double points, String comment){
         this.points = points;
@@ -22,6 +22,4 @@ public class Review {
     public void setComment(String comment){
         this.comment = comment;
     }
-
-
 }
