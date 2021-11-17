@@ -73,5 +73,9 @@ public class userManager {
     public double raiAve(String user_id){
         return users.get(user_id).raiAve();
     }
+
+    public void getReviewsUsers(String user_id) {
+        users.get(user_id).getReviewsUsers();
+    }
 }
 

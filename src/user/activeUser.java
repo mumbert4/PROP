@@ -52,4 +52,8 @@ public class activeUser {
     public double raiAve(){
         return reviews.getRaitings();
     }
+
+    public void getReviewsUsers() {
+        reviews.getReviewsUsers();
+    }
 }
