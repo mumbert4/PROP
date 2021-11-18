@@ -1,9 +1,7 @@
 package review;
 
-import review.Review;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class ReviewList {
 
@@ -39,4 +37,20 @@ public class ReviewList {
         points /= RevList.size();
         return points;
     }
+
+    public Map<Integer, Double> getReviewsU() { //clau:id_item, valor:rating de l'usuari a l'ítem
+        Map<Integer, Double> ratings = new HashMap<>();
+        for (Map.Entry<Integer, Review> r : RevList.entrySet()) {
+            ratings.put(r.getKey(),r.getValue().getPoints());
+            //System.out.println(r.getValue().getPoints());
+        }
+        LinkedHashMap<Integer, Double> ratingsOrdenats = new LinkedHashMap<>();
+        ratings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> {
+                    ratingsOrdenats.put(x.getKey(), x.getValue());
+                });
+        System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
+        return ratingsOrdenats;
+    }
+
 }
