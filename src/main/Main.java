@@ -10,10 +10,8 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
@@ -36,7 +34,6 @@ public class Main {
             manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
         }
 
-
         List<String> users = manager.getUsuaris();
         Collections.sort(users);
 //        for (int i = 0; i < users.size(); ++i) {
@@ -45,11 +42,14 @@ public class Main {
 //            manager.getReviewsUsers(user_name);
 //        }
         items.fillMapDistances(CD.getItems());
-
         //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
         manager.setItemMan(items);
+        //System.out.println(items.retornaItemsSemblants(74458));
+        //System.out.println(items.existItem(74458));
         //Passem el paràmetre 3
-        manager.getItemsSemblants("143", 3);
+        for (int i = 0; i < user_ids.size(); ++i) {
+            manager.getItemsSemblants(user_ids.get(i), 3);
+        }
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
            ModificarPerfil */

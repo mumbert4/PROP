@@ -76,12 +76,9 @@ public class ItemManager{
     }
 
     private void createColumns(List<String> List_items) {
-
         int column_id = getColId(List_items.get(0));
 //        System.out.println("Columna del ID: "+ column_id);
-
         for (int i = 1; i < List_items.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
-
             String id;
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
@@ -225,37 +222,36 @@ public class ItemManager{
         for(int i = 0; i < items.size(); ++i){
             Map<Integer , Double> internMap = new HashMap<>();
             int id1 = IdItems.get(i);
-            for(int j = i+1; j < items.size(); ++j){
-                double dist = 0;
-                int id2 = IdItems.get(j);
-                for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k){
-                    if (items.get(id1).getColumn(k).isBoolean()){
-                        boolean b1 = items.get(id1).getColumn(k).valueBoolean();
-                        boolean b2 = items.get(id2).getColumn(k).valueBoolean();
-                        if (b1 != b2 ) ++dist;
+            for(int j = 0; j < items.size(); ++j) {
+                if (i != j) {
+                    double dist = 0;
+                    int id2 = IdItems.get(j);
+                    for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
+                        if (items.get(id1).getColumn(k).isBoolean()) {
+                            boolean b1 = items.get(id1).getColumn(k).valueBoolean();
+                            boolean b2 = items.get(id2).getColumn(k).valueBoolean();
+                            if (b1 != b2) ++dist;
+                        } else if (items.get(id1).getColumn(k).isInteger()) {
+                            int i1 = items.get(id1).getColumn(k).valueInteger();
+                            int i2 = items.get(id2).getColumn(k).valueInteger();
+                            if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2));
+                            else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
+                        } else if (items.get(id1).getColumn(k).isDouble()) {
+                            double d1 = items.get(id1).getColumn(k).valueDouble();
+                            double d2 = items.get(id2).getColumn(k).valueDouble();
+                            if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2));
+                            else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1));
+                        } else {
+                            String s1 = items.get(id1).getColumn(k).valueString();
+                            String s2 = items.get(id2).getColumn(k).valueString();
+                            dist += (1 - jaroWinkler(s1, s2));
+                            //if (!s1.equals(s2)) ++dist;
+                        }
                     }
-                    else if (items.get(id1).getColumn(k).isInteger()){
-                        int i1 = items.get(id1).getColumn(k).valueInteger();
-                        int i2 = items.get(id2).getColumn(k).valueInteger();
-                        if (i1+i2 != 0) dist += (Math.abs(i1 -i2)/ (i1 + i2));
-                        else dist += (Math.abs(i1 -i2)/ (i1 + i2 + 1));
-                    }
-                    else if (items.get(id1).getColumn(k).isDouble()){
-                        double d1 = items.get(id1).getColumn(k).valueDouble();
-                        double d2 = items.get(id2).getColumn(k).valueDouble();
-                        if (d1+d2 != 0) dist += (Math.abs(d1 - d2)/ (d1 + d2));
-                        else dist += (Math.abs(d1 - d2)/ (d1 + d2 + 1));
-                    }
-                    else {
-                        String s1 = items.get(id1).getColumn(k).valueString();
-                        String s2 = items.get(id2).getColumn(k).valueString();
-                        dist += (1-jaroWinkler(s1,s2));
-                        //if (!s1.equals(s2)) ++dist;
-                    }
+                    internMap.put(id2, dist);
                 }
-                internMap.put(id2, dist);
+                mapDistances.put(id1, internMap);
             }
-            mapDistances.put(id1,internMap);
         }
     }
 
