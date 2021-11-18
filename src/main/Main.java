@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
@@ -52,7 +51,7 @@ public class Main {
         //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
         manager.setItemMan(items);
 //        items.retornaItemsSemblants(628);
-        manager.getItemsSemblants("2303");
+        manager.getItemsSemblants("1625");
 
 
 

@@ -56,18 +56,25 @@ public class ItemManager{
                 .forEachOrdered(x -> {
                     dists.put(x.getKey(), x.getValue());
                 });
-
+//        System.out.println("Distancies suposadament ordenades de l'item "+ item_id+" :" + dists);
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
         Map<Integer, Double> k_it = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
             if (k > 0) {
                 k_it.put(e.getKey(), e.getValue());
-//                    System.out.println(e.getKey() + " " + e.getValue());
+//                System.out.println(e.getKey() + " " + e.getValue());
                 --k;
             }
             else break;
         }
-        return k_it;
+        LinkedHashMap<Integer, Double> k_or = new LinkedHashMap<>();
+        k_it.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                .forEachOrdered(x -> {
+                    k_or.put(x.getKey(), x.getValue());
+                });
+//        System.out.println("K it abans de return " + k_it);
+//        System.out.println("K or abans de return " + k_or);
+        return k_or;
     }
 
     private void createColumns(List<String> List_items) {
@@ -279,11 +286,14 @@ public class ItemManager{
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
+
     int getColId(String fila){
         int col_act=1;
         int j = 0;
         String aux = "";
+
         while(j < fila.length()){
+
             if(fila.charAt(j)==','){
                 if (aux.equals("id")) return col_act;
                 else{
@@ -301,4 +311,3 @@ public class ItemManager{
         return 0;
     }
 }
-

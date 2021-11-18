@@ -50,18 +50,19 @@ public class ReviewList {
                 .forEachOrdered(x -> {
                     ratingsOrdenats.put(x.getKey(), x.getValue());
                 });
-//        Map<Integer,Double> aux= new HashMap<>();
-//        int k = 3;
-//        for(Map.Entry<Integer,Double> m : ratingsOrdenats.entrySet()){
-//            if(k > 0){
-//                aux.put(m.getKey(), m.getValue());
-//                --k;
-//            }
-//            else break;
-//        }
+        Map<Integer,Double> aux= new HashMap<>();
+        int k = 3;
+        for(Map.Entry<Integer,Double> m : ratingsOrdenats.entrySet()){
+            if(k > 0){
+                aux.put(m.getKey(), m.getValue());
+                --k;
+            }
+            else break;
+        }
         System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
-//        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
-        return ratingsOrdenats;
+        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
+        return aux;
     }
 }
+
 
