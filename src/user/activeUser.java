@@ -2,6 +2,8 @@ package user;
 import review.ReviewList;
 import review.Review;
 
+import java.util.Map;
+
 public class activeUser {
     private String user_name;
     private String password;
@@ -53,7 +55,7 @@ public class activeUser {
         return reviews.getRaitings();
     }
 
-    public void getReviewsUsers() {
-        reviews.getReviewsU();
+    public Map<Integer,Double> getReviewsUsers() {
+        return reviews.getReviewsU();
     }
 }

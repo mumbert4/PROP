@@ -2,12 +2,13 @@ package user;
 
 import review.Review;
 import java.util.*;
+import item.ItemManager;
 
 
 
 public class userManager {
     Map<String, activeUser> users;
-
+    ItemManager items;
     private static userManager manager;
 
     private userManager(){
@@ -19,7 +20,9 @@ public class userManager {
         return manager;
     }
 
-
+    public void setItemMan(ItemManager itemMan){
+        items = itemMan;
+    }
     public boolean existUser(String user_name){
         return users.containsKey(user_name);
     }
@@ -76,8 +79,20 @@ public class userManager {
         return users.get(user_id).raiAve();
     }
 
-    public void getReviewsUsers(String user_id) {
+    public void getReviewsUsers(String user_id) { //clau:id_item, valor:rating de l'usuari a l'ítem
         users.get(user_id).getReviewsUsers();
+    }
+
+    public void getItemsSemblants(String user_id){
+        Map<Integer,Double> items_us = users.get(user_id).getReviewsUsers(); // aqui tenim els items que mes li han agradat al ususari.
+        //Per cada item que li ha agardat, obtenim els k items mes semblants a n'aquest, i els ficam en un map sencer.
+
+        Map<Integer, Map<Integer,Double>> mapa_it= new HashMap<>(); // id item1(un que li ha agradat al user)     //id item2 dist respecte item1
+        for (Map.Entry<Integer,Double> e : items_us.entrySet()) {
+            mapa_it.put(e.getKey(), items.retornaItemsSemblants(e.getKey()));
+            System.out.println(e.getKey() + " item que li agrada, items relascionats: "+items.retornaItemsSemblants(e.getKey()));
+        }
+
     }
 }
 

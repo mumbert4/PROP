@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-
+import java.util.*;
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
@@ -37,19 +37,52 @@ public class Main {
             manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
         }
 
-//        System.out.println("USER MANAGER rellenat");
+
         List<String> users = manager.getUsuaris();
         Collections.sort(users);
-        for (int i = 0; i < users.size(); ++i) {
-            String user_name = users.get(i);
-            System.out.println("user_id: " + user_name);
-            manager.getReviewsUsers(user_name);
-        }
+//        for (int i = 0; i < users.size(); ++i) {
+//            String user_name = users.get(i);
+//            System.out.println("user_id: " + user_name);
+//            manager.getReviewsUsers(user_name);
+//        }
 
-//        System.out.println("Calcul distancies");
+;
         items.fillMapDistances(CD.getItems());
-        //items.printDistances();
-        items.retornaItemsSemblants();
+
+        //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
+        manager.setItemMan(items);
+//        items.retornaItemsSemblants(628);
+        manager.getItemsSemblants("2303");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */

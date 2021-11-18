@@ -43,34 +43,31 @@ public class ItemManager{
         }
     }
 
-    //Retornem k=min(#items,3) items pareguts
-    //Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
-    public void retornaItemsSemblants() {
-        Map<Integer,Double> distances = new HashMap<>();
-        for (Map.Entry<Integer, Map<Integer,Double>> item1 : mapDistances.entrySet()) {
-            int k = Math.min(item1.getValue().entrySet().size(),3); //parametre k
-            //System.out.println(item1.getKey()  + " " + item1.getValue());
-            for (Map.Entry<Integer,Double> item2 : item1.getValue().entrySet()) {
-                //System.out.println(item2.getKey() + " " + item2.getValue());
-                distances.put(item2.getKey(),item2.getValue());
-            }
-            LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
-            distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-                    .forEachOrdered(x -> {
-                        dists.put(x.getKey(), x.getValue());
-                    });
-            System.out.println("Mapa ordenat ascendentment: " + dists);
+    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,3) items pareguts
+    //Map<Integer ,Double>> mapDistances; id item1  dist
+    public Map<Integer, Double> retornaItemsSemblants(int item_id) { //
+//        System.out.println("Items semblants a "+ item_id);
+        Map<Integer,Double> distances = mapDistances.get(item_id);
 
-            Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
-            for (Map.Entry<Integer,Double> e : dists.entrySet()) {
-                if (k > 0) {
-                    System.out.println(item1.getKey() + " " + e.getKey() + " " + e.getValue());
-                    --k;
-                } else break;
+        int k = Math.min(distances.size(),3); //parametre k
+
+        LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
+        distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+                .forEachOrdered(x -> {
+                    dists.put(x.getKey(), x.getValue());
+                });
+
+        Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
+        Map<Integer, Double> k_it = new HashMap<>();
+        for (Map.Entry<Integer,Double> e : dists.entrySet()) {
+            if (k > 0) {
+                k_it.put(e.getKey(), e.getValue());
+//                    System.out.println(e.getKey() + " " + e.getValue());
+                --k;
             }
-            System.out.println();
-            break;
+            else break;
         }
+        return k_it;
     }
 
     private void createColumns(List<String> List_items) {
