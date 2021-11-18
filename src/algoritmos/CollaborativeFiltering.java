@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CollaborativeFiltering implements RecommendationSystem {
+    public ArrayList<Item> calculate(String s) {
+        return null;
+    }
     //slope one
     private static Map<Integer, HashMap<Item, Double>> diff = new HashMap<Integer, HashMap<Item, Double>>();
     private static Map<Integer, HashMap<Item, Integer>> freq = new HashMap<Integer, HashMap<Item, Integer>>();

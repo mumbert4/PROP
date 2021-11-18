@@ -4,9 +4,7 @@ import item.*;
 import java.util.*;
 
 public class HybridApproach implements RecommendationSystem {
-
-    public ArrayList<Item> calculate(Map<Integer, Map<Integer ,Double>> mapDistances) {
+    public ArrayList<Item> calculate(String s) {
         return null;
     }
-
 }

@@ -3,7 +3,7 @@ import item.Item;
 import java.util.*;
 
 public interface RecommendationSystem {
-    public default ArrayList<Item> calculate(Map<Integer, Map<Integer ,Double>> mapDistances) {
+    public default ArrayList<Item> calculate(String s) {
         return null;
     }
 }
