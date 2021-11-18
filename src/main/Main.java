@@ -48,7 +48,6 @@ public class Main {
 
         //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
         manager.setItemMan(items);
-//        items.retornaItemsSemblants(628);
         //Passem el paràmetre 3
         manager.getItemsSemblants("143", 3);
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */

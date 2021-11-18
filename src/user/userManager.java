@@ -91,12 +91,12 @@ public class userManager {
         Map<Integer, Map<Integer,Double>> mapa_it= new HashMap<>(); // id item1(un que li ha agradat al user)     //id item2 dist respecte item1
         List <Integer> items_rec= new LinkedList<>();
 
-        System.out.println(items_us.size());
+        //El printa tantes vegades eitems recomanants com ratings ha donat l'usuari
         for (Map.Entry<Integer,Double> e : items_us.entrySet()) {
             Integer item = e.getKey();
             Map<Integer, Double> items_par = items.retornaItemsSemblants(item);
             mapa_it.put(item, items_par);
-            System.out.println(item + " item que li agrada, items relascionats: " + items_par);
+            //System.out.println(item + " item que li agrada, items relascionats: " + items_par);
             Iterator<Map.Entry<Integer, Double>> it = items_par.entrySet().iterator();
             Map.Entry<Integer, Double> entry = it.next();
             if (items_rec.contains(entry.getKey())) entry = it.next();
@@ -107,7 +107,7 @@ public class userManager {
                 Integer item = e.getKey();
                 Map<Integer, Double> items_par = items.retornaItemsSemblants(item);
                 mapa_it.put(item, items_par);
-                System.out.println(item + " item que li agrada, items relascionats: " + items_par);
+                //System.out.println(item + " item que li agrada, items relascionats: " + items_par);
                 Iterator<Map.Entry<Integer, Double>> it = items_par.entrySet().iterator();
                 Map.Entry<Integer, Double> entry = it.next(); //primer valor
                 entry = it.next(); //ignorem primer valor
