@@ -43,11 +43,11 @@ public class Main {
             int item_id = item_ids.get(i);
 
 
-            if(!(items.existItem(item_id))){
-                ArrayList<Column> cols = items.getCols(item_id);
-                items.createItem(item_id,cols);
-
-            }
+//            if(!(items.existItem(item_id))){
+//                ArrayList<Column> cols = items.getCols(item_id);
+//                items.createItem(item_id,cols);
+//
+//            }
 
             Double raiting = raitings.get(i);
             if(!(manager.existUser(user_ids.get(i)))) manager.createUser(user_ids.get(i), "",""); //possam les passwords en blanc de moment
@@ -57,11 +57,11 @@ public class Main {
 //        System.out.println("USER MANAGER rellenat");
 
 //        System.out.println(manager.raiAve("1625"));
-        System.out.println("Calcul distancies");
+//        System.out.println("Calcul distancies");
 
         items.fillMapDistances();
 
-        items.printDist(1408);
+//        items.printDist(1408);
 
 
 
