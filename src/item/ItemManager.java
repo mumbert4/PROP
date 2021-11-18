@@ -152,24 +152,81 @@ public class ItemManager{
             createItem(idInt, itmAux);
         }
     }
+    //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
+    static double jaroDistance(String s1, String s2) {
+        //Strings iguals
+        if (s1 == s2) {
+            return 1.0;
+        }
+        //Mida dels dos strings
+        int n = s1.length(), m = s2.length();
+        if (n == 0 || m == 0) return 0.0;
+        int maxDist = (int)Math.floor(Math.max(n, m)/2) - 1;
+        int match = 0;
+
+        //Hashes pels matches
+        int hashS1[] = new int[n];
+        int hashS2[] = new int[m];
+
+        for (int i = 0; i < n; i++) {
+            //Mira si hi ha algun match
+            for (int j = Math.max(0, i - maxDist); j < Math.min(m, i + maxDist + 1); j++) {
+                //Tenim match
+                if (s1.charAt(i) == s2.charAt(j) && hashS2[j] == 0) {
+                    hashS1[i] = hashS2[j] = 1;
+                    match++;
+                    break;
+                }
+            }
+        }
+        //No tenim match
+        if (match == 0) {
+            return 0.0;
+        }
+        //Nombre de transposicions
+        double t = 0;
+        int point = 0;
+        for (int i = 0; i < n; i++) {
+            if (hashS1[i] == 1) {
+                while (hashS2[point] == 0) {
+                    point++;
+                }
+
+                if (s1.charAt(i) != s2.charAt(point++)) {
+                    t++;
+                }
+            }
+        }
+        t /= 2;
+        return (((double)match)/((double)n) + ((double)match)/((double)m) + ((double)match - t)/((double)match))/ 3.0;
+    }
+
+    static double jaroWinkler(String s1, String s2){
+        double jaro_dist = jaroDistance(s1, s2);
+        if (jaro_dist > 0.7) {
+            int prefix = 0;
+            for (int i = 0; i < Math.min(s1.length(), s2.length()); i++) {
+                if (s1.charAt(i) == s2.charAt(i)) {
+                    prefix++;
+                } else break;
+            }
+            prefix = Math.min(4, prefix);
+            jaro_dist += 0.1 * prefix * (1 - jaro_dist);
+        }
+        return jaro_dist;
+    }
 
     public void fillMapDistances(List<String> itemString) {
         createColumns(itemString);
         Collections.sort(IdItems);
-
         //Calcutating distances
         for(int i = 0; i < items.size(); ++i){
-
             Map<Integer , Double> internMap = new HashMap<>();
             int id1 = IdItems.get(i);
-
             for(int j = i+1; j < items.size(); ++j){
-
                 double dist = 0;
                 int id2 = IdItems.get(j);
-
                 for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k){
-
                     if (items.get(id1).getColumn(k).isBoolean()){
                         boolean b1 = items.get(id1).getColumn(k).valueBoolean();
                         boolean b2 = items.get(id2).getColumn(k).valueBoolean();
@@ -190,7 +247,8 @@ public class ItemManager{
                     else {
                         String s1 = items.get(id1).getColumn(k).valueString();
                         String s2 = items.get(id2).getColumn(k).valueString();
-                        if (!s1.equals(s2)) ++dist;
+                        dist += (1-jaroWinkler(s1,s2));
+                        //if (!s1.equals(s2)) ++dist;
                     }
                 }
                 internMap.put(id2, dist);
