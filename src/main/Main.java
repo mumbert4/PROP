@@ -52,7 +52,7 @@ public class Main {
         //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
         manager.setItemMan(items);
 //        items.retornaItemsSemblants(628);
-        manager.getItemsSemblants("2303");
+        manager.getItemsSemblants("1625");
 
 
 
