@@ -48,9 +48,7 @@ public class ItemManager{
     public Map<Integer, Double> retornaItemsSemblants(int item_id) { //
 //        System.out.println("Items semblants a "+ item_id);
         Map<Integer,Double> distances = mapDistances.get(item_id);
-
         int k = Math.min(distances.size(),3); //parametre k
-
         LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
         distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .forEachOrdered(x -> {
