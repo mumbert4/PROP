@@ -44,13 +44,24 @@ public class ReviewList {
             ratings.put(r.getKey(),r.getValue().getPoints());
             //System.out.println(r.getValue().getPoints());
         }
+
         LinkedHashMap<Integer, Double> ratingsOrdenats = new LinkedHashMap<>();
         ratings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> {
                     ratingsOrdenats.put(x.getKey(), x.getValue());
                 });
+//        Map<Integer,Double> aux= new HashMap<>();
+//        int k = 3;
+//        for(Map.Entry<Integer,Double> m : ratingsOrdenats.entrySet()){
+//            if(k > 0){
+//                aux.put(m.getKey(), m.getValue());
+//                --k;
+//            }
+//            else break;
+//        }
         System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
+//        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
         return ratingsOrdenats;
     }
-
 }
+

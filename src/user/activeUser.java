@@ -2,6 +2,8 @@ package user;
 import review.ReviewList;
 import review.Review;
 
+import java.util.Map;
+
 public class activeUser {
     private String user_name;
     private String password;
@@ -33,7 +35,7 @@ public class activeUser {
         reviews.addReview(item_id, r);
     }
 
-//    mitjana raitings de un usuari
+    //    mitjana raitings de un usuari
     public int numReviews(){
         return reviews.size();
     }
@@ -53,7 +55,8 @@ public class activeUser {
         return reviews.getRaitings();
     }
 
-    public void getReviewsUsers() {
-        reviews.getReviewsU();
+    public Map<Integer,Double> getReviewsUsers() {
+        return reviews.getReviewsU();
     }
 }
+
