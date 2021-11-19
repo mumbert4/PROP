@@ -51,43 +51,45 @@ public class CtrlDades {
         return CIF.getAll("items.csv");
     }
 
-    String getUID(String s){
-        String id="";
-        for(int i =0; i < s.length() && s.charAt(i) != ',' ; ++i ){
-            id+= s.charAt(i);
-        }
-        return id;
-    }
 
-    Integer getIID(String s){
-        String id="";
-        Boolean primer = false;
-        for(int i =0; i < s.length() ; ++i ){
-            if(primer && s.charAt(i) == ',') i = s.length();
-            else if(primer) id+= s.charAt(i);
-            else if(s.charAt(i) == ',') primer = true;
-        }
-        return Integer.valueOf(id);
-
-    }
-
-    Double getRAI(String s){
-        String r="";
-        int bools =0;
-        for(int i =0; i < s.length(); ++i) {
-            if (bools == 2) r += s.charAt(i);
-            if (s.charAt(i) == ',') ++bools;
-        }
-        return Double.valueOf(r);
-    }
 
 
     public void obtenir_dades(List<String> user_ids, List<Integer> item_ids, List<Double> raitings) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.db.csv");
+        String aux = "";
+        int col_us=0;
+        int col_it=0;
+        int col_rai=0;
+        int col_act=0;
+        for(int i = 0; i < rai.get(0).length(); ++i){
+            if(rai.get(0).charAt(i)==',' || i == rai.get(0).length()-1){
+                System.out.println(aux);
+                if(aux.equals("userId")) col_us=col_act;
+                else if (aux.equals("itemId")) col_it = col_act;
+                else col_rai = col_act;
+                aux = "";
+                ++col_act;
+            }
+            else aux += rai.get(0).charAt(i);
+        }
+        System.out.println("Columna usuari: " + col_us + ", columna item: " + col_it + ", columna raitings: "+ col_rai);
+
         for(int i = 1; i < rai.size(); ++i){
-            user_ids.add(getUID(rai.get(i)));
-            item_ids.add(getIID(rai.get(i)));
-            raitings.add(getRAI(rai.get(i)));
+            aux ="";
+            col_act = 0;
+            for(int j = 0; j < rai.get(i).length(); ++j){
+                if(rai.get(i).charAt(j)== ',' || j == rai.get(i).length()-1){
+                  if(col_act == col_us) user_ids.add(aux);
+                  else if(col_act == col_it) item_ids.add(Integer.valueOf(aux));
+                  else raitings.add(Double.valueOf(aux));
+                  ++col_act;
+
+                  aux ="";
+                }
+                else aux += rai.get(i).charAt(j);
+            }
+
+
         }
     }
 

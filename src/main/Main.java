@@ -10,11 +10,8 @@ import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 import java.util.*;
+
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
@@ -22,9 +19,9 @@ public class Main {
         CtrlDades CD = CtrlDades.getInstance();
 //        CD.escriureItems();
 //        CD.escriureRatings();
-        List<String> user_ids= new LinkedList<String>();
-        List<Integer> item_ids= new LinkedList<Integer>();
-        List<Double> raitings = new LinkedList<Double>();
+        List<String> user_ids= new LinkedList<>();
+        List<Integer> item_ids= new LinkedList<>();
+        List<Double> raitings = new LinkedList<>();
         CD.obtenir_dades(user_ids, item_ids, raitings);
         //System.out.println("Ara toca rellenar el item Manager");
         ItemManager items = new ItemManager();
@@ -37,7 +34,6 @@ public class Main {
             manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
         }
 
-
         List<String> users = manager.getUsuaris();
         Collections.sort(users);
 //        for (int i = 0; i < users.size(); ++i) {
@@ -45,46 +41,15 @@ public class Main {
 //            System.out.println("user_id: " + user_name);
 //            manager.getReviewsUsers(user_name);
 //        }
-
-;
         items.fillMapDistances(CD.getItems());
-
         //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
         manager.setItemMan(items);
-//        items.retornaItemsSemblants(628);
-        manager.getItemsSemblants("1625");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //System.out.println(items.retornaItemsSemblants(74458));
+        //System.out.println(items.existItem(74458));
+        //Passem el paràmetre 3
+        for (int i = 0; i < user_ids.size(); ++i) {
+            manager.getItemsSemblants(user_ids.get(i), 3);
+        }
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
            ModificarPerfil */
@@ -108,6 +73,5 @@ public class Main {
         String builder = "marta";
         Objects.requireNonNull(pw).write(builder);
         pw.close();
-
     }
 }

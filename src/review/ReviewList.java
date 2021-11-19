@@ -59,8 +59,8 @@ public class ReviewList {
             }
             else break;
         }
-        System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
-        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
+//        System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
+//        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
         return aux;
     }
 
