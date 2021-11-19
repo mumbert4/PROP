@@ -45,10 +45,10 @@ public class ItemManager{
 
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,3) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
-    public Map<Integer, Double> retornaItemsSemblants(int item_id) { //
+    public Map<Integer, Double> retornaItemsSemblants(int item_id , int k) { //
 //        System.out.println("Items semblants a "+ item_id);
         Map<Integer,Double> distances = mapDistances.get(item_id);
-        int k = Math.min(distances.size(),3); //parametre k
+        int k2 = Math.min(distances.size(),k); //parametre k
         LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
         distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .forEachOrdered(x -> {
@@ -58,10 +58,10 @@ public class ItemManager{
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
         Map<Integer, Double> k_it = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
-            if (k > 0) {
+            if (k2 > 0) {
                 k_it.put(e.getKey(), e.getValue());
 //                System.out.println(e.getKey() + " " + e.getValue());
-                --k;
+                --k2;
             }
             else break;
         }

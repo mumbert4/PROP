@@ -80,9 +80,12 @@ public class userManager {
         return users.get(user_id).raiAve();
     }
 
-    public void getReviewsUsers(String user_id) { //clau:id_item, valor:rating de l'usuari a l'ítem
-        users.get(user_id).getReviewsUsers();
+    public Map<Integer,Double> getReviewsUsers(String user_id) { //clau:id_item, valor:rating de l'usuari a l'ítem
+        return users.get(user_id).getReviewsUsers();
     }
+
+
+
 
     public void getItemsSemblants(String user_id, Integer k){
         Map<Integer,Double> items_us = users.get(user_id).getReviewsUsers(); // aqui tenim els items que mes li han agradat al ususari.
@@ -94,7 +97,7 @@ public class userManager {
         //El printa tantes vegades eitems recomanants com ratings ha donat l'usuari
         for (Map.Entry<Integer,Double> e : items_us.entrySet()) {
             Integer item = e.getKey();
-            Map<Integer, Double> items_par = items.retornaItemsSemblants(item);
+            Map<Integer, Double> items_par = items.retornaItemsSemblants(item,k);
             mapa_it.put(item, items_par);
             //System.out.println(item + " item que li agrada, items relascionats: " + items_par);
             Iterator<Map.Entry<Integer, Double>> it = items_par.entrySet().iterator();
@@ -105,7 +108,7 @@ public class userManager {
         while (items_rec.size() != k) {
             for (Map.Entry<Integer,Double> e : items_us.entrySet()) {
                 Integer item = e.getKey();
-                Map<Integer, Double> items_par = items.retornaItemsSemblants(item);
+                Map<Integer, Double> items_par = items.retornaItemsSemblants(item,k);
                 mapa_it.put(item, items_par);
                 //System.out.println(item + " item que li agrada, items relascionats: " + items_par);
                 Iterator<Map.Entry<Integer, Double>> it = items_par.entrySet().iterator();

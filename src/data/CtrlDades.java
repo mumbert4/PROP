@@ -65,7 +65,7 @@ public class CtrlDades {
         int col_act=0;
         for(int i = 0; i < rai.get(0).length(); ++i){
             if(rai.get(0).charAt(i)==',' || i == rai.get(0).length()-1){
-                System.out.println(aux);
+
                 if(aux.equals("userId")) col_us=col_act;
                 else if (aux.equals("itemId")) col_it = col_act;
                 else col_rai = col_act;
@@ -74,7 +74,7 @@ public class CtrlDades {
             }
             else aux += rai.get(0).charAt(i);
         }
-        System.out.println("Columna usuari: " + col_us + ", columna item: " + col_it + ", columna raitings: "+ col_rai);
+//        System.out.println("Columna usuari: " + col_us + ", columna item: " + col_it + ", columna raitings: "+ col_rai);
         String user="";
         int item=0;
         double raiting=0;
