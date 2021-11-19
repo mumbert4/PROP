@@ -17,38 +17,23 @@ public class Main {
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDades CD = CtrlDades.getInstance();
-//        CD.escriureItems();
-//        CD.escriureRatings();
-        List<String> user_ids= new LinkedList<>();
-        List<Integer> item_ids= new LinkedList<>();
-        List<Double> raitings = new LinkedList<>();
-        CD.obtenir_dades(user_ids, item_ids, raitings);
-        //System.out.println("Ara toca rellenar el item Manager");
+
+        CD.obtenir_dades(manager);
+        System.out.println("User manager rellenat");
+
         ItemManager items = new ItemManager();
-        //System.out.println("Dades obtingudes, rellenam el USER MANAGER");
-        for(int i = 0; i < user_ids.size(); ++i){
-            String user_name = user_ids.get(i);
-            int item_id = item_ids.get(i);
-            Double raiting = raitings.get(i);
-            if(!(manager.existUser(user_ids.get(i)))) manager.createUser(user_ids.get(i), "",""); //possam les passwords en blanc de moment
-            manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
-        }
+
 
         List<String> users = manager.getUsuaris();
         Collections.sort(users);
-//        for (int i = 0; i < users.size(); ++i) {
-//            String user_name = users.get(i);
-//            System.out.println("user_id: " + user_name);
-//            manager.getReviewsUsers(user_name);
-//        }
+
         items.fillMapDistances(CD.getItems());
-        //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
+
         manager.setItemMan(items);
-        //System.out.println(items.retornaItemsSemblants(74458));
-        //System.out.println(items.existItem(74458));
+
         //Passem el paràmetre 3
-        for (int i = 0; i < user_ids.size(); ++i) {
-            manager.getItemsSemblants(user_ids.get(i), 3);
+        for (int i = 0; i < users.size(); ++i) {
+            manager.getItemsSemblants(users.get(i), 3);
         }
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
