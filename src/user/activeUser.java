@@ -58,4 +58,9 @@ public class activeUser {
     public Map<Integer,Double> getReviewsUsers() {
         return reviews.getReviewsU();
     }
+
+
+    public boolean hasValuated(Integer item_id){
+        return reviews.hasValuated(item_id);
+    }
 }

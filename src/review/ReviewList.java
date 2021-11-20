@@ -64,4 +64,8 @@ public class ReviewList {
         return aux;
     }
 
+    public boolean hasValuated(Integer item_id){
+        return RevList.containsKey(item_id);
+    }
+
 }

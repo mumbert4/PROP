@@ -57,7 +57,7 @@ public class CtrlDades {
 
 
     public void obtenir_dades(userManager manager) throws FileNotFoundException {
-        List<String> rai = CRF.getAll("ratings.db.csv");
+        List<String> rai = CRF.getAll("ratings.test.known.csv");
         String aux = "";
         int col_us=0;
         int col_it=0;

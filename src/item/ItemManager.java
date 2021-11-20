@@ -26,7 +26,9 @@ public class ItemManager{
             items.put(id, item);
         }
     }
-
+    public ArrayList<Integer> getItems(){
+        return IdItems;
+    }
     public void deleteItem(int id) {
         if(!existItem(id)) System.out.println("The item with id: " +id+" does not exist");
         else items.remove(id);

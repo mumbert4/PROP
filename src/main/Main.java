@@ -41,25 +41,26 @@ public class Main {
 //        for (int i = 0; i < users.size(); ++i) {
 //            manager.getItemsSemblants(users.get(i), 3);
 //        }
-        List<Integer> Its= new ArrayList<>(Arrays.asList(5044, 143));
-        Map<String,Map<Integer,Double>> mat= new HashMap();
-//        for(int i = 0; i < usersInt.size(); ++i ){
-//
-//            Integer user_id = usersInt.get(i);
-////            System.out.println(user_id);
-//            Map<Integer,Double> rev = manager.getReviewsUsers(String.valueOf(user_id));
-//            mat.put(String.valueOf(user_id), rev);
-//        }
-        for(int i = 0; i < Its.size(); ++i ){
 
-            Integer user_id = Its.get(i);
-//            System.out.println(user_id);
-            Map<Integer,Double> rev = manager.getReviewsUsers(String.valueOf(user_id));
-            mat.put(String.valueOf(user_id), rev);
-        }
-        collaborativeFiltering al = new collaborativeFiltering();
-        al.construirMatriuDiferencies(mat);
-        al.pinta_mat();
+
+
+        collaborativeFiltering al = new collaborativeFiltering(manager);
+        al.construirMatriuDiferencies(items.getItems());
+//        al.pinta_mat();
+//
+//        117838,2028,5.0
+//        117838,1923,4.0
+//        117838,318,3.0
+//        117838,527,5.0
+//        117838,923,5.0
+//        117838,858,5.0
+//        117838,1089,5.0
+//        117838,110,5.0
+//        117838,608,5.0
+//        117838,260,3.0
+        String user_id = "117838";
+        Integer item_id = 608;
+        System.out.println( "A l'usuari "+user_id+", creim que puntuara l'item: " + item_id + " amb puntuacio: " + al.recommended(user_id, item_id, items.getItems()));
 
 
 
