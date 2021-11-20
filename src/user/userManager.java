@@ -146,11 +146,11 @@ public class userManager {
         return ret;
     }
 
-    public Map<Integer,Double> getVal(String user_id, List<Integer> items){
-        Map<Integer,Double> ret = new HashMap<>();
+    public List<Integer> getVal(String user_id, List<Integer> items){
+        List<Integer> ret = new LinkedList<>();
         for(Integer item : items){
             if(users.get(user_id).hasValuated(item)){
-                ret.put(item, users.get(user_id).getReview(item).getPoints());
+                ret.add(item);
             }
         }
         return ret;

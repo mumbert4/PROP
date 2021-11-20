@@ -59,7 +59,7 @@ public class Main {
 //        117838,608,5.0
 //        117838,260,3.0
         String user_id = "117838";
-        Integer item_id = 608;
+        Integer item_id = 1923;
         System.out.println( "A l'usuari "+user_id+", creim que puntuara l'item: " + item_id + " amb puntuacio: " + al.recommended(user_id, item_id, items.getItems()));
 
 
