@@ -2,7 +2,9 @@ package data;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author Marta Granero I Martí
@@ -27,7 +29,7 @@ public class CtrlItemsFitxer {
 
     public CtrlItemsFitxer() {}
 
-    public LinkedList<String> getAll(String filename) throws FileNotFoundException {
+    public List<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> items = new LinkedList<String>();
         FileReader fr = new FileReader("DATA/"+filename);
         Scanner scan = new Scanner(fr);

@@ -2,6 +2,7 @@ package main;
 
 
 
+import algoritmos.collaborativeFiltering;
 import data.CtrlDades;
 import item.ItemManager;
 import user.userManager;
@@ -12,44 +13,52 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
+
 public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDades CD = CtrlDades.getInstance();
-//        CD.escriureItems();
-//        CD.escriureRatings();
-        List<String> user_ids= new LinkedList<>();
-        List<Integer> item_ids= new LinkedList<>();
-        List<Double> raitings = new LinkedList<>();
-        CD.obtenir_dades(user_ids, item_ids, raitings);
-        //System.out.println("Ara toca rellenar el item Manager");
+
+        CD.obtenir_dades(manager);
+        System.out.println("User manager rellenat");
+
         ItemManager items = new ItemManager();
-        //System.out.println("Dades obtingudes, rellenam el USER MANAGER");
-        for(int i = 0; i < user_ids.size(); ++i){
-            String user_name = user_ids.get(i);
-            int item_id = item_ids.get(i);
-            Double raiting = raitings.get(i);
-            if(!(manager.existUser(user_ids.get(i)))) manager.createUser(user_ids.get(i), "",""); //possam les passwords en blanc de moment
-            manager.createReview(user_name,item_id,raiting,"");//possam comentari en blanc de moment
-        }
 
         List<String> users = manager.getUsuaris();
+        List<Integer> usersInt = new LinkedList<>();
+        for(String s : users) usersInt.add(Integer.parseInt(s));
         Collections.sort(users);
-//        for (int i = 0; i < users.size(); ++i) {
-//            String user_name = users.get(i);
-//            System.out.println("user_id: " + user_name);
-//            manager.getReviewsUsers(user_name);
-//        }
+        Collections.sort(usersInt);
+
         items.fillMapDistances(CD.getItems());
-        //HEM DE FER QUE DONAT UN USER ID, ENS RETORI ELS K ELEMENTS MES SEMBLANTS A NES QUE ELL LI AGRADEN
+
         manager.setItemMan(items);
-        //System.out.println(items.retornaItemsSemblants(74458));
-        //System.out.println(items.existItem(74458));
+
         //Passem el paràmetre 3
-        for (int i = 0; i < user_ids.size(); ++i) {
-            manager.getItemsSemblants(user_ids.get(i), 3);
-        }
+//        for (int i = 0; i < users.size(); ++i) {
+//            manager.getItemsSemblants(users.get(i), 3);
+//        }
+
+        collaborativeFiltering al = new collaborativeFiltering(manager);
+        al.construirMatriuDiferencies(items.getItems());
+//        al.pinta_mat();
+//
+//        117838,2028,5.0
+//        117838,1923,4.0
+//        117838,318,3.0
+//        117838,527,5.0
+//        117838,923,5.0
+//        117838,858,5.0
+//        117838,1089,5.0
+//        117838,110,5.0
+//        117838,608,5.0
+//        117838,260,3.0
+
+        String user_id = "117838";
+        Integer item_id = 608;
+        System.out.println( "A l'usuari "+user_id+", creim que puntuara l'item: " + item_id + " amb puntuacio: " + al.recommended(user_id, item_id, items.getItems()));
+
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i
            ModificarPerfil */
