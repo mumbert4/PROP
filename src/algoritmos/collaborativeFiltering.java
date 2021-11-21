@@ -8,6 +8,8 @@ import user.userManager;
 public class collaborativeFiltering implements RecommendationSystem {
 
     public static Map<Integer , Map<Integer , Double>> matriuDiferencia;
+    private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
+    private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
     userManager manager;
     public collaborativeFiltering(userManager mana){
         matriuDiferencia = new HashMap<>();
@@ -97,8 +99,8 @@ public class collaborativeFiltering implements RecommendationSystem {
 
         for(Integer item1: items_bons) {
 
-            System.out.println(getDistancia(item1, item_id));
-            System.out.println(getDistancia(item_id, item1));
+//            System.out.println(getDistancia(item1, item_id));
+//            System.out.println(getDistancia(item_id, item1));
             differenciaMitjanaVal += getDistancia(item_id, item1);
         }
         if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
@@ -106,14 +108,8 @@ public class collaborativeFiltering implements RecommendationSystem {
         return mitj_us + differenciaMitjanaVal;
 
     }
-
-    private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
-    private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
-
     //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
     //ha donat l'usuari
-
-
     public void writeCjtClusters() {
         for (int i = 1; i <= CjtClusters.size(); ++i) {
             ArrayList<String> userInK = CjtClusters.get(i); //Los usuarios que pertenecen al cluster i
@@ -123,7 +119,6 @@ public class collaborativeFiltering implements RecommendationSystem {
             }
         }
     }
-
     public double distancia(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
         double dist = 0;
         for (int i = 0; i < idItems.size(); ++i) {

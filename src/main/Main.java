@@ -63,6 +63,7 @@ public class Main {
                 Integer i = sc.nextInt();
                 conjunt= col.getCluster(i);
                 col.construirMatriuDiferencies(items.getItems(), conjunt);
+                col.writeCjtClusters();
                 String user_id = sc.next();
                 Integer item_id = sc.nextInt();
                 System.out.println(col.recommended(user_id,item_id,items.getItems()));
