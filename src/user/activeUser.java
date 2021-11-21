@@ -5,9 +5,10 @@ import review.Review;
 import java.util.Map;
 
 public class activeUser {
+
     private String user_name;
     private String password;
-    ReviewList reviews;
+    private ReviewList reviews;
 
     public activeUser(String name, String passwd){
         user_name = name;
@@ -15,11 +16,11 @@ public class activeUser {
         reviews = new ReviewList();
     }
 
-    void updateName(String newName){
+    public void updateName(String newName){
         user_name = newName;
     }
 
-    void updatePasswd(String newPasswd){
+    public void updatePasswd(String newPasswd){
         password = newPasswd;
     }
 

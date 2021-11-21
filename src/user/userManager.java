@@ -6,9 +6,8 @@ import review.Review;
 import java.util.*;
 
 
-
 public class userManager {
-    Map<String, activeUser> users;
+    public Map<String, activeUser> users;
     ItemManager items;
     private static userManager manager;
 

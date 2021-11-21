@@ -48,19 +48,19 @@ public class Main {
         al.construirMatriuDiferencies(items.getItems());
 //        al.pinta_mat();
 //
-//        44868,1639,4.5
-//        44868,953,3.5
-//        44868,2699,3.5
-//        44868,158,4.0
-//        44868,1380,3.5
-//        44868,2302,4.5
-//        44868,2502,5.0
-//        44868,1732,4.5
-//        44868,2657,4.5
-//        44868,596,4.5
+// 117838,2028,5.0
+//117838,1923,4.0
+//117838,318,3.0
+//117838,527,5.0
+//117838,923,5.0
+//117838,858,5.0
+//117838,1089,5.0
+//117838,110,5.0
+//117838,608,5.0
+//117838,260,3.0
 
-        String user_id = "44868";
-        Integer item_id = 596;
+        String user_id = "117838";
+        Integer item_id = 2028;
         System.out.println( "A l'usuari "+user_id+", creim que puntuara l'item: " + item_id + " amb puntuacio: " + al.recommended(user_id, item_id, items.getItems()));
 
 
