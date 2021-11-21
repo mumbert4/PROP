@@ -1,9 +1,11 @@
 package algoritmos;
 import java.util.*;
+
+import item.ItemManager;
 import user.userManager;
 
 
-public class collaborativeFiltering {
+public class collaborativeFiltering implements RecommendationSystem {
 
     public static Map<Integer , Map<Integer , Double>> matriuDiferencia;
     userManager manager;
@@ -27,7 +29,7 @@ public class collaborativeFiltering {
         }
     }
 
-    public void construirMatriuDiferencies(List<Integer> items) {
+    public void construirMatriuDiferencies(List<Integer> items, List<String> users) {
         double dev;
         double suma=0;
         double avg;
@@ -39,10 +41,11 @@ public class collaborativeFiltering {
                 if(i != j){
                     suma=0;
                     Integer item2 = items.get(j);
-                    List<String> usrs = manager.getUsers_items(item1,item2);
-//                    System.out.println(usrs);
-//                    System.out.println(usrs.size());
-
+                    List<String> aux2 = manager.getUsers_items(item1,item2);
+                    List<String> usrs = new LinkedList<>();
+                    for(String e: aux2){
+                        if(users.contains(e))usrs.add(e);
+                    }
                     num_usrs= usrs.size();
                     if(num_usrs == 0){
 
@@ -54,7 +57,6 @@ public class collaborativeFiltering {
                             Double rai2 = manager.getRaiting(usr, item2);
                             dev= rai2 - rai1;
                             dev /=num_usrs;
-//                            System.out.println("Desvacio: " + dev);
                             suma+=dev; // SUMA DE LES DESVIACIONS DELS USUARIS QUE HAN VALORAT ITEM1 I ITEM2
                         }
                     }
@@ -84,41 +86,168 @@ public class collaborativeFiltering {
     public Double recommended(String user_id, Integer item_id, List<Integer> Items){
 
         List<Integer> items_val = manager.getVal(user_id, Items);
-//        List<Integer> items_no_val1 = manager.getNoVal(user_id,Items);
-//        System.out.println("ABANS: "+ items_no_val1);
-//        System.out.println();
-//        System.out.println();
+
 
         Double mitj_us = manager.raiAve(user_id);
-        System.out.println("Mitjana usuari: " + mitj_us);
         Double differenciaMitjanaVal = 0.0 , sumaRatingsUser = 0.0, prediccio = 0.0;
         List<Integer> items_bons = new LinkedList<>();
         for(Integer item : items_val){
             if(manager.getUsers_items(item, item_id).size()>0 && item != item_id)  items_bons.add(item);
         }
-        System.out.println(items_bons);
 
-        for(Integer item1: items_bons){
+        for(Integer item1: items_bons) {
 
-            System.out.println(getDistancia(item1,item_id));
-            System.out.println(getDistancia(item_id,item1));
+            System.out.println(getDistancia(item1, item_id));
+            System.out.println(getDistancia(item_id, item1));
             differenciaMitjanaVal += getDistancia(item_id, item1);
-//            if(matriuDiferencia.get(item_id).get(item1)!= null){
-//                System.out.println("Diferencia entre "+ item1+ " i " + item_id+" es:" + matriuDiferencia.get(item_id).get(item1));
-//
-//            }
-//            else {
-//                System.out.println("Items que no calculam la diferencia:" + item1 + " " + item_id);
-//            }
         }
-//        System.out.println(differenciaMitjanaVal);
-
-//        System.out.println(items_no_val.size());
-//        System.out.println(items_no_val.size());
         if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
 
         return mitj_us + differenciaMitjanaVal;
 
     }
+
+    private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
+    private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
+
+    //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
+    //ha donat l'usuari
+
+
+    public void writeCjtClusters() {
+        for (int i = 1; i <= CjtClusters.size(); ++i) {
+            ArrayList<String> userInK = CjtClusters.get(i); //Los usuarios que pertenecen al cluster i
+            System.out.println("Los usuarios que pertenecen al cluster " + i + " son:");
+            for (int j = 0; j < userInK.size(); ++j) {
+                System.out.println(userInK.get(j));
+            }
+        }
+    }
+
+    public double distancia(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
+        double dist = 0;
+        for (int i = 0; i < idItems.size(); ++i) {
+
+            int iditemAct = idItems.get(i);
+
+            double d1 = c1.get(iditemAct);
+            double d2 = c2.get(iditemAct);
+
+            double r = (d1 - d2) * (d1 - d2);
+
+            dist += r;
+        }
+        return Math.sqrt(dist);
+    }
+    public ArrayList<String> getCluster(int i){
+        return CjtClusters.get(i);
+    }
+    public void kmeans(userManager users, ArrayList<Integer> idItems, int k) {
+
+        for (int i = 0; i < users.getUsuaris().size(); ++i) {
+
+            String usernameAct = users.getUsuaris().get(i);
+            Map<Integer,Double> RevUser = users.getReviewsUsers(usernameAct);
+            Map<Integer,Double> AllItems = new HashMap<>();
+
+            for (int j = 0; j < idItems.size(); ++j){
+                int idItemAct = idItems.get(j);
+
+                if(RevUser.containsKey(idItemAct)){
+                    AllItems.put(idItemAct,RevUser.get(idItemAct));
+                }
+                else AllItems.put(idItemAct,2.5);
+            }
+
+            MatUserItems.put(usernameAct,AllItems);
+        }
+
+        int sizeCoords = idItems.size();
+        ArrayList<Map<Integer, Double>> ListKelem = new ArrayList<>();
+
+        for (int i = 0; i < k; ++i){
+
+            Map<Integer, Double> actK = new HashMap<>();
+
+            Random r = new Random();
+            double randomValue;
+
+            for (int j = 0; j < sizeCoords; ++j){
+                randomValue = 5.0 * r.nextDouble();
+                actK.put(idItems.get(j), randomValue);
+            }
+            ListKelem.add(actK);
+        }
+
+        for (int i = 0; i < 50; ++i) {
+
+            if (i != 0) {
+                for (int z = 1; z <= k; ++z) {
+                    ArrayList<String> userInK = CjtClusters.get(z); //Los usuarios que pertenecen al cluster z
+                    Map<Integer, Double> averageCoords = new HashMap<>();
+                    for (int a = 0; a < userInK.size(); ++a) {
+                        Map<Integer, Double> coordsActUser = MatUserItems.get(userInK.get(a)); //Coordenades del usuario actual
+                        for (int b = 0; b < idItems.size(); ++b) {
+                            double coordItemAct = coordsActUser.get(idItems.get(b)); //Coordenada de un item
+                            if (a == 0) { //Si en la posicion b de averageCoords esta vacia
+                                averageCoords.put(idItems.get(b), coordItemAct);
+                            } else {
+                                double d1 = averageCoords.get(idItems.get(b));
+                                averageCoords.remove(idItems.get(b));
+                                averageCoords.put(idItems.get(b), d1 + coordItemAct); //Voy sumando todas las coordenadas de los usuarios que se encuantran en el mismo cluster
+                            }
+                        }
+                    }
+                    //Dividir el sumatorio de coordenadas por el numero de usuarios que se encuentran en el cluster z
+                    for (int a = 0; a < averageCoords.size(); ++a) {
+                        double d = averageCoords.get(idItems.get(a));
+                        averageCoords.remove(idItems.get(a));
+                        averageCoords.put(idItems.get(a), d / userInK.size());
+                    }
+                    //Ahora modificamos las coordenadas del cluster z
+                    if (!userInK.isEmpty()) ListKelem.set(z - 1, averageCoords);
+                }
+            }
+            //Vaciamos el CjtClusters
+            CjtClusters.clear();
+            for (int z = 1; z <= k; ++z) {
+                ArrayList<String> aux = new ArrayList<>();
+                CjtClusters.put(z, aux);
+            }
+
+            for (Map.Entry<String, Map<Integer, Double>> entry : MatUserItems.entrySet()) {
+
+                double distMin = Double.POSITIVE_INFINITY;
+                int inK = 0;
+                String usernameAct = entry.getKey();
+                Map<Integer, Double> CoordActUser = entry.getValue();
+
+                for (int j = 1; j <= k; ++j) {
+
+                    Map<Integer, Double> CoordActK = ListKelem.get(j-1);
+                    double distAct = distancia(CoordActUser, CoordActK, idItems);
+
+                    if (distAct < distMin) {
+                        distMin = distAct;
+                        inK = j;
+                    }
+
+                }
+
+                if (CjtClusters.containsKey(inK)) {
+                    ArrayList<String> list = CjtClusters.get(inK);
+                    list.add(usernameAct);
+                    CjtClusters.remove(inK);
+                    CjtClusters.put(inK, list);
+                } else {
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add(usernameAct);
+                    CjtClusters.put(inK, list);
+                }
+            }
+
+        }
+    }
+
 
 }

@@ -2,6 +2,7 @@ package main;
 
 
 
+import algoritmos.ContentBasedFiltering;
 import algoritmos.collaborativeFiltering;
 import data.CtrlDades;
 import item.ItemManager;
@@ -44,24 +45,30 @@ public class Main {
 
 
 
-        collaborativeFiltering al = new collaborativeFiltering(manager);
-        al.construirMatriuDiferencies(items.getItems());
-//        al.pinta_mat();
-//
-// 117838,2028,5.0
-//117838,1923,4.0
-//117838,318,3.0
-//117838,527,5.0
-//117838,923,5.0
-//117838,858,5.0
-//117838,1089,5.0
-//117838,110,5.0
-//117838,608,5.0
-//117838,260,3.0
+        collaborativeFiltering col = new collaborativeFiltering(manager);
+        ContentBasedFiltering cb = new ContentBasedFiltering(manager,items);
+        col.kmeans(manager, items.getItems(),3);
+        ArrayList<String> conjunt = col.getCluster(1);
+        col.construirMatriuDiferencies(items.getItems(), conjunt);
+        Scanner sc = new Scanner(System.in);
+        String action;
+        action = sc.next();
 
-        String user_id = "117838";
-        Integer item_id = 2028;
-        System.out.println( "A l'usuari "+user_id+", creim que puntuara l'item: " + item_id + " amb puntuacio: " + al.recommended(user_id, item_id, items.getItems()));
+        while(!action.equals("end")){
+            if(action.equals("Get_items_semblants")){
+                String user_id = sc.next();
+                cb.getItemsSemblants(user_id,3);
+            }
+            else if(action.equals("Cluster")){
+                Integer i = sc.nextInt();
+                conjunt= col.getCluster(i);
+                col.construirMatriuDiferencies(items.getItems(), conjunt);
+                String user_id = sc.next();
+                Integer item_id = sc.nextInt();
+                System.out.println(col.recommended(user_id,item_id,items.getItems()));
+            }
+            action= sc.next();
+        }
 
 
 
