@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
+import user.userManager;
+
 /**
  * @author Marta Granero I Martí
  */
@@ -53,7 +55,13 @@ public class CtrlDades {
         return CIF.getAll("items.csv");
     }
 
+<<<<<<< HEAD
 
+=======
+
+
+
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     public void obtenir_dades(userManager manager) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.test.known.csv");
         String aux = "";
@@ -81,6 +89,7 @@ public class CtrlDades {
             col_act = 0;
             for(int j = 0; j < rai.get(i).length(); ++j){
                 if(rai.get(i).charAt(j)== ',' || j == rai.get(i).length()-1){
+<<<<<<< HEAD
                     if(col_act == col_us) user = aux;
                     else if(col_act == col_it) item = Integer.valueOf(aux);
                     else raiting = Double.valueOf(aux);
@@ -89,6 +98,17 @@ public class CtrlDades {
                 }
                 else aux += rai.get(i).charAt(j);
             }
+=======
+                  if(col_act == col_us) user = aux;
+                  else if(col_act == col_it) item = Integer.valueOf(aux);
+                  else raiting = Double.valueOf(aux);
+                  ++col_act;
+                  aux ="";
+                }
+                else aux += rai.get(i).charAt(j);
+            }
+
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
             if(!(manager.existUser(user))) manager.createUser(user,"","");
             manager.createReview(user,item,raiting,"");
         }

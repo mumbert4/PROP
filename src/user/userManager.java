@@ -6,9 +6,14 @@ import review.Review;
 import java.util.*;
 
 
+<<<<<<< HEAD
 
 public class userManager {
     Map<String, activeUser> users;
+=======
+public class userManager {
+    public Map<String, activeUser> users;
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     ItemManager items;
     private static userManager manager;
 
@@ -124,6 +129,11 @@ public class userManager {
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     public List<String> getUsers_items(Integer item1, Integer item2){
         List<String> usrs = new LinkedList<>();
         for(Map.Entry<String, activeUser> en: users.entrySet()){
@@ -146,13 +156,25 @@ public class userManager {
         return ret;
     }
 
+<<<<<<< HEAD
     public Map<Integer,Double> getVal(String user_id, List<Integer> items){
         Map<Integer,Double> ret = new HashMap<>();
         for(Integer item : items){
             if(users.get(user_id).hasValuated(item)){
                 ret.put(item, users.get(user_id).getReview(item).getPoints());
+=======
+    public List<Integer> getVal(String user_id, List<Integer> items){
+        List<Integer> ret = new LinkedList<>();
+        for(Integer item : items){
+            if(users.get(user_id).hasValuated(item)){
+                ret.add(item);
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
             }
         }
         return ret;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
 }
