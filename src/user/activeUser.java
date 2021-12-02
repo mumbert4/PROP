@@ -60,12 +60,7 @@ public class activeUser {
         return reviews.getReviewsU();
     }
 
-<<<<<<< HEAD:src/user/activeUser.java
-=======
-
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835:src/activeUser/activeUser.java
     public boolean hasValuated(Integer item_id){
         return reviews.hasValuated(item_id);
     }
 }
-

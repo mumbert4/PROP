@@ -33,6 +33,7 @@ public class CtrlItemsFitxer {
         LinkedList<String> items = new LinkedList<String>();
         FileReader fr = new FileReader("DATA/"+filename);
         Scanner scan = new Scanner(fr);
+
         while(scan.hasNextLine()) {
             items.add(new String(scan.nextLine()+"\n"));
         }

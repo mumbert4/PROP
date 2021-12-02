@@ -1,33 +1,22 @@
 package algoritmos;
-import item.*;
-<<<<<<< HEAD
-=======
-import algoritmos.*;
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
-
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class HybridApproach implements RecommendationSystem {
-<<<<<<< HEAD
-    public ArrayList<Item> calculate(String s) {
-        return null;
-    }
-}
-=======
 
-    private ArrayList<Item> union(ArrayList<Item> l1, ArrayList<Item> l2) {
-        Set<Item> s = new HashSet<>();
+    public HybridApproach(){
+        //CONSTRUCTOR BUID
+    }
+
+    private Set<Integer> union(List<Integer> l1, List<Integer> l2) {
+        Set<Integer> s = new HashSet<>();
         s.addAll(l1);
         s.addAll(l2);
-        return new ArrayList<>(s);
+        return s;
     }
 
-    public ArrayList<Item> calculate() {
-        collaborativeFiltering cf = new collaborativeFiltering();
-        ContentBasedFiltering cbf = new ContentBasedFiltering();
-        ArrayList<Item> l1 = cf.calculate();
-        ArrayList<Item> l2 = cbf.calculate();
+    public Set<Integer> calculate(List<Integer> l1, List<Integer> l2) {
         return union(l1, l2);
     }
 }
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835

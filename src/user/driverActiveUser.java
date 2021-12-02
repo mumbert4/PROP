@@ -115,10 +115,10 @@ public class driverActiveUser {
 
             else if(action.equals("getReviews")){
                 if(usr != null){
-                  Map<Integer,Double> revs = usr.getReviewsUsers();
-                  for(Map.Entry<Integer,Double> e : revs.entrySet() ){
-                      System.out.println("Item:" + e.getKey() + " Puntuacio:"+e.getValue());
-                  }
+                    Map<Integer,Double> revs = usr.getReviewsUsers();
+                    for(Map.Entry<Integer,Double> e : revs.entrySet() ){
+                        System.out.println("Item:" + e.getKey() + " Puntuacio:"+e.getValue());
+                    }
                 }
                 else System.out.println("No hi ha usuari creat");
             }
@@ -128,17 +128,6 @@ public class driverActiveUser {
                 else System.out.println("No hi ha usuari creat");
             }
             action = sc.next();
-
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

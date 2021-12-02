@@ -2,9 +2,9 @@ package user;
 import java.util.*;
 public class driverUserManager {
     public static void main(String[] args){
-      userManager manager = null;
-      Scanner sc = new Scanner(System.in);
-      System.out.println("Instruccions:");
+        userManager manager = null;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Instruccions:");
         System.out.println("\t 1- initiate : iniciam el manager");
         System.out.println("\t 2- createUser  <String- user_name> <String- password> <String- confirm password>: crea un nou usuari, que no estigui al manager ja");
         System.out.println("\t 3- existUser  <String- user_name>: diu si el user existeix en el manager");
@@ -48,20 +48,20 @@ public class driverUserManager {
             else if (action.equals("getUser")){
                 String user_name = sc.next();
                 if(manager != null){
-                  if (manager.existUser(user_name)){
-                      System.out.println("Name: "+ manager.getUser(user_name).getName() + " ,password: "+ manager.getUser(user_name).getPassword());
-                  }
-                  else System.out.println("L'usuari no esta al manager");
+                    if (manager.existUser(user_name)){
+                        System.out.println("Name: "+ manager.getUser(user_name).getName() + " ,password: "+ manager.getUser(user_name).getPassword());
+                    }
+                    else System.out.println("L'usuari no esta al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if (action.equals("numReviews")){
                 String user_name = sc.next();
                 if(manager != null){
-                  if (manager.existUser(user_name)){
-                      System.out.print("Numero de reviews: " + manager.numReviews(user_name));
-                  }
-                  else System.out.println("L'usuari no esta al manager");
+                    if (manager.existUser(user_name)){
+                        System.out.print("Numero de reviews: " + manager.numReviews(user_name));
+                    }
+                    else System.out.println("L'usuari no esta al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
@@ -71,24 +71,24 @@ public class driverUserManager {
                 Double points = sc.nextDouble();
                 String comment = sc.next();
                 if(manager != null){
-                  if (manager.existUser(user_name)){
-                      manager.createReview(user_name, item_id, points,comment);
-                  }
-                  else System.out.println("L'usuari no esta al manager");
+                    if (manager.existUser(user_name)){
+                        manager.createReview(user_name, item_id, points,comment);
+                    }
+                    else System.out.println("L'usuari no esta al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if (action.equals("numUsuaris")){
 
                 if(manager != null){
-                 System.out.println("Total usuaris: " + manager.numUsu());
+                    System.out.println("Total usuaris: " + manager.numUsu());
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if (action.equals("getUsuaris")){
 
                 if(manager != null){
-                 System.out.println("Usuaris: " + manager.getUsuaris());
+                    System.out.println("Usuaris: " + manager.getUsuaris());
                 }
                 else System.out.println("Manager no iniciat");
             }
@@ -142,9 +142,5 @@ public class driverUserManager {
 
             action= sc.next();
         }
-
-
-
-
     }
 }

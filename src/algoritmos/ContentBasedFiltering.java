@@ -1,22 +1,11 @@
 package algoritmos;
-import item.*;
-<<<<<<< HEAD
-
-=======
-import user.userManager;
 import item.ItemManager;
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
+import user.userManager;
+
 import java.util.*;
 
 public class ContentBasedFiltering implements RecommendationSystem {
 
-<<<<<<< HEAD
-    public ArrayList<Item> calculate(Map<Integer, Map<Integer ,Double>> mapDistances) {
-        return null;
-    }
-
-}
-=======
     userManager users;
     ItemManager items;
 
@@ -25,7 +14,7 @@ public class ContentBasedFiltering implements RecommendationSystem {
         items = its;
     }
 
-    public void getItemsSemblants(String user_id, Integer k){
+    public List<Integer> getItemsSemblants(String user_id, Integer k){
         Map<Integer,Double> items_us = users.getUser(user_id).getReviewsUsers(); // aqui tenim els items que mes li han agradat al ususari.
         //Per cada item que li ha agardat, obtenim els k items mes semblants a n'aquest, i els ficam en un map sencer.
 
@@ -57,10 +46,6 @@ public class ContentBasedFiltering implements RecommendationSystem {
                 if (items_rec.size() == k) break;
             }
         }
-        System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
+        return items_rec;
     }
-
-
-
 }
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835

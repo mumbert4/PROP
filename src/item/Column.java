@@ -34,13 +34,9 @@ public class Column {
         this.bString = true;
 
     }
-<<<<<<< HEAD
-    //Getters
-=======
 
     //Getters
 
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     public boolean isBoolean(){
         return bBoolean;
     }
@@ -56,10 +52,7 @@ public class Column {
         return bString;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     public boolean valueBoolean(){
         return valueB;
     }
@@ -75,8 +68,4 @@ public class Column {
     public String valueString() {
         return valueS;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835

@@ -1,21 +1,7 @@
 package algoritmos;
-<<<<<<< HEAD
 import user.userManager;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-public class collaborativeFiltering implements RecommendationSystem {
-    public static Map<Integer,Map<Integer,Double>> matriuDiferencia;
-    userManager manager;
-
-=======
 import java.util.*;
-
-import item.ItemManager;
-import user.userManager;
 
 
 public class collaborativeFiltering implements RecommendationSystem {
@@ -24,7 +10,6 @@ public class collaborativeFiltering implements RecommendationSystem {
     private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
     private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
     userManager manager;
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
     public collaborativeFiltering(userManager mana){
         matriuDiferencia = new HashMap<>();
         manager = mana;
@@ -45,32 +30,6 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
     }
 
-<<<<<<< HEAD
-    public void construirMatriuDiferencies(List<Integer> items) {
-        double dev, suma=0, avg, num_usrs=1;
-        for(int i = 0; i < items.size(); ++i){
-            Integer item1 = items.get(i);
-            Map<Integer,Double> aux = new HashMap<>();
-            for(int j = 0; j < items.size(); ++j){
-                if(i != j){
-                    suma=0;
-                    Integer item2 = items.get(j);
-                    List<String> usrs = manager.getUsers_items(item1,item2);
-//                    System.out.println(usrs);
-//                    System.out.println(usrs.size());
-                    num_usrs=usrs.size();
-                    for(String usr : usrs){
-                        Double rai1 = manager.getRaiting(usr, item1);
-                        Double rai2 = manager.getRaiting(usr, item2);
-                        dev= rai1 - rai2 ;
-//                        System.out.println("Desvacio: " + dev);
-                        suma+=dev; // SUMA DE LES DESVIACIONS DELS USUARIS QUE HAN VALORAT ITEM1 I ITEM2
-                    }
-                    avg = suma/num_usrs;
-                    aux.put(item2, avg);
-                }
-
-=======
     public void construirMatriuDiferencies(List<Integer> items, List<String> users) {
         double dev;
         double suma=0;
@@ -105,29 +64,11 @@ public class collaborativeFiltering implements RecommendationSystem {
 
                     aux.put(item2, suma);
                 }
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
             }
             matriuDiferencia.put(item1, aux);
         }
     }
 
-<<<<<<< HEAD
-    public Double recommended(String user_id, Integer item_id, List<Integer> Items){
-        Map<Integer,Double> items_val = manager.getVal(user_id, Items);
-        Double differenciaMitjanaVal = 0.0 , sumaRatingsUser = 0.0, prediccio = 0.0;
-
-        for(Map.Entry<Integer,Double> j : items_val.entrySet()){
-            Integer item1 = j.getKey();
-            System.out.println(matriuDiferencia.get(item_id).get(item1));
-            differenciaMitjanaVal += Math.abs(matriuDiferencia.get(item_id).get(item1));
-            sumaRatingsUser += j.getValue();
-        }
-        System.out.println(sumaRatingsUser);
-        System.out.println(differenciaMitjanaVal);
-        System.out.println(items_val.size());
-        return (double) ((sumaRatingsUser + differenciaMitjanaVal)/items_val.size());
-    }
-=======
 
     public double getDistancia(Integer item1, Integer item2){
         Map<Integer,Double> map_it1= matriuDiferencia.get(item1);
@@ -143,27 +84,37 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
         return diff;
     }
-    public Double recommended(String user_id, Integer item_id, List<Integer> Items){
-
+    public Map<Integer,Double> recommended(String user_id,int i,List<Integer> Items){
+        Set<Integer> s = manager.itemsNoVal(user_id,getCluster(i));
         List<Integer> items_val = manager.getVal(user_id, Items);
 
 
         Double mitj_us = manager.raiAve(user_id);
-        Double differenciaMitjanaVal = 0.0 , sumaRatingsUser = 0.0, prediccio = 0.0;
-        List<Integer> items_bons = new LinkedList<>();
-        for(Integer item : items_val){
-            if(manager.getUsers_items(item, item_id).size()>0 && item != item_id)  items_bons.add(item);
-        }
+        Map<Integer,Double> m = new HashMap<>();
+        for(Integer item_id : s){
+            Double differenciaMitjanaVal = 0.0 , sumaRatingsUser = 0.0, prediccio = 0.0;
+            List<Integer> items_bons = new LinkedList<>();
+            for(Integer item : items_val){
+                if(manager.getUsers_items(item, item_id).size()>0 && item != item_id)  items_bons.add(item);
+            }
 
-        for(Integer item1: items_bons) {
+            for(Integer item1: items_bons) {
 
 //            System.out.println(getDistancia(item1, item_id));
 //            System.out.println(getDistancia(item_id, item1));
-            differenciaMitjanaVal += getDistancia(item_id, item1);
-        }
-        if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
+                differenciaMitjanaVal += getDistancia(item_id, item1);
+            }
+            if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
 
-        return mitj_us + differenciaMitjanaVal;
+            m.put(item_id,mitj_us + differenciaMitjanaVal);
+
+        }
+        LinkedHashMap<Integer, Double> new_m = new LinkedHashMap<>();
+        m.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> {
+                    new_m.put(x.getKey(), x.getValue());
+                });
+        return new_m;
 
     }
     //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
@@ -302,6 +253,10 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
     }
 
+    // DONAT UN USER_ID I UN CLUSTER, RETORNA ELS ITEMS QUE L'USUSARI NO HA VALORAT I QUE HAN VALORAT ALGU DEL CLUSTER
 
->>>>>>> 8e6bb2a2937e57d4461b4ca570f5dea4ee4fe835
+
 }
+
+
+
