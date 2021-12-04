@@ -1,25 +1,38 @@
 package algoritmos;
-import item.*;
-import algoritmos.*;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-public class HybridApproach {
+public class HybridApproach implements RecommendationSystem  {
 
-    public HybridApproach(){
-        //CONSTRUCTOR BUID
+    ContentBasedFiltering contentBased;
+    collaborativeFiltering collaborative;
+
+    public HybridApproach( ContentBasedFiltering cb, collaborativeFiltering col){
+        contentBased = cb;
+        collaborative = col;
     }
 
-    private Set<Integer> union(List<Integer> l1, List<Integer> l2) {
-        Set<Integer> s = new HashSet<>();
+    private List<Integer> union(List<Integer> l1, List<Integer> l2) {
+        List<Integer> s = new LinkedList<>();
         s.addAll(l1);
-        s.addAll(l2);
+        for (Integer item : l2){
+            if(! s.contains(item)) s.add(item);
+        }
+
         return s;
     }
 
-    public Set<Integer> recommendation(List<Integer> l1, List<Integer> l2) {
 
-        return union(l1, l2);
+    public List<Integer> calculate (String userId, int k, List<Integer> Items){
+        List<Integer> items_col = collaborative.calculate(userId,3,Items);
+        List<Integer> items_cb= contentBased.calculate(userId,3,Items);
+        return union(items_col, items_cb);
+
     }
+
+
+
+
 }
 

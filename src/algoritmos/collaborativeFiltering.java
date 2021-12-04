@@ -1,7 +1,8 @@
 package algoritmos;
-import java.util.*;
 
 import user.userManager;
+
+import java.util.*;
 
 
 public class collaborativeFiltering implements RecommendationSystem {
@@ -10,6 +11,7 @@ public class collaborativeFiltering implements RecommendationSystem {
     private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
     private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
     userManager manager;
+    boolean avaluation;
 
 
     public List<Integer> calculate(String userId, int k,  List<Integer> Items){
@@ -17,7 +19,7 @@ public class collaborativeFiltering implements RecommendationSystem {
         ArrayList<String> conjunt = getCluster(1);
         construirMatriuDiferencies(Items, conjunt);
 
-        return recommended(userId, Items);
+        return recommended(userId, Items, k);
 
     }
 
@@ -25,12 +27,18 @@ public class collaborativeFiltering implements RecommendationSystem {
     public collaborativeFiltering(userManager mana){
         matriuDiferencia = new HashMap<>();
         manager = mana;
+        avaluation = false;
     }
     /* MatriuDiferencial computem la diferència entre els ratings de dos ítems
      * matDiferencies[item][item2] += rating - rating2
      * Cada vegada que un usuari puntua un ítem, actualitzem les cel·les adequades d'aquesta matriu per reflectir
      * la diferència acumulada entre aquesta valoració i totes les altres valoracions que l'usuari hagi fet.
      * */
+
+    public void setTrue(){
+        avaluation = true;
+    }
+
     public void pinta_mat(){
         for (Integer j : matriuDiferencia.keySet()) { // primer item
             System.out.println("Dieferencies item: " + j +" resta de items:");
@@ -97,7 +105,7 @@ public class collaborativeFiltering implements RecommendationSystem {
         return diff;
     }
 
-    public List<Integer> recommended(String user_id, List<Integer> Items){
+    public List<Integer> recommended(String user_id, List<Integer> Items, int k){
 
         int i = findClusterUser(user_id);
 
@@ -133,15 +141,21 @@ public class collaborativeFiltering implements RecommendationSystem {
 
         List<Integer> finalRecommendation = new LinkedList<>();
 
-        int cont = 0;
-        for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
-            if(cont < 3) finalRecommendation.add(entry.getKey());
-            ++cont;
+
+        if(avaluation){
+            for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
+                finalRecommendation.add(entry.getKey());
+            }
+            avaluation = false;
         }
-
-
+        else {
+            int cont = 0;
+            for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
+                if(cont < k) finalRecommendation.add(entry.getKey());
+                ++cont;
+            }
+        }
         return finalRecommendation;
-
     }
 
 
