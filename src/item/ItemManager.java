@@ -46,7 +46,7 @@ public class ItemManager{
         }
     }
 
-    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,3) items pareguts
+    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
     public Map<Integer, Double> retornaItemsSemblants(int item_id , int k) { //
 //        System.out.println("Items semblants a "+ item_id);

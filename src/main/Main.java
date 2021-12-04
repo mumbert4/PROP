@@ -2,6 +2,7 @@ package main;
 
 
 
+import algoritmos.Avaluator;
 import algoritmos.ContentBasedFiltering;
 import algoritmos.HybridApproach;
 import algoritmos.collaborativeFiltering;
@@ -44,9 +45,14 @@ public class Main {
 //            manager.getItemsSemblants(users.get(i), 3);
 //        }
 
+
+
         collaborativeFiltering col = new collaborativeFiltering(manager);
         ContentBasedFiltering cb = new ContentBasedFiltering(manager,items);
-        HybridApproach hb = new HybridApproach();
+        HybridApproach hb = new HybridApproach(cb, col);
+
+        Avaluator av = new Avaluator();
+
         col.kmeans(manager, items.getItems(),3);
         ArrayList<String> conjunt = col.getCluster(1);
         col.construirMatriuDiferencies(items.getItems(), conjunt);
@@ -54,33 +60,56 @@ public class Main {
         System.out.println("1- Obtenir items recomanats a usuari (Content Based)");
         System.out.println("2- Obtenir items recomanats a usuari (Collaborative)");
         System.out.println("3- Hybrid");
+        System.out.println("4- Evaluator");
 
         String action;
         action = sc.next();
 
+
+
         while(!action.equals("end")){
             if(action.equals("1")){
+
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
                 List<Integer> items_rec = cb.calculate(user_id,3,items.getItems());
                 System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
             }
             else if(action.equals("2")){
+
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
                 List<Integer> recommendations = col.calculate(user_id,3, items.getItems());
                 System.out.println("Items recomanats a l'user "+ user_id + " :" + recommendations);
             }
             else if(action.equals("3")){
+
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
+
                 String user_id = sc.next();
-                List<Integer> items_col = col.calculate(user_id,3,items.getItems());
-                List<Integer> items_cb= cb.calculate(user_id,3,items.getItems());
-                Set<Integer> items_rec = hb.recommendation(items_col,items_cb);
+
+                List<Integer> items_rec = hb.calculate(user_id, 3, items.getItems());
                 System.out.println(items_rec);
+            }
+
+            else if (action.equals("4")){
+                col.setTrue();
+                System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
+                String userId = sc.next();
+                List<Integer> colItems = col.calculate(userId, 0, items.getItems());
+                int aux = manager.numReviews(userId);
+                int k = items.getItems().size() - aux;
+                Map<Integer,Double> unknown = CD.getUnknown(userId); //llista dels items no valorats ordenada per valoracio
+                List<Integer> cbItems = cb.calculate(userId, k , items.getItems());
+//                List<Integer> cbItems = new LinkedList<>();
+                av.evaluate(colItems, cbItems, unknown);
+
             }
             action= sc.next();
         }
+
+
+
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i

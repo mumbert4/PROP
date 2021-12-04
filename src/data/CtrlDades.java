@@ -3,8 +3,7 @@ package data;
 import user.userManager;
 
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Marta Granero I Martí
@@ -33,7 +32,7 @@ public class CtrlDades {
 
 //        System.out.println(CRF.getAll("ratings.db.csv")); MARTA
         List<String> rai = CRF.getAll("ratings.db.csv");
-
+        
         List<String> User_ids = new LinkedList<String>();
         List<String> Item_ids = new LinkedList<String>();
 //        for(int i =0; i < rai.size(); ++i){
@@ -41,6 +40,8 @@ public class CtrlDades {
 //        }
 //        System.out.println(ids.get(1));
 //        System.out.println(ids);
+
+
     }
 
 //    public void escriureUsuaris() throws  FileNotFoundException{
@@ -51,6 +52,60 @@ public class CtrlDades {
         return CIF.getAll("items.csv");
     }
 
+
+
+    public Map<Integer,Double> getUnknown(String userId) throws FileNotFoundException {
+        List<String> rai = CRF.getAll("ratings.test.unknown.csv");
+        System.out.println(userId);
+        Map<Integer,Double> mapa= new HashMap<>();
+        boolean trobat = false;
+        String aux = "";
+        int col_us=0;
+        int col_it=0;
+        int col_rai=0;
+        int col_act=0;
+        for(int i = 0; i < rai.get(0).length(); ++i){
+            if(rai.get(0).charAt(i)==',' || i == rai.get(0).length()-1){
+
+                if(aux.equals("userId")) col_us=col_act;
+                else if (aux.equals("itemId")) col_it = col_act;
+                else col_rai = col_act;
+                aux = "";
+                ++col_act;
+            }
+            else aux += rai.get(0).charAt(i);
+        }
+        String user="";
+        int item=0;
+        double raiting=0;
+        for(int i = 1; i < rai.size(); ++i){
+            aux ="";
+            col_act = 0;
+            for(int j = 0; j < rai.get(i).length(); ++j){
+                if(rai.get(i).charAt(j)== ',' || j == rai.get(i).length()-1){
+                    if(col_act == col_us) user = aux;
+                    else if(col_act == col_it) item = Integer.valueOf(aux);
+                    else raiting = Double.valueOf(aux);
+                    ++col_act;
+                    aux ="";
+                }
+                else aux += rai.get(i).charAt(j);
+            }
+
+        if(trobat && !user.equals(userId)) break;
+        if(user.equals(userId)){
+            trobat = true;
+            mapa.put(item,raiting);
+        }
+
+        }
+        LinkedHashMap<Integer, Double> new_m = new LinkedHashMap<>();
+        mapa.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> {
+                    new_m.put(x.getKey(), x.getValue());
+                });
+        return new_m;
+    }
 
     public void obtenir_dades(userManager manager) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.test.known.csv");
@@ -79,11 +134,11 @@ public class CtrlDades {
             col_act = 0;
             for(int j = 0; j < rai.get(i).length(); ++j){
                 if(rai.get(i).charAt(j)== ',' || j == rai.get(i).length()-1){
-                    if(col_act == col_us) user = aux;
-                    else if(col_act == col_it) item = Integer.valueOf(aux);
-                    else raiting = Double.valueOf(aux);
-                    ++col_act;
-                    aux ="";
+                  if(col_act == col_us) user = aux;
+                  else if(col_act == col_it) item = Integer.valueOf(aux);
+                  else raiting = Double.valueOf(aux);
+                  ++col_act;
+                  aux ="";
                 }
                 else aux += rai.get(i).charAt(j);
             }
@@ -92,4 +147,6 @@ public class CtrlDades {
             manager.createReview(user,item,raiting,"");
         }
     }
+
+
 }
