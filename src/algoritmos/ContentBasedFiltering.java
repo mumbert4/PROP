@@ -14,8 +14,9 @@ public class ContentBasedFiltering implements RecommendationSystem {
         items = its;
     }
 
-    public List<Integer> getItemsSemblants(String user_id, Integer k){
-        Map<Integer,Double> items_us = users.getUser(user_id).getReviewsUsers(); // aqui tenim els items que mes li han agradat al ususari.
+    public List<Integer> calculate(String userId, int k, List<Integer> Items){
+
+        Map<Integer,Double> items_us = users.getUser(userId).getReviewsUsers(); // aqui tenim els items que mes li han agradat al ususari.
         //Per cada item que li ha agardat, obtenim els k items mes semblants a n'aquest, i els ficam en un map sencer.
 
         Map<Integer, Map<Integer,Double>> mapa_it= new HashMap<>(); // id item1(un que li ha agradat al user)     //id item2 dist respecte item1

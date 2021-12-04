@@ -128,6 +128,8 @@ public class driverActiveUser {
                 else System.out.println("No hi ha usuari creat");
             }
             action = sc.next();
+
         }
+
     }
 }

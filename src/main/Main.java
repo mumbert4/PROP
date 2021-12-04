@@ -28,6 +28,7 @@ public class Main {
 
         ItemManager items = new ItemManager();
 
+
         List<String> users = manager.getUsuaris();
         List<Integer> usersInt = new LinkedList<>();
         for(String s : users) usersInt.add(Integer.parseInt(s));
@@ -43,8 +44,6 @@ public class Main {
 //            manager.getItemsSemblants(users.get(i), 3);
 //        }
 
-
-
         collaborativeFiltering col = new collaborativeFiltering(manager);
         ContentBasedFiltering cb = new ContentBasedFiltering(manager,items);
         HybridApproach hb = new HybridApproach();
@@ -59,51 +58,29 @@ public class Main {
         String action;
         action = sc.next();
 
-
-
         while(!action.equals("end")){
             if(action.equals("1")){
+                System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
-
-                List<Integer> items_rec = cb.getItemsSemblants(user_id,3);
+                List<Integer> items_rec = cb.calculate(user_id,3,items.getItems());
                 System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
             }
             else if(action.equals("2")){
-                col.construirMatriuDiferencies(items.getItems(), conjunt);
-                col.writeCjtClusters();
-
-                System.out.print("Indrodueix el cluster que vols i el usuari del que vols obtenir les recomanacions:");
-
-                Integer i = sc.nextInt();
+                System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
-
-                Map<Integer,Double> recommendations = col.recommended(user_id, i , items.getItems());
-
-
-                System.out.println(recommendations);
+                List<Integer> recommendations = col.calculate(user_id,3, items.getItems());
+                System.out.println("Items recomanats a l'user "+ user_id + " :" + recommendations);
             }
             else if(action.equals("3")){
-                col.construirMatriuDiferencies(items.getItems(), conjunt);
-                col.writeCjtClusters();
-                System.out.print("Indrodueix el cluster que vols i el usuari del que vols obtenir les recomanacions:");
-
-                Integer i = sc.nextInt();
+                System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
-
-                Map<Integer,Double> recommendations = col.recommended(user_id, i , items.getItems());
-                List<Integer> items_col = new LinkedList<>();
-                for(Map.Entry<Integer,Double> e : recommendations.entrySet()) items_col.add(e.getKey());
-
-                List<Integer> items_cb= cb.getItemsSemblants(user_id,3);
-
-                Set<Integer> items_rec = hb.calculate(items_col,items_cb);
+                List<Integer> items_col = col.calculate(user_id,3,items.getItems());
+                List<Integer> items_cb= cb.calculate(user_id,3,items.getItems());
+                Set<Integer> items_rec = hb.recommendation(items_col,items_cb);
                 System.out.println(items_rec);
             }
             action= sc.next();
         }
-
-
-
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i

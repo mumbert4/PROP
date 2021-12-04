@@ -9,6 +9,7 @@ public class ItemManager{
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
 
+
     public ItemManager(){
         items = new HashMap<>();
         mapDistances = new HashMap<>();

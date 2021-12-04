@@ -5,11 +5,18 @@ import java.util.*;
 
 
 public class collaborativeFiltering implements RecommendationSystem {
-
     public static Map<Integer , Map<Integer , Double>> matriuDiferencia;
     private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
     private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
     userManager manager;
+
+
+    public List<Integer> calculate(String userId, int k,  List<Integer> Items){
+        ArrayList<String> conjunt = getCluster(1);
+        construirMatriuDiferencies(Items, conjunt);
+        return recommended(userId, Items);
+    }
+
     public collaborativeFiltering(userManager mana){
         matriuDiferencia = new HashMap<>();
         manager = mana;
@@ -84,7 +91,11 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
         return diff;
     }
-    public Map<Integer,Double> recommended(String user_id,int i,List<Integer> Items){
+
+    public List<Integer> recommended(String user_id, List<Integer> Items){
+
+        int i = findClusterUser(user_id);
+
         Set<Integer> s = manager.itemsNoVal(user_id,getCluster(i));
         List<Integer> items_val = manager.getVal(user_id, Items);
 
@@ -114,9 +125,21 @@ public class collaborativeFiltering implements RecommendationSystem {
                 .forEachOrdered(x -> {
                     new_m.put(x.getKey(), x.getValue());
                 });
-        return new_m;
+
+        List<Integer> finalRecommendation = new LinkedList<>();
+
+        int cont = 0;
+        for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
+            if(cont < 3) finalRecommendation.add(entry.getKey());
+            ++cont;
+        }
+
+
+        return finalRecommendation;
 
     }
+
+
     //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
     //ha donat l'usuari
     public void writeCjtClusters() {
@@ -128,6 +151,8 @@ public class collaborativeFiltering implements RecommendationSystem {
             }
         }
     }
+
+
     public double distancia(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
         double dist = 0;
         for (int i = 0; i < idItems.size(); ++i) {
@@ -143,9 +168,24 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
         return Math.sqrt(dist);
     }
+
+
     public ArrayList<String> getCluster(int i){
         return CjtClusters.get(i);
     }
+
+    private int findClusterUser(String u1){
+
+        for (Map.Entry<Integer, ArrayList<String>> entry : CjtClusters.entrySet()){
+            ArrayList<String> UsersCjt = entry.getValue();
+            if(UsersCjt.contains(u1)){
+                return entry.getKey();
+            }
+        }
+
+        return -1;
+    }
+
     public void kmeans(userManager users, ArrayList<Integer> idItems, int k) {
 
         for (int i = 0; i < users.getUsuaris().size(); ++i) {
@@ -252,11 +292,5 @@ public class collaborativeFiltering implements RecommendationSystem {
 
         }
     }
-
     // DONAT UN USER_ID I UN CLUSTER, RETORNA ELS ITEMS QUE L'USUSARI NO HA VALORAT I QUE HAN VALORAT ALGU DEL CLUSTER
-
-
 }
-
-
-

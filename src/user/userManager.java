@@ -121,6 +121,10 @@ public class userManager {
         System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
     }
 
+
+
+
+
     public List<String> getUsers_items(Integer item1, Integer item2){
         List<String> usrs = new LinkedList<>();
         for(Map.Entry<String, activeUser> en: users.entrySet()){
@@ -163,5 +167,4 @@ public class userManager {
         }
         return s;
     }
-
 }

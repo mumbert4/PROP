@@ -12,6 +12,7 @@ public class Item {
         this.id = id;
         this.attributes = attributes;
     }
+
     //Getters
     public int getId() {
         return id;

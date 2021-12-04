@@ -41,8 +41,6 @@ public class CtrlDades {
 //        }
 //        System.out.println(ids.get(1));
 //        System.out.println(ids);
-
-
     }
 
 //    public void escriureUsuaris() throws  FileNotFoundException{
@@ -52,8 +50,6 @@ public class CtrlDades {
     public List<String> getItems() throws FileNotFoundException {
         return CIF.getAll("items.csv");
     }
-
-
 
 
     public void obtenir_dades(userManager manager) throws FileNotFoundException {
@@ -96,6 +92,4 @@ public class CtrlDades {
             manager.createReview(user,item,raiting,"");
         }
     }
-
-
 }
