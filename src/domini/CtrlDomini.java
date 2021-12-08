@@ -17,7 +17,6 @@ import java.util.Map;
 
 //Fa queries al CtrlDades i carrega les dades que es necessiten
 public class CtrlDomini {
-
     private CtrlDades CDades;
     private List<String> items;
     private Map<Integer,Double> ratings;

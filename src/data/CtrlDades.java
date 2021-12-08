@@ -9,7 +9,6 @@ import java.util.*;
  * @author Marta Granero I Martí
  */
 
-
 public class CtrlDades {
     private static CtrlItemsFitxer CIF;
     private static CtrlRatingsFitxer CRF;
@@ -80,12 +79,12 @@ public class CtrlDades {
                 mapa.put(item,raiting);
             }
         }
-        LinkedHashMap<Integer, Double> new_m = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Double> newM = new LinkedHashMap<>();
         mapa.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> {
-                    new_m.put(x.getKey(), x.getValue());
+                    newM.put(x.getKey(), x.getValue());
                 });
-        return new_m;
+        return newM;
     }
 
     public void obtenirDades(userManager manager) throws FileNotFoundException {
@@ -108,7 +107,7 @@ public class CtrlDades {
 //        System.out.println("Columna usuari: " + colUs + ", columna item: " + colIt + ", columna raitings: "+ colRai);
         String user = "";
         int item = 0;
-        double raiting=0;
+        double raiting = 0;
         for(int i = 1; i < rai.size(); ++i){
             aux = "";
             colAct = 0;
