@@ -6,6 +6,7 @@ import algoritmos.HybridApproach;
 import algoritmos.collaborativeFiltering;
 import domini.CtrlDomini;
 import item.ItemManager;
+import presentacio.CtrlPresentacio;
 import user.userManager;
 
 import java.util.*;
@@ -18,6 +19,8 @@ public class Main {
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDomini CDomini = CtrlDomini.getInstance();
+        CtrlPresentacio CPres = CtrlPresentacio.getInstance();
+
         CDomini.obtenirDades(manager);
 
         System.out.println("User manager rellenat");
@@ -57,7 +60,6 @@ public class Main {
                 System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
             }
             else if(action.equals("2")){
-
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
                 String user_id = sc.next();
                 List<Integer> recommendations = col.calculate(user_id,valorK, items.getItems());
