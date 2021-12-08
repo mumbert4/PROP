@@ -15,14 +15,10 @@ public class collaborativeFiltering implements RecommendationSystem {
 
 
     public List<Integer> calculate(String userId, int k,  List<Integer> Items){
-
         ArrayList<String> conjunt = getCluster(1);
         construirMatriuDiferencies(Items, conjunt);
-
         return recommended(userId, Items, k);
-
     }
-
 
     public collaborativeFiltering(userManager mana){
         matriuDiferencia = new HashMap<>();
@@ -68,10 +64,7 @@ public class collaborativeFiltering implements RecommendationSystem {
                         if(users.contains(e))usrs.add(e);
                     }
                     num_usrs= usrs.size();
-                    if(num_usrs == 0){
-
-
-                    }
+                    if(num_usrs == 0){}
                     else{
                         for(String usr : usrs){
                             Double rai1 = manager.getRaiting(usr, item1);
@@ -81,14 +74,12 @@ public class collaborativeFiltering implements RecommendationSystem {
                             suma+=dev; // SUMA DE LES DESVIACIONS DELS USUARIS QUE HAN VALORAT ITEM1 I ITEM2
                         }
                     }
-
                     aux.put(item2, suma);
                 }
             }
             matriuDiferencia.put(item1, aux);
         }
     }
-
 
     public double getDistancia(Integer item1, Integer item2){
         Map<Integer,Double> map_it1= matriuDiferencia.get(item1);
@@ -106,12 +97,10 @@ public class collaborativeFiltering implements RecommendationSystem {
     }
 
     public List<Integer> recommended(String user_id, List<Integer> Items, int k){
-
         int i = findClusterUser(user_id);
 
         Set<Integer> s = manager.itemsNoVal(user_id,getCluster(i));
         List<Integer> items_val = manager.getVal(user_id, Items);
-
 
         Double mitj_us = manager.raiAve(user_id);
         Map<Integer,Double> m = new HashMap<>();
@@ -121,17 +110,13 @@ public class collaborativeFiltering implements RecommendationSystem {
             for(Integer item : items_val){
                 if(manager.getUsers_items(item, item_id).size()>0 && item != item_id)  items_bons.add(item);
             }
-
             for(Integer item1: items_bons) {
-
 //            System.out.println(getDistancia(item1, item_id));
 //            System.out.println(getDistancia(item_id, item1));
                 differenciaMitjanaVal += getDistancia(item_id, item1);
             }
             if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
-
             m.put(item_id,mitj_us + differenciaMitjanaVal);
-
         }
         LinkedHashMap<Integer, Double> new_m = new LinkedHashMap<>();
         m.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -140,8 +125,6 @@ public class collaborativeFiltering implements RecommendationSystem {
                 });
 
         List<Integer> finalRecommendation = new LinkedList<>();
-
-
         if(avaluation){
             for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
                 finalRecommendation.add(entry.getKey());
@@ -158,7 +141,6 @@ public class collaborativeFiltering implements RecommendationSystem {
         return finalRecommendation;
     }
 
-
     //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
     //ha donat l'usuari
     public void writeCjtClusters() {
@@ -171,79 +153,59 @@ public class collaborativeFiltering implements RecommendationSystem {
         }
     }
 
-
     public double distancia(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
         double dist = 0;
         for (int i = 0; i < idItems.size(); ++i) {
-
             int iditemAct = idItems.get(i);
-
             double d1 = c1.get(iditemAct);
             double d2 = c2.get(iditemAct);
-
             double r = (d1 - d2) * (d1 - d2);
-
             dist += r;
         }
         return Math.sqrt(dist);
     }
-
 
     public ArrayList<String> getCluster(int i){
         return CjtClusters.get(i);
     }
 
     private int findClusterUser(String u1){
-
         for (Map.Entry<Integer, ArrayList<String>> entry : CjtClusters.entrySet()){
             ArrayList<String> UsersCjt = entry.getValue();
             if(UsersCjt.contains(u1)){
                 return entry.getKey();
             }
         }
-
         return -1;
     }
 
     public void kmeans(userManager users, ArrayList<Integer> idItems, int k) {
-
         for (int i = 0; i < users.getUsuaris().size(); ++i) {
-
             String usernameAct = users.getUsuaris().get(i);
             Map<Integer,Double> RevUser = users.getReviewsUsers(usernameAct);
             Map<Integer,Double> AllItems = new HashMap<>();
-
             for (int j = 0; j < idItems.size(); ++j){
                 int idItemAct = idItems.get(j);
-
                 if(RevUser.containsKey(idItemAct)){
                     AllItems.put(idItemAct,RevUser.get(idItemAct));
                 }
                 else AllItems.put(idItemAct,2.5);
             }
-
             MatUserItems.put(usernameAct,AllItems);
         }
-
         int sizeCoords = idItems.size();
         ArrayList<Map<Integer, Double>> ListKelem = new ArrayList<>();
-
         for (int i = 0; i < k; ++i){
-
             Map<Integer, Double> actK = new HashMap<>();
-
             Random r = new Random();
             double randomValue;
-
             for (int j = 0; j < sizeCoords; ++j){
                 randomValue = 5.0 * r.nextDouble();
                 actK.put(idItems.get(j), randomValue);
             }
             ListKelem.add(actK);
         }
-
         for (int i = 0; i < 50; ++i) {
-
             if (i != 0) {
                 for (int z = 1; z <= k; ++z) {
                     ArrayList<String> userInK = CjtClusters.get(z); //Los usuarios que pertenecen al cluster z
@@ -277,16 +239,12 @@ public class collaborativeFiltering implements RecommendationSystem {
                 ArrayList<String> aux = new ArrayList<>();
                 CjtClusters.put(z, aux);
             }
-
             for (Map.Entry<String, Map<Integer, Double>> entry : MatUserItems.entrySet()) {
-
                 double distMin = Double.POSITIVE_INFINITY;
                 int inK = 0;
                 String usernameAct = entry.getKey();
                 Map<Integer, Double> CoordActUser = entry.getValue();
-
                 for (int j = 1; j <= k; ++j) {
-
                     Map<Integer, Double> CoordActK = ListKelem.get(j-1);
                     double distAct = distancia(CoordActUser, CoordActK, idItems);
 
@@ -294,9 +252,7 @@ public class collaborativeFiltering implements RecommendationSystem {
                         distMin = distAct;
                         inK = j;
                     }
-
                 }
-
                 if (CjtClusters.containsKey(inK)) {
                     ArrayList<String> list = CjtClusters.get(inK);
                     list.add(usernameAct);
@@ -308,11 +264,6 @@ public class collaborativeFiltering implements RecommendationSystem {
                     CjtClusters.put(inK, list);
                 }
             }
-
         }
     }
-
-    // DONAT UN USER_ID I UN CLUSTER, RETORNA ELS ITEMS QUE L'USUSARI NO HA VALORAT I QUE HAN VALORAT ALGU DEL CLUSTER
-
-
 }

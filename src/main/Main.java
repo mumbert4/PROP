@@ -29,7 +29,6 @@ public class Main {
 
         ItemManager items = new ItemManager();
 
-
         List<String> users = manager.getUsuaris();
         List<Integer> usersInt = new LinkedList<>();
         for(String s : users) usersInt.add(Integer.parseInt(s));
@@ -37,15 +36,12 @@ public class Main {
         Collections.sort(usersInt);
 
         items.fillMapDistances(CD.getItems());
-
         manager.setItemMan(items);
 
         //Passem el paràmetre 3
 //        for (int i = 0; i < users.size(); ++i) {
 //            manager.getItemsSemblants(users.get(i), 3);
 //        }
-
-
 
         collaborativeFiltering col = new collaborativeFiltering(manager);
         ContentBasedFiltering cb = new ContentBasedFiltering(manager,items);
@@ -65,8 +61,6 @@ public class Main {
         String action;
         action = sc.next();
 
-
-
         while(!action.equals("end")){
             if(action.equals("1")){
 
@@ -83,11 +77,8 @@ public class Main {
                 System.out.println("Items recomanats a l'user "+ user_id + " :" + recommendations);
             }
             else if(action.equals("3")){
-
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
-
                 String user_id = sc.next();
-
                 List<Integer> items_rec = hb.calculate(user_id, 3, items.getItems());
                 System.out.println(items_rec);
             }
@@ -100,16 +91,12 @@ public class Main {
                 int aux = manager.numReviews(userId);
                 int k = items.getItems().size() - aux;
                 Map<Integer,Double> unknown = CD.getUnknown(userId); //llista dels items no valorats ordenada per valoracio
-                List<Integer> cbItems = cb.calculate(userId, k , items.getItems());
+                List<Integer> cbItems = cb.calculate(userId,k,items.getItems());
 //                List<Integer> cbItems = new LinkedList<>();
                 av.evaluate(colItems, cbItems, unknown);
-
             }
             action= sc.next();
         }
-
-
-
 
         /* Crea el fitxer users.csv on hi podrem afegir els nous usuaris que es registrin a a la nostra app */
         /* Aquí ha de crear-se la funció de CrearPerfil(signUp), CarregarPerfil(logIn), EsborrarPerfil i

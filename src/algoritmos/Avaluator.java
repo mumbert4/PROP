@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Avaluator {
-    public Avaluator(){
-
-    }
-
+    public Avaluator(){}
 
     double DCG(List<Integer> l, Map<Integer,Double> m){
         double dcg = 0;
@@ -29,7 +26,5 @@ public class Avaluator {
         System.out.println(unknown);
         System.out.println ("Collaborative: "+ DCG(col,unknown));
         System.out.println ("Content Based: "+ DCG(cb,unknown));
-
     }
-
 }

@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HybridApproach implements RecommendationSystem  {
-
     ContentBasedFiltering contentBased;
     collaborativeFiltering collaborative;
 
@@ -23,16 +22,10 @@ public class HybridApproach implements RecommendationSystem  {
         return s;
     }
 
-
     public List<Integer> calculate (String userId, int k, List<Integer> Items){
-        List<Integer> items_col = collaborative.calculate(userId,3,Items);
-        List<Integer> items_cb= contentBased.calculate(userId,3,Items);
+        List<Integer> items_col = collaborative.calculate(userId,k,Items);
+        List<Integer> items_cb= contentBased.calculate(userId,k,Items);
         return union(items_col, items_cb);
-
     }
-
-
-
-
 }
 
