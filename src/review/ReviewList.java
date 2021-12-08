@@ -1,6 +1,7 @@
 package review;
 
 import java.util.*;
+import static main.Main.valorK;
 
 
 public class ReviewList {
@@ -30,7 +31,7 @@ public class ReviewList {
     }
 
     public double getRaitings(){
-        double points =0;
+        double points = 0;
         for(Review r : RevList.values()){
             points += r.getPoints();
         }
@@ -44,14 +45,13 @@ public class ReviewList {
             ratings.put(r.getKey(),r.getValue().getPoints());
             //System.out.println(r.getValue().getPoints());
         }
-
         LinkedHashMap<Integer, Double> ratingsOrdenats = new LinkedHashMap<>();
         ratings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> {
                     ratingsOrdenats.put(x.getKey(), x.getValue());
                 });
         Map<Integer,Double> aux= new HashMap<>();
-        int k = 3;
+        int k = valorK; //K estàtica al main
         for(Map.Entry<Integer,Double> m : ratingsOrdenats.entrySet()){
             if(k > 0){
                 aux.put(m.getKey(), m.getValue());

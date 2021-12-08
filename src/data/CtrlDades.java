@@ -11,48 +11,32 @@ import java.util.*;
 
 
 public class CtrlDades {
-
-    /* Inicialitzem controlador de dades */
-    private static CtrlItemsFitxer CIF = CtrlItemsFitxer.getInstance();
-    private static CtrlRatingsFitxer CRF = CtrlRatingsFitxer.getInstance();
-    private static CtrlUsersFitxer CUF = CtrlUsersFitxer.getInstance();
+    private static CtrlItemsFitxer CIF;
+    private static CtrlRatingsFitxer CRF;
+    private static CtrlUsersFitxer CUF;
 
     private static CtrlDades singletonO;
 
-    public static CtrlDades getInstance(){
+    public static CtrlDades getInstance() {
         if(singletonO == null) {
             singletonO = new CtrlDades() {};
         } return singletonO;
     }
 
-    public void escriureItems() throws FileNotFoundException {
-        System.out.println(CIF.getAll("items.csv"));
-    }
-    public void escriureRatings() throws FileNotFoundException {
-
-//        System.out.println(CRF.getAll("ratings.db.csv")); MARTA
-        List<String> rai = CRF.getAll("ratings.db.csv");
-        
-        List<String> User_ids = new LinkedList<String>();
-        List<String> Item_ids = new LinkedList<String>();
-//        for(int i =0; i < rai.size(); ++i){
-//            ids.add(getUID(rai.get(i)));
-//        }
-//        System.out.println(ids.get(1));
-//        System.out.println(ids);
-
-
+    public CtrlDades() {
+        inicialitzarCtrlDades();
     }
 
-//    public void escriureUsuaris() throws  FileNotFoundException{
-//        System.out.println(CUF.getAll("users.csv"));
-//    }
+    /* Inicialitzem controlador de dades */
+    public void inicialitzarCtrlDades() {
+        CIF = CtrlItemsFitxer.getInstance();
+        CRF = CtrlRatingsFitxer.getInstance();
+        CUF = CtrlUsersFitxer.getInstance();
+    }
 
     public List<String> getItems() throws FileNotFoundException {
         return CIF.getAll("items.csv");
     }
-
-
 
     public Map<Integer,Double> getUnknown(String userId) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.test.unknown.csv");
@@ -147,6 +131,4 @@ public class CtrlDades {
             manager.createReview(user,item,raiting,"");
         }
     }
-
-
 }
