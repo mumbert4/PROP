@@ -6,7 +6,6 @@ import java.util.*;
 
 
 public class collaborativeFiltering implements RecommendationSystem {
-
     public static Map<Integer , Map<Integer , Double>> matriuDiferencia;
     private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
     private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
@@ -35,7 +34,7 @@ public class collaborativeFiltering implements RecommendationSystem {
         avaluation = true;
     }
 
-    public void pinta_mat(){
+    /**public void pinta_mat(){
         for (Integer j : matriuDiferencia.keySet()) { // primer item
             System.out.println("Dieferencies item: " + j +" resta de items:");
             for (Integer i : matriuDiferencia.get(j).keySet()) { // segon item
@@ -44,7 +43,7 @@ public class collaborativeFiltering implements RecommendationSystem {
             System.out.println();
             System.out.println();
         }
-    }
+    }*/
 
     public void construirMatriuDiferencies(List<Integer> items, List<String> users) {
         double dev;
@@ -141,9 +140,8 @@ public class collaborativeFiltering implements RecommendationSystem {
         return finalRecommendation;
     }
 
-    //Entenc que el primer Integer seria el id_usuari(User) i el segon Integer l'id_item amb el rating respectiu que li
-    //ha donat l'usuari
-    public void writeCjtClusters() {
+
+    /**public void writeCjtClusters() {
         for (int i = 1; i <= CjtClusters.size(); ++i) {
             ArrayList<String> userInK = CjtClusters.get(i); //Los usuarios que pertenecen al cluster i
             System.out.println("Los usuarios que pertenecen al cluster " + i + " son:");
@@ -151,7 +149,7 @@ public class collaborativeFiltering implements RecommendationSystem {
                 System.out.println(userInK.get(j));
             }
         }
-    }
+    }*/
 
     public double distancia(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
         double dist = 0;

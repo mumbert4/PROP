@@ -6,15 +6,13 @@ import java.util.Map;
 public class Avaluator {
     public Avaluator(){}
 
-    double DCG(List<Integer> l, Map<Integer,Double> m){
+    public double DCG(List<Integer> l, Map<Integer,Double> m){
         double dcg = 0;
-
         for( int i = 0 ; i < l.size(); ++i){
             Integer item = l.get(i);
             Double rel;
             if(!m.containsKey(item)) rel = 0.0;
             else rel = m.get(item);
-
             dcg += (Math.pow(2.0, rel) - 1.0) / (Math.log((i+1) + 1) / Math.log(2));
         }
         return dcg;

@@ -3,12 +3,9 @@ package item;
 import java.util.*;
 
 public class ItemManager{
-
     Map<Integer, Item> items;
-    //Map<Integer, ArrayList<Column>> MatItemsType;
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
-
 
     public ItemManager(){
         items = new HashMap<>();
@@ -35,7 +32,7 @@ public class ItemManager{
         else items.remove(id);
     }
 
-    public void printDistances() {
+    /**public void printDistances() {
         for(int i = 0; i < items.size(); ++i) {
             int id1 = IdItems.get(i);
             for (int j = i + 1; j < items.size(); ++j) {
@@ -44,7 +41,7 @@ public class ItemManager{
                 System.out.println("La distancia entre los items con id " + id1 + " y " + id2 + " es : " + dist);
             }
         }
-    }
+    }*/
 
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
