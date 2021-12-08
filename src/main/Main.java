@@ -19,7 +19,7 @@ public class Main {
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDomini CDomini = CtrlDomini.getInstance();
-        CtrlPresentacio CPres = CtrlPresentacio.getInstance();
+        CtrlPresentacio CPresentacio = CtrlPresentacio.getInstance();
 
         CDomini.obtenirDades(manager);
 
@@ -32,7 +32,7 @@ public class Main {
         Collections.sort(users);
         Collections.sort(usersInt);
 
-        items.fillMapDistances(CDomini.carregarDadesItems());
+        items.fillMapDistances(CDomini.getItems());
         manager.setItemMan(items);
 
         collaborativeFiltering col = new collaborativeFiltering(manager);
@@ -78,7 +78,7 @@ public class Main {
                 List<Integer> colItems = col.calculate(userId, 0, items.getItems());
                 int aux = manager.numReviews(userId);
                 int k = items.getItems().size() - aux;
-                Map<Integer,Double> unknown = CDomini.carregarUnknown(userId); //llista dels items no valorats ordenada per valoracio
+                Map<Integer,Double> unknown = CDomini.getRatings(userId); //llista dels items no valorats ordenada per valoracio
                 List<Integer> cbItems = cb.calculate(userId,k,items.getItems());
                 av.evaluate(colItems, cbItems, unknown);
             }

@@ -17,7 +17,9 @@ public class Item {
         return id;
     }
 
-    public int getSizeAttributes() { return attributes.size(); }
+    public int getSizeAttributes() {
+        return attributes.size();
+    }
 
     public Column getColumn(int i){
         return attributes.get(i);

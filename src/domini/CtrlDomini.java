@@ -41,22 +41,26 @@ public class CtrlDomini {
         } return singletonO;
     }
 
-    //Obtenir items
-    public List<String> carregarDadesItems() throws IOException {
-        return CDades.getItems();
+    public void carregarDadesItems() throws IOException {
+       items = getItems();
     }
 
-    //Obtenir ratings unknown
-    public Map<Integer,Double> carregarUnknown(String userId) throws FileNotFoundException {
-        return CDades.getUnknown(userId);
+    public void carregarUnknown(String userId) throws IOException {
+        ratings = getRatings(userId);
     }
 
     //Obtenir ratings known
     public void obtenirDades(userManager manager) throws FileNotFoundException {
-        CDades.obtenir_dades(manager);
+        CDades.obtenirDades(manager);
     }
 
-    public void getItems() throws IOException {
-        items = singletonO.carregarDadesItems();
+    //Obtenir items
+    public List<String> getItems() throws IOException {
+        return CDades.getItems();
+    }
+
+    //Obtenir ratings unknown
+    public Map<Integer,Double> getRatings(String userId) throws IOException {
+        return CDades.getUnknown(userId);
     }
 }

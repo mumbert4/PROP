@@ -285,9 +285,7 @@ public class ItemManager{
         int col_act=1;
         int j = 0;
         String aux = "";
-
         while(j < fila.length()){
-
             if(fila.charAt(j)==','){
                 if (aux.equals("id")) return col_act;
                 else{
