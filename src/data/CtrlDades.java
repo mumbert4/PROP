@@ -12,7 +12,7 @@ import java.util.*;
 public class CtrlDades {
     private static CtrlItemsFitxer CIF;
     private static CtrlRatingsFitxer CRF;
-    private static CtrlUsersFitxer CUF;
+    //private static CtrlUsersFitxer CUF;
 
     private static CtrlDades singletonO;
 
@@ -30,7 +30,7 @@ public class CtrlDades {
     public void inicialitzarCtrlDades() {
         CIF = CtrlItemsFitxer.getInstance();
         CRF = CtrlRatingsFitxer.getInstance();
-        CUF = CtrlUsersFitxer.getInstance();
+        //CUF = CtrlUsersFitxer.getInstance();
     }
 
     public List<String> getItems() throws FileNotFoundException {

@@ -23,5 +23,4 @@ public class Item {
     public Column getColumn(int i){
         return attributes.get(i);
     }
-
 }

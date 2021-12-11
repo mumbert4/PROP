@@ -19,7 +19,6 @@ public class Avaluator {
     }
 
     public void evaluate(List<Integer> col, List<Integer> cb, Map<Integer,Double> unknown){
-
         System.out.println ("Collaborative: "+ DCG(col,unknown));
         System.out.println ("Content Based: "+ DCG(cb,unknown));
     }

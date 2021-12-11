@@ -26,6 +26,8 @@ public class driverItemManager {
 
             else if (at.charAt(j) == ',' || j == at.length() - 1) {
                 //System.out.println("NI PUTA IDEA: " + aux);
+
+
                 if (isInt(aux)) {
                     Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
                     cols.add(actItem);
@@ -58,8 +60,8 @@ public class driverItemManager {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.print("\t 1- initiate: iniciam el item manager");
-        System.out.print("\t 2- createItem <Integer- itemId> <String- atributs>: cream un item amb els seus atributs");
-        System.out.print("\t 3- existItem <Integer- itemId> : retorna si el manager conte el item");
+        System.out.print("\t 2- createItem <Integer- item_id> <String- atributs>: cream un item amb els seus atributs");
+        System.out.print("\t 3- existItem <Integer- item_id> : retorna si el manager conte el item");
         System.out.print("\t 4- getItems : retrona els items que conte el manager");
         System.out.print("\t 5- end : acaba amb el driver");
         String action;
@@ -70,17 +72,17 @@ public class driverItemManager {
                 System.out.println("Manager iniciat");
             }
             else if(action.equals("createItem")){
-                Integer itemId = sc.nextInt();
+                Integer item_id = sc.nextInt();
                 String atributes = sc.next();
                 if(manager != null){
-                    if(!manager.existItem(itemId)) manager.createItem(itemId, getAtributes(atributes));
+                    if(!manager.existItem(item_id)) manager.createItem(item_id, getAtributes(atributes));
                     else System.out.println("Ja existeix aquestv item al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if(action.equals("existItem")){
-                Integer itemId = sc.nextInt();
-                if (manager!= null) System.out.println(manager.existItem(itemId));
+                Integer item_id = sc.nextInt();
+                if (manager!= null) System.out.println(manager.existItem(item_id));
                 else System.out.println("Manager no iniciat");
             }
             else if(action.equals("getItems")){

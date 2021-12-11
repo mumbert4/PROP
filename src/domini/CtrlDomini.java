@@ -5,7 +5,6 @@ import user.userManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +28,6 @@ public class CtrlDomini {
     /* Inicialitzem el controlador del domini*/
     private void inicialitzarCtrlDomini() {
         CDades = CtrlDades.getInstance();
-        items = new LinkedList<>();
-        //ratings = new HashMap<>(); //unknown
     }
 
     public static CtrlDomini getInstance(){

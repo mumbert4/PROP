@@ -19,6 +19,7 @@ public class Main {
         System.out.println();
         userManager manager = userManager.getInstance();
         CtrlDomini CDomini = CtrlDomini.getInstance();
+
         CtrlPresentacio CPresentacio = CtrlPresentacio.getInstance();
 
         CDomini.obtenirDades(manager);
