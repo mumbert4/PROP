@@ -3,9 +3,12 @@ package item;
 import java.util.*;
 
 public class ItemManager{
+
     Map<Integer, Item> items;
+    //Map<Integer, ArrayList<Column>> MatItemsType;
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
+
 
     public ItemManager(){
         items = new HashMap<>();
@@ -32,8 +35,18 @@ public class ItemManager{
         else items.remove(id);
     }
 
+    public void printDistances() {
+        for(int i = 0; i < items.size(); ++i) {
+            int id1 = IdItems.get(i);
+            for (int j = i + 1; j < items.size(); ++j) {
+                int id2 = IdItems.get(j);
+                double dist = mapDistances.get(id1).get(id2);
+                System.out.println("La distancia entre los items con id " + id1 + " y " + id2 + " es : " + dist);
+            }
+        }
+    }
 
-    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
+    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,3) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
     public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
 //        System.out.println("Items semblants a "+ itemId);
@@ -44,13 +57,13 @@ public class ItemManager{
                 .forEachOrdered(x -> {
                     dists.put(x.getKey(), x.getValue());
                 });
-
+//        System.out.println("Distancies suposadament ordenades de l'item "+ itemId+" :" + dists);
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
         Map<Integer, Double> kIt = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
             if (k2 > 0) {
                 kIt.put(e.getKey(), e.getValue());
-
+//                System.out.println(e.getKey() + " " + e.getValue());
                 --k2;
             }
             else break;
@@ -60,7 +73,8 @@ public class ItemManager{
                 .forEachOrdered(x -> {
                     kOr.put(x.getKey(), x.getValue());
                 });
-;
+//        System.out.println("K it abans de return " + kIt);
+//        System.out.println("K or abans de return " + kOr);
         return kOr;
     }
 
@@ -104,28 +118,31 @@ public class ItemManager{
                         }
                         //System.out.println("DESCRIPCIO: " + aux);
                         j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                        Column actItem = new Column();
-                        actItem.columnString(aux);
+                        Column.ColumnString actItem = new Column.ColumnString(aux);
                         itmAux.add(actItem);
                         aux = "";
                     }
 
                     else if (listItems.get(i).charAt(j) == ',' || j == listItems.get(i).length() - 1) {
                         //System.out.println("NI PUTA IDEA: " + aux);
-                        Column actItem = new Column();
+
                         if (isInt(aux)) {
-                            actItem.columnInteger(Integer.parseInt(aux));
+                            Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Integer.parseInt(aux));
                         } else if (isB(aux)) {
-                            boolean val = Boolean.parseBoolean(aux);
-                            actItem.columnBool(val);
+                            Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Boolean.parseBoolean(aux));
                         } else if (isDbl(aux)) {
-                            actItem.columnDouble(Double.parseDouble(aux));
+                            Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Double.parseDouble(aux));
-                        } else actItem.columnString(aux);
+                        } else{
+                            Column.ColumnString actItem = new Column.ColumnString(aux);
+                            itmAux.add(actItem);
+                        }
                         aux = "";
-                        itmAux.add(actItem);
                         ++elemAct;
                         ++j;
                     }
@@ -216,23 +233,44 @@ public class ItemManager{
                     double dist = 0;
                     int id2 = IdItems.get(j);
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
-                        if (items.get(id1).getColumn(k).isBoolean()) {
-                            boolean b1 = items.get(id1).getColumn(k).valueBoolean();
-                            boolean b2 = items.get(id2).getColumn(k).valueBoolean();
+                        if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
+
+                            Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
+                            Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
+
+                            boolean b1 = colb1.getValue();
+                            boolean b2 = colb2.getValue();
+
                             if (b1 != b2) ++dist;
-                        } else if (items.get(id1).getColumn(k).isInteger()) {
-                            int i1 = items.get(id1).getColumn(k).valueInteger();
-                            int i2 = items.get(id2).getColumn(k).valueInteger();
+
+                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
+
+                            Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
+                            Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
+
+                            int i1 = coli1.getValue();
+                            int i2 = coli2.getValue();
+
                             if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2));
                             else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
-                        } else if (items.get(id1).getColumn(k).isDouble()) {
-                            double d1 = items.get(id1).getColumn(k).valueDouble();
-                            double d2 = items.get(id2).getColumn(k).valueDouble();
+
+                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
+
+                            Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
+                            Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
+
+                            double d1 = cold1.getValue();
+                            double d2 = cold2.getValue();
+
                             if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2));
                             else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1));
                         } else {
-                            String s1 = items.get(id1).getColumn(k).valueString();
-                            String s2 = items.get(id2).getColumn(k).valueString();
+
+                            Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
+                            Column.ColumnString cols2 = (Column.ColumnString) items.get(id2).getColumn(k);
+
+                            String s1 = cols1.getValue();
+                            String s2 = cols2.getValue();
                             dist += (1 - jaroWinkler(s1, s2));
                             //if (!s1.equals(s2)) ++dist;
                         }
@@ -271,10 +309,12 @@ public class ItemManager{
     }
 
     int getColId(String fila){
-        int colAct=1;
+        int colAct = 1;
         int j = 0;
         String aux = "";
+
         while(j < fila.length()){
+
             if(fila.charAt(j)==','){
                 if (aux.equals("id")) return colAct;
                 else{

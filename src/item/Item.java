@@ -12,14 +12,13 @@ public class Item {
         this.id = id;
         this.attributes = attributes;
     }
+
     //Getters
     public int getId() {
         return id;
     }
 
-    public int getSizeAttributes() {
-        return attributes.size();
-    }
+    public int getSizeAttributes() { return attributes.size(); }
 
     public Column getColumn(int i){
         return attributes.get(i);

@@ -19,28 +19,30 @@ public class driverItemManager {
                 }
                 //System.out.println("DESCRIPCIO: " + aux);
                 j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                Column actItem = new Column();
-                actItem.columnString(aux);
+                Column.ColumnString actItem = new Column.ColumnString(aux);
                 cols.add(actItem);
                 aux = "";
             }
 
             else if (at.charAt(j) == ',' || j == at.length() - 1) {
                 //System.out.println("NI PUTA IDEA: " + aux);
-                Column actItem = new Column();
                 if (isInt(aux)) {
-                    actItem.columnInteger(Integer.parseInt(aux));
+                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+                    cols.add(actItem);
                     //System.out.println(Integer.parseInt(aux));
                 } else if (isB(aux)) {
-                    boolean val = Boolean.parseBoolean(aux);
-                    actItem.columnBool(val);
+                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+                    cols.add(actItem);
                     //System.out.println(Boolean.parseBoolean(aux));
                 } else if (isDbl(aux)) {
-                    actItem.columnDouble(Double.parseDouble(aux));
+                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+                    cols.add(actItem);
                     //System.out.println(Double.parseDouble(aux));
-                } else actItem.columnString(aux);
+                } else{
+                    Column.ColumnString actItem = new Column.ColumnString(aux);
+                    cols.add(actItem);
+                }
                 aux = "";
-                cols.add(actItem);
                 ++j;
             }
             else {
@@ -56,8 +58,8 @@ public class driverItemManager {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.print("\t 1- initiate: iniciam el item manager");
-        System.out.print("\t 2- createItem <Integer- item_id> <String- atributs>: cream un item amb els seus atributs");
-        System.out.print("\t 3- existItem <Integer- item_id> : retorna si el manager conte el item");
+        System.out.print("\t 2- createItem <Integer- itemId> <String- atributs>: cream un item amb els seus atributs");
+        System.out.print("\t 3- existItem <Integer- itemId> : retorna si el manager conte el item");
         System.out.print("\t 4- getItems : retrona els items que conte el manager");
         System.out.print("\t 5- end : acaba amb el driver");
         String action;
@@ -68,17 +70,17 @@ public class driverItemManager {
                 System.out.println("Manager iniciat");
             }
             else if(action.equals("createItem")){
-                Integer item_id = sc.nextInt();
+                Integer itemId = sc.nextInt();
                 String atributes = sc.next();
                 if(manager != null){
-                    if(!manager.existItem(item_id)) manager.createItem(item_id, getAtributes(atributes));
+                    if(!manager.existItem(itemId)) manager.createItem(itemId, getAtributes(atributes));
                     else System.out.println("Ja existeix aquestv item al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if(action.equals("existItem")){
-                Integer item_id = sc.nextInt();
-                if (manager!= null) System.out.println(manager.existItem(item_id));
+                Integer itemId = sc.nextInt();
+                if (manager!= null) System.out.println(manager.existItem(itemId));
                 else System.out.println("Manager no iniciat");
             }
             else if(action.equals("getItems")){

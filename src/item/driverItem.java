@@ -18,30 +18,32 @@ public class driverItem {
                 }
                 //System.out.println("DESCRIPCIO: " + aux);
                 j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                Column actItem = new Column();
-                actItem.columnString(aux);
+                Column.ColumnString actItem = new Column.ColumnString(aux);
                 System.out.println(aux);
                 cols.add(actItem);
                 aux = "";
             }
-
             else if (at.charAt(j) == ',' || j == at.length() - 1) {
                 //System.out.println("NI PUTA IDEA: " + aux);
-                Column actItem = new Column();
+
                 if (isInt(aux)) {
-                    actItem.columnInteger(Integer.parseInt(aux));
+                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+                    cols.add(actItem);
                     //System.out.println(Integer.parseInt(aux));
                 } else if (isB(aux)) {
-                    boolean val = Boolean.parseBoolean(aux);
-                    actItem.columnBool(val);
+                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+                    cols.add(actItem);
                     //System.out.println(Boolean.parseBoolean(aux));
                 } else if (isDbl(aux)) {
-                    actItem.columnDouble(Double.parseDouble(aux));
+                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+                    cols.add(actItem);
                     //System.out.println(Double.parseDouble(aux));
-                } else actItem.columnString(aux);
+                } else {
+                    Column.ColumnString actItem = new Column.ColumnString(aux);
+                    cols.add(actItem);
+                }
                 System.out.println(aux);
                 aux = "";
-                cols.add(actItem);
                 ++j;
             }
             else {
@@ -56,17 +58,17 @@ public class driverItem {
         Item item = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
-        System.out.println("\t 1- createItem <Integer- item_id> <String-atributs> : crear un nou item");
+        System.out.println("\t 1- createItem <Integer- itemId> <String-atributs> : crear un nou item");
         System.out.println("\t 2- getId : obtenir el id de l'item");
         System.out.println("\t 3- sizeCol : obtenir quantitat d'atributs");
-        System.out.println("\t 4- getCol <Integer- num_atribut> : obtenir un atribut en concret");
+        System.out.println("\t 4- getCol <Integer- numAtribut> : obtenir un atribut en concret");
         String action;
         action = sc.next();
         while(!action.equals("end")){
             if(action.equals("createItem")){
-                Integer item_id = sc.nextInt();
+                Integer itemId = sc.nextInt();
                 String atributes = sc.nextLine();
-                item = new Item(item_id,getAtributes(atributes)); // COM CREAR UN VECTOR D'ATRIBUTS?
+                item = new Item(itemId,getAtributes(atributes)); // COM CREAR UN VECTOR D'ATRIBUTS?
             }
             if(action.equals("getId")){
                 if(item!= null) System.out.println("Id del item: " + item.getId());
@@ -109,5 +111,4 @@ public class driverItem {
     private static boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
-
 }
