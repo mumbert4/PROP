@@ -5,7 +5,6 @@ import user.userManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,21 +30,13 @@ public class CtrlDomini {
     private void inicialitzarCtrlDomini() {
         CDades = CtrlDades.getInstance();
         items = new LinkedList<>();
-        ratings = new HashMap<>();
+        //ratings = new HashMap<>(); //unknown
     }
 
     public static CtrlDomini getInstance(){
         if(singletonO == null) {
             singletonO = new CtrlDomini() {};
         } return singletonO;
-    }
-
-    public void carregarDadesItems() throws IOException {
-       items = getItems();
-    }
-
-    public void carregarUnknown(String userId) throws IOException {
-        ratings = getRatings(userId);
     }
 
     //Obtenir ratings known

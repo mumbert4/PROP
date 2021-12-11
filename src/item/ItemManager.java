@@ -54,13 +54,13 @@ public class ItemManager{
                 .forEachOrdered(x -> {
                     dists.put(x.getKey(), x.getValue());
                 });
-//        System.out.println("Distancies suposadament ordenades de l'item "+ item_id+" :" + dists);
+
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
         Map<Integer, Double> k_it = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
             if (k2 > 0) {
                 k_it.put(e.getKey(), e.getValue());
-//                System.out.println(e.getKey() + " " + e.getValue());
+
                 --k2;
             }
             else break;
@@ -70,8 +70,7 @@ public class ItemManager{
                 .forEachOrdered(x -> {
                     k_or.put(x.getKey(), x.getValue());
                 });
-//        System.out.println("K it abans de return " + k_it);
-//        System.out.println("K or abans de return " + k_or);
+;
         return k_or;
     }
 

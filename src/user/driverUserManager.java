@@ -106,7 +106,7 @@ public class driverUserManager {
                 String user_name = sc.next();
                 if(manager != null){
                     if (manager.existUser(user_name)){
-                        Map<Integer,Double> revs= manager.getReviewsUsers(user_name);
+                        Map<Integer,Double> revs= manager.getReviewsUsers(user_name,manager.numReviews(user_name) );
                         for (Map.Entry<Integer,Double> r : revs.entrySet()){
                             System.out.println("Item:" + r.getKey() + ", valoracio:" + r.getValue());
                         }

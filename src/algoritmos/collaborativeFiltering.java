@@ -180,7 +180,7 @@ public class collaborativeFiltering implements RecommendationSystem {
     public void kmeans(userManager users, ArrayList<Integer> idItems, int k) {
         for (int i = 0; i < users.getUsuaris().size(); ++i) {
             String usernameAct = users.getUsuaris().get(i);
-            Map<Integer,Double> RevUser = users.getReviewsUsers(usernameAct);
+            Map<Integer,Double> RevUser = users.getReviewsUsers(usernameAct, k);
             Map<Integer,Double> AllItems = new HashMap<>();
             for (int j = 0; j < idItems.size(); ++j){
                 int idItemAct = idItems.get(j);
