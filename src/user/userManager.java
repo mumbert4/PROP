@@ -24,43 +24,43 @@ public class userManager {
         items = itemMan;
     }
 
-    public boolean existUser(String user_name) {
-        return users.containsKey(user_name);
+    public boolean existUser(String userId) {
+        return users.containsKey(userId);
     }
 
-    public void createUser(String user_name, String password, String confirm_password) {
-        if (existUser(user_name))
-            System.out.println("The user with name: " + user_name + " already exists, please choose another name");
-        else if (!(password.equals(confirm_password))) System.out.println("Passwords do not match, try again");
+    public void createUser(String userId, String password, String confirmPassword) {
+        if (existUser(userId))
+            System.out.println("The user with name: " + userId + " already exists, please choose another name");
+        else if (!(password.equals(confirmPassword))) System.out.println("Passwords do not match, try again");
         else {
-            activeUser user = new activeUser(user_name, password);
-            users.put(user_name, user);
+            activeUser user = new activeUser(userId, password);
+            users.put(userId, user);
 //            System.out.println("User successfully created");
         }
     }
 
     public void addUser(activeUser user) {
-        String user_name = user.getName();
-        if (existUser(user_name)) System.out.println("This user already exists");
+        String userId = user.getName();
+        if (existUser(userId)) System.out.println("This user already exists");
         else {
-            users.put(user_name, user);
+            users.put(userId, user);
 //            System.out.println("User added");
         }
     }
 
-    public activeUser getUser(String user_name) {
-        return users.get(user_name);
+    public activeUser getUser(String userId) {
+        return users.get(userId);
     }
 
-    public void createReview(String user_name, int item_id, double points, String comment) {
+    public void createReview(String userId, int itemId, double points, String comment) {
         Review r = new Review(points, comment);
-        activeUser user = getUser(user_name);
-        user.addReview(item_id, r);
+        activeUser user = getUser(userId);
+        user.addReview(itemId, r);
 //        System.out.println("Review afegida amb exit");
     }
 
-    public int numReviews(String user_name) {
-        return users.get(user_name).numReviews();
+    public int numReviews(String userId) {
+        return users.get(userId).numReviews();
     }
 
     public int numUsu() { //NOMBRE D'USUARIS QUE HI HA
@@ -71,62 +71,62 @@ public class userManager {
         List<String> ids = new LinkedList<String>();
         //mapa users ordenat per clau
         Map<String, activeUser> sortedMap = new TreeMap<String, activeUser>(users);
-        for (String user_id : sortedMap.keySet()) {
-            ids.add(user_id);
+        for (String userId : sortedMap.keySet()) {
+            ids.add(userId);
         }
         return ids;
     }
 
-    public double raiAve(String user_id) {
-        return users.get(user_id).raiAve();
+    public double raiAve(String userId) {
+        return users.get(userId).raiAve();
     }
 
-    public Map<Integer, Double> getReviewsUsers(String user_id, int k) { //clau:id_item, valor:rating de l'usuari a l'ítem
-        return users.get(user_id).getReviewsUsers(k);
+    public Map<Integer, Double> getReviewsUsers(String userId, int k) { //clau:idItem, valor:rating de l'usuari a l'ítem
+        return users.get(userId).getReviewsUsers(k);
     }
 
 
 
 
 
-    public List<String> getUsers_items(Integer item1, Integer item2) {
+    public List<String> getUsersItems(Integer item1, Integer item2) {
         List<String> usrs = new LinkedList<>();
         for (Map.Entry<String, activeUser> en : users.entrySet()) {
             activeUser act = en.getValue();
-            String user_name = en.getKey();
-            if (act.hasValuated(item1) && act.hasValuated(item2)) usrs.add(user_name);
+            String userId = en.getKey();
+            if (act.hasValuated(item1) && act.hasValuated(item2)) usrs.add(userId);
         }
         return usrs;
     }
 
-    public Double getRaiting(String user_name, Integer item_id) {
-        return users.get(user_name).getReview(item_id).getPoints();
+    public Double getRaiting(String userId, Integer itemId) {
+        return users.get(userId).getReview(itemId).getPoints();
     }
 
-    public List<Integer> getNoVal(String user_id, List<Integer> items) {
+    public List<Integer> getNoVal(String userId, List<Integer> items) {
         List<Integer> ret = new LinkedList<>();
         for (Integer item : items) {
-            if (!users.get(user_id).hasValuated(item)) ret.add(item);
+            if (!users.get(userId).hasValuated(item)) ret.add(item);
         }
         return ret;
     }
 
-    public List<Integer> getVal(String user_id, List<Integer> items) {
+    public List<Integer> getVal(String userId, List<Integer> items) {
         List<Integer> ret = new LinkedList<>();
         for (Integer item : items) {
-            if (users.get(user_id).hasValuated(item)) {
+            if (users.get(userId).hasValuated(item)) {
                 ret.add(item);
             }
         }
         return ret;
     }
 
-    public Set<Integer> itemsNoVal(String user_id, List<String> users) {
+    public Set<Integer> itemsNoVal(String userId, List<String> users) {
         Set<Integer> s = new HashSet<>();
         for (String user : users) {
-            Map<Integer, Double> items_val = manager.getReviewsUsers(user, numReviews(user_id));
-            for (Map.Entry<Integer, Double> e : items_val.entrySet()) {
-                if (!manager.getUser(user_id).hasValuated(e.getKey())) s.add(e.getKey());
+            Map<Integer, Double> itemsVal = manager.getReviewsUsers(user, numReviews(userId));
+            for (Map.Entry<Integer, Double> e : itemsVal.entrySet()) {
+                if (!manager.getUser(userId).hasValuated(e.getKey())) s.add(e.getKey());
             }
         }
         return s;

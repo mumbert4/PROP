@@ -55,21 +55,21 @@ public class Main {
         while(!action.equals("end")){
             if(action.equals("1")){
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
-                String user_id = sc.next();
-                List<Integer> items_rec = cb.calculate(user_id,valorK,items.getItems());
-                System.out.println("Items recomanats a l'user "+ user_id + " :" + items_rec);
+                String userId = sc.next();
+                List<Integer> itemsRec = cb.calculate(userId,valorK,items.getItems());
+                System.out.println("Items recomanats a l'user "+ userId + " :" + itemsRec);
             }
             else if(action.equals("2")){
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
-                String user_id = sc.next();
-                List<Integer> recommendations = col.calculate(user_id,valorK, items.getItems());
-                System.out.println("Items recomanats a l'user "+ user_id + " :" + recommendations);
+                String userId = sc.next();
+                List<Integer> recommendations = col.calculate(userId,valorK, items.getItems());
+                System.out.println("Items recomanats a l'user "+ userId + " :" + recommendations);
             }
             else if(action.equals("3")){
                 System.out.print("Indrodueix l'usuari del que vols obtenir les recomanacions:");
-                String user_id = sc.next();
-                List<Integer> items_rec = hb.calculate(user_id, valorK, items.getItems());
-                System.out.println(items_rec);
+                String userId = sc.next();
+                List<Integer> itemsRec = hb.calculate(userId, valorK, items.getItems());
+                System.out.println(itemsRec);
             }
             else if (action.equals("4")){
                 col.setTrue();

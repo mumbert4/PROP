@@ -23,9 +23,9 @@ public class HybridApproach implements RecommendationSystem  {
     }
 
     public List<Integer> calculate (String userId, int k, List<Integer> Items){
-        List<Integer> items_col = collaborative.calculate(userId,k,Items);
-        List<Integer> items_cb= contentBased.calculate(userId,k,Items);
-        return union(items_col, items_cb);
+        List<Integer> itemsCol = collaborative.calculate(userId,k,Items);
+        List<Integer> itemsCb= contentBased.calculate(userId,k,Items);
+        return union(itemsCol, itemsCb);
     }
 }
 

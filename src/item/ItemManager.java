@@ -32,22 +32,12 @@ public class ItemManager{
         else items.remove(id);
     }
 
-    /**public void printDistances() {
-        for(int i = 0; i < items.size(); ++i) {
-            int id1 = IdItems.get(i);
-            for (int j = i + 1; j < items.size(); ++j) {
-                int id2 = IdItems.get(j);
-                double dist = mapDistances.get(id1).get(id2);
-                System.out.println("La distancia entre los items con id " + id1 + " y " + id2 + " es : " + dist);
-            }
-        }
-    }*/
 
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
-    public Map<Integer, Double> retornaItemsSemblants(int item_id , int k) { //
-//        System.out.println("Items semblants a "+ item_id);
-        Map<Integer,Double> distances = mapDistances.get(item_id);
+    public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
+//        System.out.println("Items semblants a "+ itemId);
+        Map<Integer,Double> distances = mapDistances.get(itemId);
         int k2 = Math.min(distances.size(),k); //parametre k
         LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
         distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
@@ -56,60 +46,60 @@ public class ItemManager{
                 });
 
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
-        Map<Integer, Double> k_it = new HashMap<>();
+        Map<Integer, Double> kIt = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
             if (k2 > 0) {
-                k_it.put(e.getKey(), e.getValue());
+                kIt.put(e.getKey(), e.getValue());
 
                 --k2;
             }
             else break;
         }
-        LinkedHashMap<Integer, Double> k_or = new LinkedHashMap<>();
-        k_it.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+        LinkedHashMap<Integer, Double> kOr = new LinkedHashMap<>();
+        kIt.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .forEachOrdered(x -> {
-                    k_or.put(x.getKey(), x.getValue());
+                    kOr.put(x.getKey(), x.getValue());
                 });
 ;
-        return k_or;
+        return kOr;
     }
 
-    private void createColumns(List<String> List_items) {
-        int column_id = getColId(List_items.get(0));
-//        System.out.println("Columna del ID: "+ column_id);
-        for (int i = 1; i < List_items.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
+    private void createColumns(List<String> listItems) {
+        int columnId = getColId(listItems.get(0));
+//        System.out.println("Columna del ID: "+ columnId);
+        for (int i = 1; i < listItems.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
             String id;
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
 
             //System.out.println();
-            //System.out.println(List_items.get(i));// cada fila de cada item
+            //System.out.println(listItems.get(i));// cada fila de cada item
 
-//            System.out.println(List_items.get(i).length()); // longitud de la fila
+//            System.out.println(listItems.get(i).length()); // longitud de la fila
 
-            int elem_act = 1;
+            int elemAct = 1;
             String aux = "";
-//            List_items.get(i).charAt(j) != ','
+//            listItems.get(i).charAt(j) != ','
             int j = 0;
-            while (j < List_items.get(i).length()) {
-                if (elem_act == column_id) { // si l'element actual es id, esteima a la columna del ID
+            while (j < listItems.get(i).length()) {
+                if (elemAct == columnId) { // si l'element actual es id, esteima a la columna del ID
                     aux = "";
-                    while (List_items.get(i).charAt(j) != ',') { // aixo es el id del item
-                        aux += List_items.get(i).charAt(j);
+                    while (listItems.get(i).charAt(j) != ',') { // aixo es el id del item
+                        aux += listItems.get(i).charAt(j);
                         ++j;
                     }
                     //System.out.println("IDITEM: " + aux);
                     idInt = Integer.parseInt(aux);
                     IdItems.add(idInt);
                     aux = "";
-                    ++elem_act;
+                    ++elemAct;
                     ++j;
                 } else {// ELEMENT ACTUAL NO ES EL ITEM ID
-                    if (List_items.get(i).charAt(j) == '"') {
+                    if (listItems.get(i).charAt(j) == '"') {
                         ++j;
                         aux = "";
-                        while (!(List_items.get(i).charAt(j) == '"' && List_items.get(i).charAt(j + 1) == ',' && List_items.get(i).charAt(j + 2) != ' ')) {
-                            aux += List_items.get(i).charAt(j);
+                        while (!(listItems.get(i).charAt(j) == '"' && listItems.get(i).charAt(j + 1) == ',' && listItems.get(i).charAt(j + 2) != ' ')) {
+                            aux += listItems.get(i).charAt(j);
                             ++j;
                         }
                         //System.out.println("DESCRIPCIO: " + aux);
@@ -120,7 +110,7 @@ public class ItemManager{
                         aux = "";
                     }
 
-                    else if (List_items.get(i).charAt(j) == ',' || j == List_items.get(i).length() - 1) {
+                    else if (listItems.get(i).charAt(j) == ',' || j == listItems.get(i).length() - 1) {
                         //System.out.println("NI PUTA IDEA: " + aux);
                         Column actItem = new Column();
                         if (isInt(aux)) {
@@ -136,11 +126,11 @@ public class ItemManager{
                         } else actItem.columnString(aux);
                         aux = "";
                         itmAux.add(actItem);
-                        ++elem_act;
+                        ++elemAct;
                         ++j;
                     }
                     else {
-                        aux += List_items.get(i).charAt(j);
+                        aux += listItems.get(i).charAt(j);
                         ++j;
                     }
 
@@ -200,8 +190,8 @@ public class ItemManager{
     }
 
     static double jaroWinkler(String s1, String s2){
-        double jaro_dist = jaroDistance(s1, s2);
-        if (jaro_dist > 0.7) {
+        double jaroDist = jaroDistance(s1, s2);
+        if (jaroDist > 0.7) {
             int prefix = 0;
             for (int i = 0; i < Math.min(s1.length(), s2.length()); i++) {
                 if (s1.charAt(i) == s2.charAt(i)) {
@@ -209,9 +199,9 @@ public class ItemManager{
                 } else break;
             }
             prefix = Math.min(4, prefix);
-            jaro_dist += 0.1 * prefix * (1 - jaro_dist);
+            jaroDist += 0.1 * prefix * (1 - jaroDist);
         }
-        return jaro_dist;
+        return jaroDist;
     }
 
     public void fillMapDistances(List<String> itemString) {
@@ -281,16 +271,16 @@ public class ItemManager{
     }
 
     int getColId(String fila){
-        int col_act=1;
+        int colAct=1;
         int j = 0;
         String aux = "";
         while(j < fila.length()){
             if(fila.charAt(j)==','){
-                if (aux.equals("id")) return col_act;
+                if (aux.equals("id")) return colAct;
                 else{
 //                    System.out.println("aux actual: " + aux);
                     aux = "";
-                    ++col_act;
+                    ++colAct;
                     ++j;
                 }
             }

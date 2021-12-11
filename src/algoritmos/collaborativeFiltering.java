@@ -34,22 +34,13 @@ public class collaborativeFiltering implements RecommendationSystem {
         avaluation = true;
     }
 
-    /**public void pinta_mat(){
-        for (Integer j : matriuDiferencia.keySet()) { // primer item
-            System.out.println("Dieferencies item: " + j +" resta de items:");
-            for (Integer i : matriuDiferencia.get(j).keySet()) { // segon item
-                System.out.println("Item2: " + i + " :" + matriuDiferencia.get(j).get(i));
-            }
-            System.out.println();
-            System.out.println();
-        }
-    }*/
+    
 
     public void construirMatriuDiferencies(List<Integer> items, List<String> users) {
         double dev;
         double suma=0;
         double avg;
-        double num_usrs=1;
+        double numUsrs=1;
         for(int i = 0; i < items.size(); ++i){
             Integer item1 = items.get(i);
             Map<Integer,Double> aux = new HashMap<>();
@@ -57,19 +48,19 @@ public class collaborativeFiltering implements RecommendationSystem {
                 if(i != j){
                     suma=0;
                     Integer item2 = items.get(j);
-                    List<String> aux2 = manager.getUsers_items(item1,item2);
+                    List<String> aux2 = manager.getUsersItems(item1,item2);
                     List<String> usrs = new LinkedList<>();
                     for(String e: aux2){
                         if(users.contains(e))usrs.add(e);
                     }
-                    num_usrs= usrs.size();
-                    if(num_usrs == 0){}
+                    numUsrs= usrs.size();
+                    if(numUsrs == 0){}
                     else{
                         for(String usr : usrs){
                             Double rai1 = manager.getRaiting(usr, item1);
                             Double rai2 = manager.getRaiting(usr, item2);
                             dev= rai2 - rai1;
-                            dev /=num_usrs;
+                            dev /=numUsrs;
                             suma+=dev; // SUMA DE LES DESVIACIONS DELS USUARIS QUE HAN VALORAT ITEM1 I ITEM2
                         }
                     }
@@ -81,58 +72,58 @@ public class collaborativeFiltering implements RecommendationSystem {
     }
 
     public double getDistancia(Integer item1, Integer item2){
-        Map<Integer,Double> map_it1= matriuDiferencia.get(item1);
-        Map<Integer,Double> map_it2= matriuDiferencia.get(item2);
+        Map<Integer,Double> mapIt1= matriuDiferencia.get(item1);
+        Map<Integer,Double> mapIt2= matriuDiferencia.get(item2);
         Double diff= 0.0;
-        if(map_it1 != null && !map_it1.isEmpty() && map_it1.containsKey(item2)){
-            if(item1 < item2) diff= -map_it1.get(item2);
-            else diff = map_it1.get(item2);
+        if(mapIt1 != null && !mapIt1.isEmpty() && mapIt1.containsKey(item2)){
+            if(item1 < item2) diff= -mapIt1.get(item2);
+            else diff = mapIt1.get(item2);
         }
-        else if(map_it2 != null && !map_it2.isEmpty() && map_it2.containsKey(item1)){
-            if(item1 < item2) diff= -map_it2.get(item1);
-            else diff = map_it2.get(item1);
+        else if(mapIt2 != null && !mapIt2.isEmpty() && mapIt2.containsKey(item1)){
+            if(item1 < item2) diff= -mapIt2.get(item1);
+            else diff = mapIt2.get(item1);
         }
         return diff;
     }
 
-    public List<Integer> recommended(String user_id, List<Integer> Items, int k){
-        int i = findClusterUser(user_id);
+    public List<Integer> recommended(String userId, List<Integer> Items, int k){
+        int i = findClusterUser(userId);
 
-        Set<Integer> s = manager.itemsNoVal(user_id,getCluster(i));
-        List<Integer> items_val = manager.getVal(user_id, Items);
+        Set<Integer> s = manager.itemsNoVal(userId,getCluster(i));
+        List<Integer> itemsVal = manager.getVal(userId, Items);
 
-        Double mitj_us = manager.raiAve(user_id);
+        Double mitjUs = manager.raiAve(userId);
         Map<Integer,Double> m = new HashMap<>();
-        for(Integer item_id : s){
+        for(Integer itemId : s){
             Double differenciaMitjanaVal = 0.0 , sumaRatingsUser = 0.0, prediccio = 0.0;
-            List<Integer> items_bons = new LinkedList<>();
-            for(Integer item : items_val){
-                if(manager.getUsers_items(item, item_id).size()>0 && item != item_id)  items_bons.add(item);
+            List<Integer> itemsBons = new LinkedList<>();
+            for(Integer item : itemsVal){
+                if(manager.getUsersItems(item, itemId).size()>0 && item != itemId)  itemsBons.add(item);
             }
-            for(Integer item1: items_bons) {
-//            System.out.println(getDistancia(item1, item_id));
-//            System.out.println(getDistancia(item_id, item1));
-                differenciaMitjanaVal += getDistancia(item_id, item1);
+            for(Integer item1: itemsBons) {
+//            System.out.println(getDistancia(item1, itemId));
+//            System.out.println(getDistancia(itemId, item1));
+                differenciaMitjanaVal += getDistancia(itemId, item1);
             }
-            if(items_bons.size()!=0) differenciaMitjanaVal /= items_bons.size();
-            m.put(item_id,mitj_us + differenciaMitjanaVal);
+            if(itemsBons.size()!=0) differenciaMitjanaVal /= itemsBons.size();
+            m.put(itemId,mitjUs + differenciaMitjanaVal);
         }
-        LinkedHashMap<Integer, Double> new_m = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Double> newM = new LinkedHashMap<>();
         m.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> {
-                    new_m.put(x.getKey(), x.getValue());
+                    newM.put(x.getKey(), x.getValue());
                 });
 
         List<Integer> finalRecommendation = new LinkedList<>();
         if(avaluation){
-            for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
+            for(Map.Entry<Integer, Double> entry : newM.entrySet()){
                 finalRecommendation.add(entry.getKey());
             }
             avaluation = false;
         }
         else {
             int cont = 0;
-            for(Map.Entry<Integer, Double> entry : new_m.entrySet()){
+            for(Map.Entry<Integer, Double> entry : newM.entrySet()){
                 if(cont < k) finalRecommendation.add(entry.getKey());
                 ++cont;
             }

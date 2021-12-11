@@ -11,18 +11,18 @@ public class ReviewList {
         RevList = new HashMap<Integer, Review>();
     }
 
-    public void addReview(int idItem, Review r){
-        if (itemAlreadyInList(idItem)) System.out.println("The item with id: " +idItem+" already has been valued by the user");
+    public void addReview(int itemId, Review r){
+        if (itemAlreadyInList(itemId)) System.out.println("The item with id: " +itemId+" already has been valued by the user");
         else {
-            RevList.put(idItem, r);
+            RevList.put(itemId, r);
         }
     }
-    public Review getReview(int item_id){
-        return RevList.get(item_id);
+    public Review getReview(int itemId){
+        return RevList.get(itemId);
     }
 
-    public boolean itemAlreadyInList(int idItem) {
-        return RevList.containsKey(idItem);
+    public boolean itemAlreadyInList(int itemId) {
+        return RevList.containsKey(itemId);
     }
 
     public int size(){
@@ -38,11 +38,10 @@ public class ReviewList {
         return points;
     }
 
-    public Map<Integer, Double> getReviewsU(int k) { //clau:id_item, valor:rating de l'usuari a l'ítem
+    public Map<Integer, Double> getReviewsU(int k) { //clau:idItem, valor:rating de l'usuari a l'ítem
         Map<Integer, Double> ratings = new HashMap<>();
         for (Map.Entry<Integer, Review> r : RevList.entrySet()) {
             ratings.put(r.getKey(),r.getValue().getPoints());
-            //System.out.println(r.getValue().getPoints());
         }
 
         LinkedHashMap<Integer, Double> ratingsOrdenats = new LinkedHashMap<>();
@@ -58,13 +57,11 @@ public class ReviewList {
             }
             else break;
         }
-//        System.out.println("Mapa ordenat descendentment: " + ratingsOrdenats);
-//        System.out.println("Mapa ordenat descendentment, nomes k items: " + aux);
         return aux;
     }
 
-    public boolean hasValuated(Integer item_id){
-        return RevList.containsKey(item_id);
+    public boolean hasValuated(Integer itemId){
+        return RevList.containsKey(itemId);
     }
 
 }
