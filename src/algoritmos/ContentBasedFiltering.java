@@ -6,7 +6,6 @@ import user.userManager;
 import java.util.*;
 
 public class ContentBasedFiltering implements RecommendationSystem {
-
     userManager users;
     ItemManager items;
 
