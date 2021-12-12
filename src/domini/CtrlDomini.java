@@ -8,45 +8,41 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Marta Granero I Martí
- */
-
 
 //Fa queries al CtrlDades i carrega les dades que es necessiten
 public class CtrlDomini {
-    private CtrlDades CDades;
-    private List<String> items;
-    private Map<Integer,Double> ratings;
-
+    private static CtrlDades CDades;
     private static CtrlDomini singletonO;
 
+    // complexitat O (1)
     public CtrlDomini() {
         inicialitzarCtrlDomini();
     }
 
     /* Inicialitzem el controlador del domini*/
+    // complexitat O (1)
     private void inicialitzarCtrlDomini() {
         CDades = CtrlDades.getInstance();
     }
 
+    // complexitat O (1)
     public static CtrlDomini getInstance(){
         if(singletonO == null) {
             singletonO = new CtrlDomini() {};
         } return singletonO;
     }
 
-    //Obtenir ratings known
+    // complexitat O ( rai.size * max(rai.get(i).size) )
     public void obtenirDades(userManager manager) throws FileNotFoundException {
         CDades.obtenirDades(manager);
     }
 
-    //Obtenir items
+    // complexitat O (items.csv.size -> mida fitxer)
     public List<String> getItems() throws IOException {
         return CDades.getItems();
     }
 
-    //Obtenir ratings unknown
+    // complexitat O ( rai.size * max(rai.get(i).size) )
     public Map<Integer,Double> getRatings(String userId) throws IOException {
         return CDades.getUnknown(userId);
     }

@@ -6,9 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * @author Marta Granero I Martí
- */
 
 /* Implementació de la classe que gestionarà les dades per la classe "Item" */
 public class CtrlItemsFitxer {
@@ -27,7 +24,6 @@ public class CtrlItemsFitxer {
             singletonO = new CtrlItemsFitxer() {};
         } return singletonO;
     }
-
 
     // complexitat O (1)
     public CtrlItemsFitxer() {}

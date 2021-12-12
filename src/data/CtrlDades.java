@@ -5,15 +5,10 @@ import user.userManager;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/**
- * @author Marta Granero I Martí
- */
 
 public class CtrlDades {
     private static CtrlItemsFitxer CIF;
     private static CtrlRatingsFitxer CRF;
-
-
     private static CtrlDades singletonO;
 
     // complexitat O (1)
@@ -30,17 +25,15 @@ public class CtrlDades {
 
     /* Inicialitzem controlador de dades */
     // complexitat O (1)
-    public void inicialitzarCtrlDades() {
+    private void inicialitzarCtrlDades() {
         CIF = CtrlItemsFitxer.getInstance();
         CRF = CtrlRatingsFitxer.getInstance();
-
     }
 
     // complexitat O (items.csv.size -> mida fitxer)
     public List<String> getItems() throws FileNotFoundException {
         return CIF.getAll("items.csv");
     }
-
 
     // complexitat O ( rai.size * max(rai.get(i).size) )
     public Map<Integer,Double> getUnknown(String userId) throws FileNotFoundException {
