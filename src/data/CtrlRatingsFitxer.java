@@ -15,13 +15,18 @@ public class CtrlRatingsFitxer {
 
     private static CtrlRatingsFitxer singletonO;
 
+    // complexitat O (1)
     public static CtrlRatingsFitxer getInstance() {
         if(singletonO == null) {
             singletonO = new CtrlRatingsFitxer() {};
         } return singletonO;
     }
+
+    // complexitat O (1)
     public CtrlRatingsFitxer() {}
 
+
+    // complexitat O (filename.size  -> tamany ficher)
     public List<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> ratings = new LinkedList<>();
         FileReader fr = new FileReader("DATA/"+filename);

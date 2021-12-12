@@ -13,10 +13,12 @@ public class ItemManager{
         IdItems = new ArrayList<>();
     }
 
+    //commplexitat O (items.size)
     public boolean existItem(int id){
         return items.containsKey(id);
     }
 
+    //commplexitat O (items.size)
     public void createItem(int id, ArrayList<Column> attributes){
         if(existItem(id)) System.out.println("The item with id: " +id+" already exists");
         else {
@@ -24,9 +26,13 @@ public class ItemManager{
             items.put(id, item);
         }
     }
+
+    //commplexitat O (IdItems.size)
     public ArrayList<Integer> getItems(){
         return IdItems;
     }
+
+    //commplexitat O (items.size)
     public void deleteItem(int id) {
         if(!existItem(id)) System.out.println("The item with id: " +id+" does not exist");
         else items.remove(id);
@@ -35,6 +41,9 @@ public class ItemManager{
 
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
+
+
+    //complexiatat O (items.size)
     public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
 //        System.out.println("Items semblants a "+ itemId);
         Map<Integer,Double> distances = mapDistances.get(itemId);
@@ -64,73 +73,78 @@ public class ItemManager{
         return kOr;
     }
 
-    private void createColumns(List<String> listItems) {
-        int columnId = getColId(listItems.get(0));
-//        System.out.println("Columna del ID: "+ columnId);
-        for (int i = 1; i < listItems.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
+
+    //complexitat O (listItems.size)
+    private void createColumns(List<String> List_items) {
+        int column_id = getColId(List_items.get(0));
+//        System.out.println("Columna del ID: "+ column_id);
+        for (int i = 1; i < List_items.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
             String id;
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
 
             //System.out.println();
-            //System.out.println(listItems.get(i));// cada fila de cada item
+            //System.out.println(List_items.get(i));// cada fila de cada item
 
-//            System.out.println(listItems.get(i).length()); // longitud de la fila
+//            System.out.println(List_items.get(i).length()); // longitud de la fila
 
-            int elemAct = 1;
+            int elem_act = 1;
             String aux = "";
-//            listItems.get(i).charAt(j) != ','
+//            List_items.get(i).charAt(j) != ','
             int j = 0;
-            while (j < listItems.get(i).length()) {
-                if (elemAct == columnId) { // si l'element actual es id, esteima a la columna del ID
+            while (j < List_items.get(i).length()) {
+                if (elem_act == column_id) { // si l'element actual es id, esteima a la columna del ID
                     aux = "";
-                    while (listItems.get(i).charAt(j) != ',') { // aixo es el id del item
-                        aux += listItems.get(i).charAt(j);
+                    while (List_items.get(i).charAt(j) != ',') { // aixo es el id del item
+                        aux += List_items.get(i).charAt(j);
                         ++j;
                     }
                     //System.out.println("IDITEM: " + aux);
                     idInt = Integer.parseInt(aux);
                     IdItems.add(idInt);
                     aux = "";
-                    ++elemAct;
+                    ++elem_act;
                     ++j;
                 } else {// ELEMENT ACTUAL NO ES EL ITEM ID
-                    if (listItems.get(i).charAt(j) == '"') {
+                    if (List_items.get(i).charAt(j) == '"') {
                         ++j;
                         aux = "";
-                        while (!(listItems.get(i).charAt(j) == '"' && listItems.get(i).charAt(j + 1) == ',' && listItems.get(i).charAt(j + 2) != ' ')) {
-                            aux += listItems.get(i).charAt(j);
+                        while (!(List_items.get(i).charAt(j) == '"' && List_items.get(i).charAt(j + 1) == ',' && List_items.get(i).charAt(j + 2) != ' ')) {
+                            aux += List_items.get(i).charAt(j);
                             ++j;
                         }
                         //System.out.println("DESCRIPCIO: " + aux);
                         j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                        Column actItem = new Column();
-                        actItem.columnString(aux);
+                        Column.ColumnString actItem = new Column.ColumnString(aux);
                         itmAux.add(actItem);
                         aux = "";
                     }
 
-                    else if (listItems.get(i).charAt(j) == ',' || j == listItems.get(i).length() - 1) {
+                    else if (List_items.get(i).charAt(j) == ',' || j == List_items.get(i).length() - 1) {
                         //System.out.println("NI PUTA IDEA: " + aux);
-                        Column actItem = new Column();
+
                         if (isInt(aux)) {
-                            actItem.columnInteger(Integer.parseInt(aux));
+                            Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Integer.parseInt(aux));
                         } else if (isB(aux)) {
-                            boolean val = Boolean.parseBoolean(aux);
-                            actItem.columnBool(val);
+                            Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Boolean.parseBoolean(aux));
                         } else if (isDbl(aux)) {
-                            actItem.columnDouble(Double.parseDouble(aux));
+                            Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+                            itmAux.add(actItem);
                             //System.out.println(Double.parseDouble(aux));
-                        } else actItem.columnString(aux);
+                        } else{
+                            Column.ColumnString actItem = new Column.ColumnString(aux);
+                            itmAux.add(actItem);
+                        }
                         aux = "";
-                        itmAux.add(actItem);
-                        ++elemAct;
+                        ++elem_act;
                         ++j;
                     }
                     else {
-                        aux += listItems.get(i).charAt(j);
+                        aux += List_items.get(i).charAt(j);
                         ++j;
                     }
 
@@ -140,7 +154,10 @@ public class ItemManager{
             createItem(idInt, itmAux);
         }
     }
+
     //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
+
+    //commplexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
     static double jaroDistance(String s1, String s2) {
         //Strings iguals
         if (s1 == s2) {
@@ -189,6 +206,8 @@ public class ItemManager{
         return (((double)match)/((double)n) + ((double)match)/((double)m) + ((double)match - t)/((double)match))/ 3.0;
     }
 
+
+    //commplexitat O (s1.size * s2.size)  O (s1.size + s2.size) espacial
     static double jaroWinkler(String s1, String s2){
         double jaroDist = jaroDistance(s1, s2);
         if (jaroDist > 0.7) {
@@ -204,6 +223,7 @@ public class ItemManager{
         return jaroDist;
     }
 
+    //commplexitat O (items.size² *  max(getSizeAttributes()))
     public void fillMapDistances(List<String> itemString) {
         createColumns(itemString);
         Collections.sort(IdItems);
@@ -216,23 +236,44 @@ public class ItemManager{
                     double dist = 0;
                     int id2 = IdItems.get(j);
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
-                        if (items.get(id1).getColumn(k).isBoolean()) {
-                            boolean b1 = items.get(id1).getColumn(k).valueBoolean();
-                            boolean b2 = items.get(id2).getColumn(k).valueBoolean();
+                        if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
+
+                            Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
+                            Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
+
+                            boolean b1 = colb1.getValue();
+                            boolean b2 = colb2.getValue();
+
                             if (b1 != b2) ++dist;
-                        } else if (items.get(id1).getColumn(k).isInteger()) {
-                            int i1 = items.get(id1).getColumn(k).valueInteger();
-                            int i2 = items.get(id2).getColumn(k).valueInteger();
+
+                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
+
+                            Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
+                            Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
+
+                            int i1 = coli1.getValue();
+                            int i2 = coli2.getValue();
+
                             if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2));
                             else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
-                        } else if (items.get(id1).getColumn(k).isDouble()) {
-                            double d1 = items.get(id1).getColumn(k).valueDouble();
-                            double d2 = items.get(id2).getColumn(k).valueDouble();
+
+                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
+
+                            Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
+                            Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
+
+                            double d1 = cold1.getValue();
+                            double d2 = cold2.getValue();
+
                             if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2));
                             else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1));
                         } else {
-                            String s1 = items.get(id1).getColumn(k).valueString();
-                            String s2 = items.get(id2).getColumn(k).valueString();
+
+                            Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
+                            Column.ColumnString cols2 = (Column.ColumnString) items.get(id2).getColumn(k);
+
+                            String s1 = cols1.getValue();
+                            String s2 = cols2.getValue();
                             dist += (1 - jaroWinkler(s1, s2));
                             //if (!s1.equals(s2)) ++dist;
                         }
@@ -244,6 +285,8 @@ public class ItemManager{
         }
     }
 
+
+    //commplexitat O (1)
     private boolean isInt(String input) {
         try{
             int inputDbl = Integer.parseInt(input);
@@ -255,6 +298,8 @@ public class ItemManager{
         }
     }
 
+
+    //commplexitat O (1)
     private boolean isDbl(String input) {
         try{
             double inputDbl = Double.parseDouble(input);
@@ -266,10 +311,13 @@ public class ItemManager{
         }
     }
 
+    //commplexitat O (1)
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
 
+
+    //commplexitat O (fila.size)
     int getColId(String fila){
         int colAct=1;
         int j = 0;

@@ -2,70 +2,59 @@ package item;
 
 public class Column {
 
-    boolean valueB;
-    int valueInt;
-    double valueD;
-    String valueS;
+    public static class ColumnString extends Column{
+        String valueS;
 
-    private boolean bBoolean = false;
-    private boolean bInteger = false;
-    private boolean bDouble = false;
-    private boolean bString = false;
+        //Complexitat O (1)
+        public ColumnString(String s){
+            valueS = s;
+        }
 
-    public Column(){}
-
-    public void columnBool(boolean b){
-        this.valueB = b;
-        this.bBoolean = true;
+        //Complexitat O (1)
+        public String getValue(){
+            return valueS;
+        }
     }
 
-    public void columnInteger(int i){
-        this.valueInt = i;
-        this.bInteger = true;
+    public static class ColumnInteger extends Column{
+        int valueInt;
+
+        //Complexitat O (1)
+        public ColumnInteger(int i){
+            valueInt = i;
+        }
+
+        //Complexitat O (1)
+        public Integer getValue(){
+            return valueInt;
+        }
     }
 
-    public void columnDouble(double d){
-        this.valueD = d;
-        this.bDouble = true;
+    public static class ColumnDouble extends Column{
+        double valueD;
+
+        //Complexitat O (1)
+        public ColumnDouble(double d){
+            valueD = d;
+        }
+
+        //Complexitat O (1)
+        public Double getValue(){
+            return valueD;
+        }
     }
 
-    public void columnString (String s) {
-        this.valueS = s;
-        this.bString = true;
+    public static class ColumnBool extends Column{
+        boolean valueB;
 
-    }
+        //Complexitat O (1)
+        public ColumnBool(boolean b){
+            valueB = b;
+        }
 
-    //Getters
-
-    public boolean isBoolean(){
-        return bBoolean;
-    }
-    public boolean isInteger(){
-        return bInteger;
-    }
-
-    public boolean isDouble(){
-        return bDouble;
-    }
-
-    public boolean isString(){
-        return bString;
-    }
-
-
-    public boolean valueBoolean(){
-        return valueB;
-    }
-
-    public Integer valueInteger(){
-        return valueInt;
-    }
-
-    public Double valueDouble(){
-        return valueD;
-    }
-
-    public String valueString() {
-        return valueS;
+        //Complexitat O (1)
+        public Boolean getValue(){
+            return valueB;
+        }
     }
 }

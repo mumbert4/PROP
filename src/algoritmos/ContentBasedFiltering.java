@@ -10,11 +10,13 @@ public class ContentBasedFiltering implements RecommendationSystem {
     userManager users;
     ItemManager items;
 
+    // complexitat O ( 1 )
     public ContentBasedFiltering(userManager usrs, ItemManager its){
         users = usrs;
         items = its;
     }
 
+    // complexitat O ( num_reviewws_user * items.size )
     public List<Integer> calculate(String userId, int k, List<Integer> Items){
         Map<Integer,Double> itemsUs = users.getUser(userId).getReviewsUsers(k); // aqui tenim els k items que li han agradat mes
         //Per cada item que li ha agardat, obtenim els k items mes semblants a n'aquest, i els ficam en un map sencer.

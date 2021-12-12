@@ -11,25 +11,25 @@ public class ReviewList {
         RevList = new HashMap<Integer, Review>();
     }
 
-    public void addReview(int itemId, Review r){
+    public void addReview(int itemId, Review r){ // = O( RevList.size() )
         if (itemAlreadyInList(itemId)) System.out.println("The item with id: " +itemId+" already has been valued by the user");
         else {
             RevList.put(itemId, r);
         }
     }
-    public Review getReview(int itemId){
+    public Review getReview(int itemId){// COMPLEXITAT -> O(1)
         return RevList.get(itemId);
     }
 
-    public boolean itemAlreadyInList(int itemId) {
+    public boolean itemAlreadyInList(int itemId) { // = O( RevList.size() )
         return RevList.containsKey(itemId);
     }
 
-    public int size(){
+    public int size(){ // = O( 1 )
         return RevList.size();
     }
 
-    public double getRaitings(){
+    public double getRaitings(){ // O( RevList.size )
         double points =0;
         for(Review r : RevList.values()){
             points += r.getPoints();
@@ -38,7 +38,7 @@ public class ReviewList {
         return points;
     }
 
-    public Map<Integer, Double> getReviewsU(int k) { //clau:idItem, valor:rating de l'usuari a l'ítem
+    public Map<Integer, Double> getReviewsU(int k) { // O( RevList.size )             clau:idItem, valor:rating de l'usuari a l'ítem
         Map<Integer, Double> ratings = new HashMap<>();
         for (Map.Entry<Integer, Review> r : RevList.entrySet()) {
             ratings.put(r.getKey(),r.getValue().getPoints());
@@ -60,7 +60,7 @@ public class ReviewList {
         return aux;
     }
 
-    public boolean hasValuated(Integer itemId){
+    public boolean hasValuated(Integer itemId){ // = O( RevList.size() )
         return RevList.containsKey(itemId);
     }
 
