@@ -29,7 +29,6 @@ public class CtrlDades {
     }
 
     /* Inicialitzem controlador de dades */
-
     // complexitat O (1)
     public void inicialitzarCtrlDades() {
         CIF = CtrlItemsFitxer.getInstance();
@@ -37,7 +36,7 @@ public class CtrlDades {
 
     }
 
-    // complexitat O (items.csv.size -> tamany ficher)
+    // complexitat O (items.csv.size -> mida fitxer)
     public List<String> getItems() throws FileNotFoundException {
         return CIF.getAll("items.csv");
     }

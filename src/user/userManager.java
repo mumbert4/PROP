@@ -11,10 +11,12 @@ public class userManager {
     ItemManager items;
     private static userManager manager;
 
+    //
     private userManager() {
         users = new HashMap<String, activeUser>();
     }
 
+    //
     public static userManager getInstance() {
         if (manager == null) manager = new userManager();
         return manager;
@@ -103,7 +105,7 @@ public class userManager {
 
 
 
-    //complexitat O (users.size * max(num_reviews_user))
+    //complexitat O ( users.size * max(num_reviews_user) )
     public List<String> getUsersItems(Integer item1, Integer item2) {
         List<String> usrs = new LinkedList<>();
         for (Map.Entry<String, activeUser> en : users.entrySet()) {

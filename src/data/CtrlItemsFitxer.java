@@ -17,7 +17,7 @@ public class CtrlItemsFitxer {
     té estat(atributs dinàmics).
 
     Declarem la constrtuctora com a privada i afegim una operació estàtica que retorni sempre
-    la mateixa instància. Per accedir a aquesta instància ho farem amb la crida CtrlItemFitxer.getInstance()
+    la mateixa instància. Per accedir a aquesta instància ho farem amb la crida CtrlItemsFitxer.getInstance()
     */
     private static CtrlItemsFitxer singletonO;
 
@@ -32,7 +32,7 @@ public class CtrlItemsFitxer {
     // complexitat O (1)
     public CtrlItemsFitxer() {}
 
-    // complexitat O (filename.size  -> tamany ficher)
+    // complexitat O (filename.size -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> items = new LinkedList<String>();
         FileReader fr = new FileReader("DATA/"+filename);

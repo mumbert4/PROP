@@ -10,25 +10,30 @@ public class activeUser {
     private String password;
     private ReviewList reviews;
 
-    public activeUser(String name, String passwd){//complexitat O (1)
+    //complexitat O (1)
+    public activeUser(String name, String passwd){
         userName = name;
         password = passwd;
         reviews = new ReviewList();
     }
 
-    public void updateName(String newName){//complexitat O (1)
+    //complexitat O (1)
+    public void updateName(String newName){
         userName = newName;
     }
 
-    public void updatePasswd(String newPasswd){//complexitat O (1)
+    //complexitat O (1)
+    public void updatePasswd(String newPasswd){
         password = newPasswd;
     }
 
-    public String getName(){//complexitat O (1)
+    //complexitat O (1)
+    public String getName(){
         return userName;
     }
 
-    public String getPassword(){//complexitat O (1)
+    //complexitat O (1)
+    public String getPassword(){
         return password;
     }
 

@@ -5,31 +5,37 @@ import java.util.*;
 
 public class ReviewList {
 
-    private Map<Integer, Review> RevList; //Complexitat espacial: #reviews
+    private Map<Integer, Review> RevList;
 
+    //complexitat O( 1 )
     public ReviewList(){
         RevList = new HashMap<Integer, Review>();
     }
 
-    public void addReview(int itemId, Review r){ // = O( RevList.size() )
+    // = O( RevList.size() )
+    public void addReview(int itemId, Review r){
         if (itemAlreadyInList(itemId)) System.out.println("The item with id: " +itemId+" already has been valued by the user");
         else {
             RevList.put(itemId, r);
         }
     }
-    public Review getReview(int itemId){// COMPLEXITAT -> O(1)
+    //complexitat O( 1 )
+    public Review getReview(int itemId){
         return RevList.get(itemId);
     }
 
-    public boolean itemAlreadyInList(int itemId) { // = O( RevList.size() )
+    //complexitat O( RevList.size() )
+    public boolean itemAlreadyInList(int itemId) {
         return RevList.containsKey(itemId);
     }
 
-    public int size(){ // = O( 1 )
+    //complexitat O( 1 )
+    public int size(){
         return RevList.size();
     }
 
-    public double getRaitings(){ // O( RevList.size )
+    //complexitat O( RevList.size() )
+    public double getRaitings(){
         double points =0;
         for(Review r : RevList.values()){
             points += r.getPoints();
@@ -38,16 +44,17 @@ public class ReviewList {
         return points;
     }
 
-    public Map<Integer, Double> getReviewsU(int k) { // O( RevList.size )             clau:idItem, valor:rating de l'usuari a l'ítem
+    //complexitat O( RevList.size() )
+    public Map<Integer, Double> getReviewsU(int k) {//clau:idItem, valor:rating de l'usuari a l'ítem
         Map<Integer, Double> ratings = new HashMap<>();
         for (Map.Entry<Integer, Review> r : RevList.entrySet()) {
-            ratings.put(r.getKey(),r.getValue().getPoints()); //Complexitat espacial: O(#reviews)
+            ratings.put(r.getKey(),r.getValue().getPoints());
         }
 
         LinkedHashMap<Integer, Double> ratingsOrdenats = new LinkedHashMap<>();
         ratings.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .forEachOrdered(x -> {
-                    ratingsOrdenats.put(x.getKey(), x.getValue()); //Complexitat espacial: O(#reviews)
+                    ratingsOrdenats.put(x.getKey(), x.getValue());
                 });
         Map<Integer,Double> aux= new HashMap<>();
         for(Map.Entry<Integer,Double> m : ratingsOrdenats.entrySet()){
@@ -60,7 +67,8 @@ public class ReviewList {
         return aux;
     }
 
-    public boolean hasValuated(Integer itemId){ // = O( RevList.size() )
+    //complexitat O( RevList.size() )
+    public boolean hasValuated(Integer itemId){
         return RevList.containsKey(itemId);
     }
 }

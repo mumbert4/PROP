@@ -26,7 +26,7 @@ public class CtrlRatingsFitxer {
     public CtrlRatingsFitxer() {}
 
 
-    // complexitat O (filename.size  -> tamany ficher)
+    // complexitat O (filename.size  -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> ratings = new LinkedList<>();
         FileReader fr = new FileReader("DATA/"+filename);

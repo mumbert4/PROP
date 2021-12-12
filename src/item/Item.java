@@ -6,7 +6,6 @@ public class Item {
     private int id;
     private ArrayList<Column> attributes;
 
-
     //complexitat O ( 1 )
     public Item() {}
 

@@ -41,8 +41,6 @@ public class ItemManager{
 
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
-
-
     //complexiatat O (items.size)
     public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
 //        System.out.println("Items semblants a "+ itemId);
@@ -315,7 +313,6 @@ public class ItemManager{
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
-
 
     //commplexitat O (fila.size)
     int getColId(String fila){
