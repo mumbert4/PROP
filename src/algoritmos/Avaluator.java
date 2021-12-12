@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Avaluator {
+
+    //complexitat O (1)
     public Avaluator(){}
 
+    //complexitat (l.size * m.size)
     public double DCG(List<Integer> l, Map<Integer,Double> m){
         double dcg = 0;
         for( int i = 0 ; i < l.size(); ++i){
@@ -18,6 +21,7 @@ public class Avaluator {
         return dcg;
     }
 
+    //complexitat (col.size * unknown.size + cb.size * unknown.size)
     public void evaluate(List<Integer> col, List<Integer> cb, Map<Integer,Double> unknown){
         System.out.println ("Collaborative: "+ DCG(col,unknown));
         System.out.println ("Content Based: "+ DCG(cb,unknown));

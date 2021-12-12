@@ -21,14 +21,18 @@ public class CtrlItemsFitxer {
     */
     private static CtrlItemsFitxer singletonO;
 
+    // complexitat O (1)
     public static CtrlItemsFitxer getInstance() {
         if(singletonO == null) {
             singletonO = new CtrlItemsFitxer() {};
         } return singletonO;
     }
 
+
+    // complexitat O (1)
     public CtrlItemsFitxer() {}
 
+    // complexitat O (filename.size  -> tamany ficher)
     public List<String> getAll(String filename) throws FileNotFoundException {
         LinkedList<String> items = new LinkedList<String>();
         FileReader fr = new FileReader("DATA/"+filename);

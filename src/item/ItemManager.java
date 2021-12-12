@@ -3,12 +3,9 @@ package item;
 import java.util.*;
 
 public class ItemManager{
-
     Map<Integer, Item> items;
-    //Map<Integer, ArrayList<Column>> MatItemsType;
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
-
 
     public ItemManager(){
         items = new HashMap<>();
@@ -16,10 +13,12 @@ public class ItemManager{
         IdItems = new ArrayList<>();
     }
 
+    //commplexitat O (items.size)
     public boolean existItem(int id){
         return items.containsKey(id);
     }
 
+    //commplexitat O (items.size)
     public void createItem(int id, ArrayList<Column> attributes){
         if(existItem(id)) System.out.println("The item with id: " +id+" already exists");
         else {
@@ -27,57 +26,55 @@ public class ItemManager{
             items.put(id, item);
         }
     }
+
+    //commplexitat O (IdItems.size)
     public ArrayList<Integer> getItems(){
         return IdItems;
     }
+
+    //commplexitat O (items.size)
     public void deleteItem(int id) {
         if(!existItem(id)) System.out.println("The item with id: " +id+" does not exist");
         else items.remove(id);
     }
 
-    public void printDistances() {
-        for(int i = 0; i < items.size(); ++i) {
-            int id1 = IdItems.get(i);
-            for (int j = i + 1; j < items.size(); ++j) {
-                int id2 = IdItems.get(j);
-                double dist = mapDistances.get(id1).get(id2);
-                System.out.println("La distancia entre los items con id " + id1 + " y " + id2 + " es : " + dist);
-            }
-        }
-    }
 
-    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,3) items pareguts
+    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
-    public Map<Integer, Double> retornaItemsSemblants(int item_id , int k) { //
-//        System.out.println("Items semblants a "+ item_id);
-        Map<Integer,Double> distances = mapDistances.get(item_id);
+
+
+    //complexiatat O (items.size)
+    public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
+//        System.out.println("Items semblants a "+ itemId);
+        Map<Integer,Double> distances = mapDistances.get(itemId);
         int k2 = Math.min(distances.size(),k); //parametre k
         LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
         distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .forEachOrdered(x -> {
                     dists.put(x.getKey(), x.getValue());
                 });
-//        System.out.println("Distancies suposadament ordenades de l'item "+ item_id+" :" + dists);
+
         Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
-        Map<Integer, Double> k_it = new HashMap<>();
+        Map<Integer, Double> kIt = new HashMap<>();
         for (Map.Entry<Integer,Double> e : dists.entrySet()) {
             if (k2 > 0) {
-                k_it.put(e.getKey(), e.getValue());
-//                System.out.println(e.getKey() + " " + e.getValue());
+                kIt.put(e.getKey(), e.getValue());
+
                 --k2;
             }
             else break;
         }
-        LinkedHashMap<Integer, Double> k_or = new LinkedHashMap<>();
-        k_it.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
+        LinkedHashMap<Integer, Double> kOr = new LinkedHashMap<>();
+        kIt.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
                 .forEachOrdered(x -> {
-                    k_or.put(x.getKey(), x.getValue());
+                    kOr.put(x.getKey(), x.getValue());
                 });
-//        System.out.println("K it abans de return " + k_it);
-//        System.out.println("K or abans de return " + k_or);
-        return k_or;
+;
+        return kOr;
     }
 
+
+    //complexitat O (listItems.size)
     private void createColumns(List<String> List_items) {
         int column_id = getColId(List_items.get(0));
 //        System.out.println("Columna del ID: "+ column_id);
@@ -157,7 +154,10 @@ public class ItemManager{
             createItem(idInt, itmAux);
         }
     }
+
     //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
+
+    //commplexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
     static double jaroDistance(String s1, String s2) {
         //Strings iguals
         if (s1 == s2) {
@@ -196,6 +196,7 @@ public class ItemManager{
                 while (hashS2[point] == 0) {
                     point++;
                 }
+
                 if (s1.charAt(i) != s2.charAt(point++)) {
                     t++;
                 }
@@ -205,9 +206,11 @@ public class ItemManager{
         return (((double)match)/((double)n) + ((double)match)/((double)m) + ((double)match - t)/((double)match))/ 3.0;
     }
 
+
+    //commplexitat O (s1.size * s2.size)  O (s1.size + s2.size) espacial
     static double jaroWinkler(String s1, String s2){
-        double jaro_dist = jaroDistance(s1, s2);
-        if (jaro_dist > 0.7) {
+        double jaroDist = jaroDistance(s1, s2);
+        if (jaroDist > 0.7) {
             int prefix = 0;
             for (int i = 0; i < Math.min(s1.length(), s2.length()); i++) {
                 if (s1.charAt(i) == s2.charAt(i)) {
@@ -215,11 +218,12 @@ public class ItemManager{
                 } else break;
             }
             prefix = Math.min(4, prefix);
-            jaro_dist += 0.1 * prefix * (1 - jaro_dist);
+            jaroDist += 0.1 * prefix * (1 - jaroDist);
         }
-        return jaro_dist;
+        return jaroDist;
     }
 
+    //commplexitat O (items.size² *  max(getSizeAttributes()))
     public void fillMapDistances(List<String> itemString) {
         createColumns(itemString);
         Collections.sort(IdItems);
@@ -281,6 +285,8 @@ public class ItemManager{
         }
     }
 
+
+    //commplexitat O (1)
     private boolean isInt(String input) {
         try{
             int inputDbl = Integer.parseInt(input);
@@ -292,6 +298,8 @@ public class ItemManager{
         }
     }
 
+
+    //commplexitat O (1)
     private boolean isDbl(String input) {
         try{
             double inputDbl = Double.parseDouble(input);
@@ -303,23 +311,24 @@ public class ItemManager{
         }
     }
 
+    //commplexitat O (1)
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
 
+
+    //commplexitat O (fila.size)
     int getColId(String fila){
-        int col_act=1;
+        int colAct=1;
         int j = 0;
         String aux = "";
-
         while(j < fila.length()){
-
             if(fila.charAt(j)==','){
-                if (aux.equals("id")) return col_act;
+                if (aux.equals("id")) return colAct;
                 else{
 //                    System.out.println("aux actual: " + aux);
                     aux = "";
-                    ++col_act;
+                    ++colAct;
                     ++j;
                 }
             }
