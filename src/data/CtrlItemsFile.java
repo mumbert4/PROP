@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 
 /* Implementació de la classe que gestionarà les dades per la classe "Item" */
-public class CtrlItemsFitxer {
+public class CtrlItemsFile {
     /*
     Volem únicament una instància d'aquesta classe en el sistema, ja que la classe no
     té estat(atributs dinàmics).
@@ -16,17 +16,17 @@ public class CtrlItemsFitxer {
     Declarem la constrtuctora com a privada i afegim una operació estàtica que retorni sempre
     la mateixa instància. Per accedir a aquesta instància ho farem amb la crida CtrlItemsFitxer.getInstance()
     */
-    private static CtrlItemsFitxer singletonO;
+    private static CtrlItemsFile singletonO;
 
     // complexitat O (1)
-    public static CtrlItemsFitxer getInstance() {
+    public static CtrlItemsFile getInstance() {
         if(singletonO == null) {
-            singletonO = new CtrlItemsFitxer() {};
+            singletonO = new CtrlItemsFile() {};
         } return singletonO;
     }
 
     // complexitat O (1)
-    public CtrlItemsFitxer() {}
+    public CtrlItemsFile() {}
 
     // complexitat O (filename.size -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {

@@ -1,13 +1,13 @@
 package main;
 
-import algoritmos.Avaluator;
-import algoritmos.ContentBasedFiltering;
-import algoritmos.HybridApproach;
-import algoritmos.collaborativeFiltering;
-import domini.CtrlDomini;
+import algorithms.Avaluator;
+import algorithms.ContentBasedFiltering;
+import algorithms.HybridApproach;
+import algorithms.CollaborativeFiltering;
+import domain.CtrlDomain;
 import item.ItemManager;
-import presentacio.CtrlPresentacio;
-import user.userManager;
+import presentation.CtrlPresentation;
+import user.UserManager;
 
 import java.util.*;
 
@@ -17,17 +17,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
         System.out.println();
-        userManager manager = userManager.getInstance();
-        CtrlDomini CDomini = CtrlDomini.getInstance();
+        UserManager manager = UserManager.getInstance();
+        CtrlDomain CDomini = CtrlDomain.getInstance();
 
-        CtrlPresentacio CPresentacio = CtrlPresentacio.getInstance();
+        CtrlPresentation CPresentacio = CtrlPresentation.getInstance();
 
-        CDomini.obtenirDades(manager);
+        CDomini.obtainData(manager);
 
         System.out.println("User manager rellenat");
         ItemManager items = new ItemManager();
 
-        List<String> users = manager.getUsuaris();
+        List<String> users = manager.getUsers();
         List<Integer> usersInt = new LinkedList<>();
         for(String s : users) usersInt.add(Integer.parseInt(s));
         Collections.sort(users);
@@ -36,14 +36,14 @@ public class Main {
         items.fillMapDistances(CDomini.getItems());
         manager.setItemMan(items);
 
-        collaborativeFiltering col = new collaborativeFiltering(manager);
+        CollaborativeFiltering col = new CollaborativeFiltering(manager);
         ContentBasedFiltering cb = new ContentBasedFiltering(manager,items);
         HybridApproach hb = new HybridApproach(cb, col);
         Avaluator av = new Avaluator();
 
         col.kmeans(manager, items.getItems(),valorK);
         ArrayList<String> conjunt = col.getCluster(1);
-        col.construirMatriuDiferencies(items.getItems(), conjunt);
+        col.buildDifferencesMatrix(items.getItems(), conjunt);
         Scanner sc = new Scanner(System.in);
         System.out.println("1- Obtenir items recomanats a usuari (Content Based)");
         System.out.println("2- Obtenir items recomanats a usuari (Collaborative)");

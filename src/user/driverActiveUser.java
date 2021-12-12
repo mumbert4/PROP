@@ -6,7 +6,7 @@ import java.util.*;
 
 public class driverActiveUser {
     public static void main(String args[]){
-        activeUser usr = null;
+        ActiveUser usr = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t 1- createUser <String-user_name> <String-password>: crear un usuari nou");
@@ -29,7 +29,7 @@ public class driverActiveUser {
             if(action.equals("createUser")){
                 String user_name = sc.next();
                 String passwd = sc.next();
-                usr = new activeUser(user_name, passwd);
+                usr = new ActiveUser(user_name, passwd);
                 System.out.println("Usuari creat");
             }
             else if(action.equals("updateName")){

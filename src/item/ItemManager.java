@@ -38,12 +38,10 @@ public class ItemManager{
         else items.remove(id);
     }
 
-
     //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
     //Map<Integer ,Double>> mapDistances; id item1  dist
     //complexiatat O (items.size)
-    public Map<Integer, Double> retornaItemsSemblants(int itemId , int k) { //
-//        System.out.println("Items semblants a "+ itemId);
+    public Map<Integer, Double> returnSimilarItems(int itemId , int k) {
         Map<Integer,Double> distances = mapDistances.get(itemId);
         int k2 = Math.min(distances.size(),k); //parametre k
         LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
@@ -70,7 +68,6 @@ public class ItemManager{
 ;
         return kOr;
     }
-
 
     //complexitat O (listItems.size)
     private void createColumns(List<String> List_items) {
@@ -154,8 +151,7 @@ public class ItemManager{
     }
 
     //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
-
-    //commplexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
+    //complexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
     static double jaroDistance(String s1, String s2) {
         //Strings iguals
         if (s1 == s2) {
@@ -203,7 +199,6 @@ public class ItemManager{
         t /= 2;
         return (((double)match)/((double)n) + ((double)match)/((double)m) + ((double)match - t)/((double)match))/ 3.0;
     }
-
 
     //commplexitat O (s1.size * s2.size)  O (s1.size + s2.size) espacial
     static double jaroWinkler(String s1, String s2){
@@ -283,7 +278,6 @@ public class ItemManager{
         }
     }
 
-
     //commplexitat O (1)
     private boolean isInt(String input) {
         try{
@@ -295,7 +289,6 @@ public class ItemManager{
             return false;
         }
     }
-
 
     //commplexitat O (1)
     private boolean isDbl(String input) {

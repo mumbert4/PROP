@@ -1,14 +1,14 @@
-package algoritmos;
+package algorithms;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class HybridApproach implements RecommendationSystem  {
     ContentBasedFiltering contentBased;
-    collaborativeFiltering collaborative;
+    CollaborativeFiltering collaborative;
 
     //complexitat O ( 1 )
-    public HybridApproach( ContentBasedFiltering cb, collaborativeFiltering col){
+    public HybridApproach( ContentBasedFiltering cb, CollaborativeFiltering col){
         contentBased = cb;
         collaborative = col;
     }
@@ -25,7 +25,7 @@ public class HybridApproach implements RecommendationSystem  {
     }
     // complexitat O (items.size² * users.size * max(num_reviews_user)  +  CjtClusters.size * max(UsersCjt.size)) + (users.size * max(num_reviews_usuari²) )  +   (items.size * num_reviews_user)  +
     //    // s.size * (itemsVal.size * users.size * max(num_reviews_user) + itemsBons.size * (mapIt1.size + mapIt2.size))  +  (m.size)   ))
-    public List<Integer> calculate (String userId, int k, List<Integer> Items){
+    public List<Integer> calculate(String userId, int k, List<Integer> Items){
         List<Integer> itemsCol = collaborative.calculate(userId,k,Items);
         List<Integer> itemsCb= contentBased.calculate(userId,k,Items);
         return union(itemsCol, itemsCb);

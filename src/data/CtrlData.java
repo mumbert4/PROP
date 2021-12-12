@@ -1,33 +1,33 @@
 package data;
 
-import user.userManager;
+import user.UserManager;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
 
-public class CtrlDades {
-    private static CtrlItemsFitxer CIF;
-    private static CtrlRatingsFitxer CRF;
-    private static CtrlDades singletonO;
+public class CtrlData {
+    private static CtrlItemsFile CIF;
+    private static CtrlRatingsFile CRF;
+    private static CtrlData singletonO;
 
     // complexitat O (1)
-    public static CtrlDades getInstance() {
+    public static CtrlData getInstance() {
         if(singletonO == null) {
-            singletonO = new CtrlDades() {};
+            singletonO = new CtrlData() {};
         } return singletonO;
     }
 
     // complexitat O (1)
-    public CtrlDades() {
-        inicialitzarCtrlDades();
+    public CtrlData() {
+        initializeCtrlData();
     }
 
     /* Inicialitzem controlador de dades */
     // complexitat O (1)
-    private void inicialitzarCtrlDades() {
-        CIF = CtrlItemsFitxer.getInstance();
-        CRF = CtrlRatingsFitxer.getInstance();
+    private void initializeCtrlData() {
+        CIF = CtrlItemsFile.getInstance();
+        CRF = CtrlRatingsFile.getInstance();
     }
 
     // complexitat O (items.csv.size -> mida fitxer)
@@ -87,7 +87,7 @@ public class CtrlDades {
     }
 
     // complexitat O ( rai.size * max(rai.get(i).size) )
-    public void obtenirDades(userManager manager) throws FileNotFoundException {
+    public void obtainData(UserManager manager) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.test.known.csv");
         String aux = "";
         int colUs = 0;

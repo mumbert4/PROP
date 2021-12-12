@@ -1,16 +1,16 @@
-package algoritmos;
+package algorithms;
 
 import item.ItemManager;
-import user.userManager;
+import user.UserManager;
 
 import java.util.*;
 
 public class ContentBasedFiltering implements RecommendationSystem {
-    userManager users;
+    UserManager users;
     ItemManager items;
 
     // complexitat O ( 1 )
-    public ContentBasedFiltering(userManager usrs, ItemManager its){
+    public ContentBasedFiltering(UserManager usrs, ItemManager its){
         users = usrs;
         items = its;
     }
@@ -25,7 +25,7 @@ public class ContentBasedFiltering implements RecommendationSystem {
 
         for (Map.Entry<Integer,Double> e : itemsUs.entrySet()) { //obtenim els k items mes semblants de cada item que li ha agradat a l'usuari
             Integer item = e.getKey();
-            Map<Integer, Double> itemsPar = items.retornaItemsSemblants(item,k); // retornam els k items mes semblants a l'item passat per parametre
+            Map<Integer, Double> itemsPar = items.returnSimilarItems(item,k); // retornam els k items mes semblants a l'item passat per parametre
             mapaIt.put(item, itemsPar.keySet());
         }
 

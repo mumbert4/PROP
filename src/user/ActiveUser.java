@@ -4,14 +4,14 @@ import review.Review;
 
 import java.util.Map;
 
-public class activeUser {
+public class ActiveUser {
 
     private String userName;
     private String password;
     private ReviewList reviews;
 
     //complexitat O (1)
-    public activeUser(String name, String passwd){
+    public ActiveUser(String name, String passwd){
         userName = name;
         password = passwd;
         reviews = new ReviewList();
@@ -68,7 +68,6 @@ public class activeUser {
     public double raiAve(){
         return reviews.getRaitings();
     }
-
 
     //complexitat O ( reviews.size )
     public Map<Integer,Double> getReviewsUsers(int k) {

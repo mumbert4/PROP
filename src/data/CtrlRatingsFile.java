@@ -8,18 +8,18 @@ import java.util.Scanner;
 
 
 /* Implementació de la classe que gestionarà les dades per la classe "Item" */
-public class CtrlRatingsFitxer {
-    private static CtrlRatingsFitxer singletonO;
+public class CtrlRatingsFile {
+    private static CtrlRatingsFile singletonO;
 
     // complexitat O (1)
-    public static CtrlRatingsFitxer getInstance() {
+    public static CtrlRatingsFile getInstance() {
         if(singletonO == null) {
-            singletonO = new CtrlRatingsFitxer() {};
+            singletonO = new CtrlRatingsFile() {};
         } return singletonO;
     }
 
     // complexitat O (1)
-    public CtrlRatingsFitxer() {}
+    public CtrlRatingsFile() {}
 
     // complexitat O (filename.size  -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {

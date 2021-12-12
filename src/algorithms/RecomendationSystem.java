@@ -1,4 +1,4 @@
-package algoritmos;
+package algorithms;
 import java.util.List;
 
 interface RecommendationSystem {

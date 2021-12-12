@@ -2,7 +2,7 @@ package user;
 import java.util.*;
 public class driverUserManager {
     public static void main(String[] args){
-        userManager manager = null;
+        UserManager manager = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t 1- initiate : iniciam el manager");
@@ -22,7 +22,7 @@ public class driverUserManager {
         action = sc.next();
         while(!action.equals("end")){
             if (action.equals("initiate")){
-                manager = userManager.getInstance();
+                manager = UserManager.getInstance();
                 System.out.println("Manager iniciat");
             }
             else if (action.equals("createUser")){
@@ -88,7 +88,7 @@ public class driverUserManager {
             else if (action.equals("getUsuaris")){
 
                 if(manager != null){
-                    System.out.println("Usuaris: " + manager.getUsuaris());
+                    System.out.println("Usuaris: " + manager.getUsers());
                 }
                 else System.out.println("Manager no iniciat");
             }
