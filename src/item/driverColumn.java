@@ -11,7 +11,7 @@ public class driverColumn {
         Column.ColumnBool cb = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
-        System.out.println("\t 2- createColumn: crear una columna");
+        System.out.println("\t 1- createColumn: crear una columna");
         System.out.println("\t 2- createColumnString: crear una columna d'string");
         System.out.println("\t 3- getValueString: crear una columna d'string");
         System.out.println("\t 4- createColumnInteger: crear una columna d'string");
