@@ -4,7 +4,6 @@ public class Column {
 
     public static class ColumnString extends Column{
         String valueS;
-
         //Complexitat O (1)
         public ColumnString(String s){
             valueS = s;
