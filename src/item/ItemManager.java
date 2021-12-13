@@ -230,23 +230,18 @@ public class ItemManager{
                     int id2 = IdItems.get(j);
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
                         if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
-
                             Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
                             Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
-
                             boolean b1 = colb1.getValue();
                             boolean b2 = colb2.getValue();
-
                             if (b1 != b2) ++dist;
 
                         } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
 
                             Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
                             Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
-
                             int i1 = coli1.getValue();
                             int i2 = coli2.getValue();
-
                             if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2));
                             else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
 

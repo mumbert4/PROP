@@ -19,7 +19,7 @@ public class CtrlData {
     }
 
     // complexitat O (1)
-    public CtrlData() {
+    private CtrlData() {
         initializeCtrlData();
     }
 

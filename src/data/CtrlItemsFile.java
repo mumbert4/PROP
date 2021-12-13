@@ -26,7 +26,7 @@ public class CtrlItemsFile {
     }
 
     // complexitat O (1)
-    public CtrlItemsFile() {}
+    private CtrlItemsFile() {}
 
     // complexitat O (filename.size -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {

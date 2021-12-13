@@ -19,7 +19,7 @@ public class CtrlRatingsFile {
     }
 
     // complexitat O (1)
-    public CtrlRatingsFile() {}
+    private CtrlRatingsFile() {}
 
     // complexitat O (filename.size  -> tamany fitxer)
     public List<String> getAll(String filename) throws FileNotFoundException {
