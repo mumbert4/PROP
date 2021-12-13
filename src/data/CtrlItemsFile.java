@@ -9,13 +9,6 @@ import java.util.Scanner;
 
 /* Implementació de la classe que gestionarà les dades per la classe "Item" */
 public class CtrlItemsFile {
-    /*
-    Volem únicament una instància d'aquesta classe en el sistema, ja que la classe no
-    té estat(atributs dinàmics).
-
-    Declarem la constrtuctora com a privada i afegim una operació estàtica que retorni sempre
-    la mateixa instància. Per accedir a aquesta instància ho farem amb la crida CtrlItemsFitxer.getInstance()
-    */
     private static CtrlItemsFile singletonO;
 
     // complexitat O (1)
