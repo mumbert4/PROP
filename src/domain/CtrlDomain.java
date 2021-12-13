@@ -15,7 +15,7 @@ public class CtrlDomain {
     private static CtrlDomain singletonO;
 
     // complexitat O (1)
-    public CtrlDomain() {
+    private CtrlDomain() {
         initializeCtrlDomain();
     }
 

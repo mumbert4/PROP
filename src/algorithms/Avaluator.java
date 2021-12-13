@@ -11,7 +11,7 @@ public class Avaluator {
     //complexitat (l.size * m.size)
     public double DCG(List<Integer> l, Map<Integer,Double> m){
         double dcg = 0;
-        for( int i = 0 ; i < l.size(); ++i){
+        for(int i = 0 ; i < l.size(); ++i){
             Integer item = l.get(i);
             Double rel;
             if(!m.containsKey(item)) rel = 0.0;
