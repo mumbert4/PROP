@@ -19,7 +19,7 @@ public class Review {
     }
 
     //complexitat O( 1 )
-    public void setPoints(int points){
+    public void setPoints(double points){
         this.points = points;
     }
 

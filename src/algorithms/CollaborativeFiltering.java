@@ -172,31 +172,22 @@ public class CollaborativeFiltering implements RecommendationSystem {
     }
 
     public void kmeans(UserManager users, ArrayList<Integer> idItems, int k) {
-
         for (int i = 0; i < users.getUsers().size(); ++i) {
-
             String usernameAct = users.getUsers().get(i);
             Map<Integer,Double> RevUser = users.getReviewsUsers(usernameAct, k);
             Map<Integer,Double> AllItems = new HashMap<>();
-
             for (int j = 0; j < idItems.size(); ++j){
                 int idItemAct = idItems.get(j);
-
                 if(RevUser.containsKey(idItemAct)){
                     AllItems.put(idItemAct,RevUser.get(idItemAct));
                 }
                 else AllItems.put(idItemAct,2.5);
             }
-
             MatUserItems.put(usernameAct,AllItems);
         }
-
         ArrayList<Map<Integer, Double>> ListKelem = new ArrayList<>();
-
         for (int i = 0; i < k; ++i){
-
             Random r = new Random();
-
             int randomValue =  r.nextInt(users.getUsers().size());
             Map<Integer, Double> coords = MatUserItems.get(users.getUsers().get(randomValue));
             ListKelem.add(coords);

@@ -79,14 +79,12 @@ public class driverUserManager {
                 else System.out.println("Manager no iniciat");
             }
             else if (action.equals("numUsuaris")){
-
                 if(manager != null){
                     System.out.println("Total usuaris: " + manager.numUsu());
                 }
                 else System.out.println("Manager no iniciat");
             }
             else if (action.equals("getUsuaris")){
-
                 if(manager != null){
                     System.out.println("Usuaris: " + manager.getUsers());
                 }
@@ -115,7 +113,6 @@ public class driverUserManager {
                 }
                 else System.out.println("Manager no iniciat");
             }
-
             else if (action.equals("getRaiting")){
                 String user_name = sc.next();
                 Integer item_id = sc.nextInt();
@@ -139,7 +136,6 @@ public class driverUserManager {
                 }
                 else System.out.println("Manager no iniciat");
             }
-
             action= sc.next();
         }
     }

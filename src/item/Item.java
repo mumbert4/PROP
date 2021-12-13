@@ -9,7 +9,6 @@ public class Item {
     //complexitat O ( 1 )
     public Item() {}
 
-
     //complexitat O ( attributes.size )
     public Item(int id, ArrayList<Column> attributes) {
         this.id = id;
