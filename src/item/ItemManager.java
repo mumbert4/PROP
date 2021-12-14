@@ -1,7 +1,6 @@
 package item;
 
 import java.util.*;
-
 /**
  * Aquesta classe ens gestiona i guarda tots els items del sistema i al distancia que hi ha entre els items
  * Disposa d'un map de Items, amb el seu identificador com a clau i la seva instància de la classe Item com a valor
@@ -12,8 +11,7 @@ import java.util.*;
 
 public class ItemManager{
     Map<Integer, Item> items;
-    ArrayList<ArrayList<Double>> mapDistances2;
-    Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
+    ArrayList<ArrayList<Pair<Integer,Double>>> mapDistances;
     ArrayList<Integer> IdItems;
 
 
@@ -24,8 +22,7 @@ public class ItemManager{
      */
     public ItemManager(){
         items = new HashMap<>();
-        mapDistances = new HashMap<>();
-        mapDistances2 = new ArrayList<>();
+        mapDistances = new ArrayList<>();
         IdItems = new ArrayList<>();
     }
 
@@ -85,32 +82,37 @@ public class ItemManager{
      * @return Mapa ordenat ascendenment dels items i la seva respectiva distancia a l'item passat per paràmetre
      * Complexitat O (items.size)
      */
-    public Map<Integer, Double> returnSimilarItems(int itemId , int k) {
-        Map<Integer,Double> distances = mapDistances.get(itemId);
+    public List<Integer> returnSimilarItems(int itemId , int k) {
+
+        ArrayList<Pair<Integer,Double>> distances = mapDistances.get(IdItems.indexOf(itemId));
         int k2 = Math.min(distances.size(),k); //parametre k
-        LinkedHashMap<Integer, Double> dists = new LinkedHashMap<>();
-        distances.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-                .forEachOrdered(x -> {
-                    dists.put(x.getKey(), x.getValue());
-                });
 
-        Iterator<Map.Entry<Integer,Double>> itr = dists.entrySet().iterator();
-        Map<Integer, Double> kIt = new HashMap<>();
-        for (Map.Entry<Integer,Double> e : dists.entrySet()) {
-            if (k2 > 0) {
-                kIt.put(e.getKey(), e.getValue());
 
+
+        Collections.sort(distances, new Comparator<Pair>(){
+            @Override public int compare (Pair p1, Pair p2){
+                double x1 = (double) p1.getSecond();
+                double x2 = (double) p2.getSecond();
+                if(x1 > x2) return 1;
+                if(x2 > x1) return -1;
+                return 0;
+
+            }
+        });
+
+
+        List<Integer> kIt = new LinkedList<>();
+
+        for(Pair p : distances){
+            if(k2 > 0){
+                kIt.add((Integer)p.getFirst());
                 --k2;
             }
             else break;
         }
-        LinkedHashMap<Integer, Double> kOr = new LinkedHashMap<>();
-        kIt.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-                .forEachOrdered(x -> {
-                    kOr.put(x.getKey(), x.getValue());
-                });
-;
-        return kOr;
+
+
+        return kIt;
     }
 
 
@@ -131,7 +133,6 @@ public class ItemManager{
 
             int elemAct = 1;
             String aux = "";
-//            listItems.get(i).charAt(j) != ','
             int j = 0;
             while (j < listItems.get(i).length()) {
                 if (elemAct == columnId) { // si l'element actual es id, esteima a la columna del ID
@@ -191,13 +192,11 @@ public class ItemManager{
 
                 }
             }
-            //System.out.println("Ahora mismo el id es : " + idInt + " y el tamaño de Array es : " + itmAux.size());
             createItem(idInt, itmAux);
         }
     }
 
-    //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
-    //complexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
+
 
 
     /**
@@ -284,11 +283,9 @@ public class ItemManager{
 
         //Calcutating distances
         for(int i = 0; i < IdItems.size(); ++i){
-            Map<Integer , Double> internMap = new HashMap<>();
-            ArrayList internArray = new ArrayList(); //arrayIntern
+            
+            ArrayList internArray = new ArrayList();
             int id1 = IdItems.get(i);
-//            if(id1 == 500) System.out.println("Ara calculam distancies de l'item "+ id1+ " a la posicio "+ i);
-
             for(int j = 0; j < IdItems.size(); ++j) {
                 int id2 = IdItems.get(j);
                 double dist = 0;
@@ -328,35 +325,21 @@ public class ItemManager{
                             String s1 = cols1.getValue();
                             String s2 = cols2.getValue();
                             dist += (1 - jaroWinkler(s1, s2));
-                            //if (!s1.equals(s2)) ++dist;
                         }
                     }
 
-                    internMap.put(id2, dist);
-                    internArray.add(dist);
+                    
+                    internArray.add(new Pair(id2,dist));
                 }
-                else{
-                    internArray.add(dist);
-                }
-//                if (id1 == 500)System.out.println("Guardam distancia respecte item " + id2 +" " +dist+" a la posicio " + j);
+
 
             }
-            mapDistances.put(id1, internMap);
-            mapDistances2.add(internArray);
+            
+            mapDistances.add(internArray);
         }
     }
 
-    public void treureVectors(){
-        Map<Integer,Double> mapa = mapDistances.get(500);
-        System.out.println(mapa);
 
-        int index = IdItems.indexOf(500);
-        for(int i = 0; i < mapDistances2.get(index).size(); ++i){
-            Integer item = IdItems.get(i);
-//            System.out.println(i);
-            System.out.print(item+":"+mapDistances2.get(index).get(i)+ " ");
-        }
-    }
 
 
 
@@ -420,7 +403,6 @@ public class ItemManager{
             if(fila.charAt(j)==','){
                 if (aux.equals("id")) return colAct;
                 else{
-//                    System.out.println("aux actual: " + aux);
                     aux = "";
                     ++colAct;
                     ++j;
