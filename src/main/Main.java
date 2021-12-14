@@ -83,6 +83,9 @@ public class Main {
                 List<Integer> cbItems = cb.calculate(userId,k,items.getItems());
                 av.evaluate(colItems, cbItems, unknown);
             }
+            else if (action.equals("5")){
+                items.treureVectors();
+            }
             action= sc.next();
         }
     }

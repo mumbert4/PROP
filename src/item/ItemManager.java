@@ -12,6 +12,7 @@ import java.util.*;
 
 public class ItemManager{
     Map<Integer, Item> items;
+    ArrayList<ArrayList<Double>> mapDistances2;
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
 
@@ -24,6 +25,7 @@ public class ItemManager{
     public ItemManager(){
         items = new HashMap<>();
         mapDistances = new HashMap<>();
+        mapDistances2 = new ArrayList<>();
         IdItems = new ArrayList<>();
     }
 
@@ -279,14 +281,20 @@ public class ItemManager{
     public void fillMapDistances(List<String> itemString) {
         createColumns(itemString);
         Collections.sort(IdItems);
+
         //Calcutating distances
-        for(int i = 0; i < items.size(); ++i){
+        for(int i = 0; i < IdItems.size(); ++i){
             Map<Integer , Double> internMap = new HashMap<>();
+            ArrayList internArray = new ArrayList(); //arrayIntern
             int id1 = IdItems.get(i);
-            for(int j = 0; j < items.size(); ++j) {
+//            if(id1 == 500) System.out.println("Ara calculam distancies de l'item "+ id1+ " a la posicio "+ i);
+
+            for(int j = 0; j < IdItems.size(); ++j) {
+                int id2 = IdItems.get(j);
+                double dist = 0;
                 if (i != j) {
-                    double dist = 0;
-                    int id2 = IdItems.get(j);
+
+
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
                         if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
                             Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
@@ -323,10 +331,30 @@ public class ItemManager{
                             //if (!s1.equals(s2)) ++dist;
                         }
                     }
+
                     internMap.put(id2, dist);
+                    internArray.add(dist);
                 }
-                mapDistances.put(id1, internMap);
+                else{
+                    internArray.add(dist);
+                }
+//                if (id1 == 500)System.out.println("Guardam distancia respecte item " + id2 +" " +dist+" a la posicio " + j);
+
             }
+            mapDistances.put(id1, internMap);
+            mapDistances2.add(internArray);
+        }
+    }
+
+    public void treureVectors(){
+        Map<Integer,Double> mapa = mapDistances.get(500);
+        System.out.println(mapa);
+
+        int index = IdItems.indexOf(500);
+        for(int i = 0; i < mapDistances2.get(index).size(); ++i){
+            Integer item = IdItems.get(i);
+//            System.out.println(i);
+            System.out.print(item+":"+mapDistances2.get(index).get(i)+ " ");
         }
     }
 

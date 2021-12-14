@@ -176,7 +176,7 @@ public class UserManager {
     }
 
     //complexitat O (items.size * num_reviews_user)
-    public List<Integer> getVal(String userId, List<Integer> items) {
+    public List<Integer> getVal(String userId, ArrayList<Integer> items) {
         List<Integer> ret = new LinkedList<>();
         for (Integer item : items) {
             if (users.get(userId).hasValuated(item)) {

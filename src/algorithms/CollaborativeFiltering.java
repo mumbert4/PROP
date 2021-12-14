@@ -94,7 +94,7 @@ public class CollaborativeFiltering implements RecommendationSystem {
         int i = findClusterUser(userId); //(CjtClusters.size * max(UsersCjt.size))
 
         Set<Integer> s = manager.itemsNoVal(userId,getCluster(i)); // (users.size * max(num_reviews_usuari²) )
-        List<Integer> itemsVal = manager.getVal(userId, Items); // (items.size * num_reviews_user)
+        List<Integer> itemsVal = manager.getVal(userId, (ArrayList<Integer>) Items); // (items.size * num_reviews_user)
 
         Double mitjUs = manager.raiAve(userId);
         Map<Integer,Double> m = new HashMap<>();
