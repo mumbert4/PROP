@@ -7,10 +7,10 @@ public class driverReview {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t1. createReview: creem una nova review sense paràmetres");
-        System.out.println("\t2. createReviewParam: creem una nova Review amb punts i comentari");
+        System.out.println("\t2. createReviewParam <Double- points> <String- comment>: creem una nova Review amb punts i comentari");
         System.out.println("\t3. getPoints: obtenim el #punts");
-        System.out.println("\t4. setPoints: setegem el #punts");
-        System.out.println("\t5. setComment: setegem el comentari");
+        System.out.println("\t4. setPoints <Double- points>: setegem el #punts");
+        System.out.println("\t5. setComment <Double- comment>: setegem el comentari");
 
         String action;
         action = sc.next();

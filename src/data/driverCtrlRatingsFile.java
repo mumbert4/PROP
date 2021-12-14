@@ -11,7 +11,7 @@ public class driverCtrlRatingsFile {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t 1- getInstance: obtenir única instància Controlador de Ratings");
-        System.out.println("\t 2- getAll: obtenir una llista d'strings de tots els ratings del fitxer");
+        System.out.println("\t 2- getAll <String- ratings.test.known.csv>: obtenir una llista d'strings de tots els ratings del fitxer");
         String action;
         action = sc.next();
         while (!action.equals("end")) {

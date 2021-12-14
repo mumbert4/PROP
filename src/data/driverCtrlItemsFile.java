@@ -11,7 +11,7 @@ public class driverCtrlItemsFile {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t 1- getInstance: obtenir única instància Controlador de Items");
-        System.out.println("\t 2- getAll: obtenir una llista d'strings de tots els items del fitxer");
+        System.out.println("\t 2- getAll <String- items.csv>: obtenir una llista d'strings de tots els items del fitxer");
         String action;
         action = sc.next();
         while (!action.equals("end")) {

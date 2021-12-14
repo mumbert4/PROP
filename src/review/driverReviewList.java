@@ -8,13 +8,13 @@ public class driverReviewList {
         Scanner sc = new Scanner(System.in);
         System.out.println("Instruccions:");
         System.out.println("\t 1- createReviewList : creem la ReviewList");
-        System.out.println("\t 2- addReview: afegim una nova review d'un item a la llista de valoracions de l'usuari");
-        System.out.println("\t 3- getReview: obtenim una review d'un ítem de la llista de valoracions d'un usuari");
-        System.out.println("\t 4- itemAlreadyInList: comprova si l'usuari ja ha valorat un ítem i es troba a la llista de valoracions");
+        System.out.println("\t 2- addReview <Integer- idItem> <Review- review(<Double- points> <String- comment>) : afegim una nova review d'un item a la llista de valoracions de l'usuari");
+        System.out.println("\t 3- getReview <Integer- idItem>: obtenim una review d'un ítem de la llista de valoracions d'un usuari");
+        System.out.println("\t 4- itemAlreadyInList <Integer- idItem>: comprova si l'usuari ja ha valorat un ítem i es troba a la llista de valoracions");
         System.out.println("\t 5- size: retorna el numero de reviews fetes per l'usuari");
         System.out.println("\t 6- getRaitings: retorna la mitjana de puntuació de totes les reviews que ha hi ha a la llista de valoracions");
-        System.out.println("\t 7- getReviewsU: obtenim els k millors ítems o menys que ha valorat l’usuari");
-        System.out.println("\t 8- hasValuated: comprova si un item ja ha set avaluat per l'usuari");
+        System.out.println("\t 7- getReviewsU <Integer- K>: obtenim els k millors ítems o menys que ha valorat l’usuari");
+        System.out.println("\t 8- hasValuated <Integer- idItem>: comprova si un item ja ha set avaluat per l'usuari");
         String action;
         action = sc.next();
         while (!action.equals("end")) {
@@ -68,7 +68,7 @@ public class driverReviewList {
                 else System.out.println("ReviewList no iniciada");
             }
             else if (action.equals("getReviewsU")) {
-                System.out.print("Introdueix el paràmetre k(k millor items) del sistema: ");
+                System.out.print("Introdueix el paràmetre k del sistema: ");
                 int k = sc.nextInt(); //k del sistema
                 if (reviewList != null) {
                     System.out.println("Els " + k + " millors ítems que ha avaluat l'usuari són " + reviewList.getReviewsU(k));
