@@ -2,23 +2,50 @@ package item;
 
 import java.util.*;
 
+/**
+ * Aquesta classe ens gestiona i guarda tots els items del sistema i al distancia que hi ha entre els items
+ * Disposa d'un map de Items, amb el seu identificador com a clau i la seva instància de la classe Item com a valor
+ * Una matriu de distancies entre els items
+ * Un array amb els IDs de tots els items
+ */
+
+
 public class ItemManager{
     Map<Integer, Item> items;
     Map<Integer, Map<Integer ,Double>> mapDistances; //id item1    id item2  dist
     ArrayList<Integer> IdItems;
 
+
+    /**
+     * Constructora de la classe item manager
+     * No te paràmetres d'entrada
+     * Complexitat O (1)
+     */
     public ItemManager(){
         items = new HashMap<>();
         mapDistances = new HashMap<>();
         IdItems = new ArrayList<>();
     }
 
-    //commplexitat O (items.size)
+
+    /**
+     * Metode que retorna si existeix un item dins del Item Manager
+     * @param id Id de l'item que volm saber si existeix
+     * @return Si l'item esta a la nostra base de dades
+     * Complexitat O (items.size)
+     */
     public boolean existItem(int id){
         return items.containsKey(id);
     }
 
-    //commplexitat O (items.size)
+
+
+    /**
+     * Creadora de un item, si l'item ja no existeix, el crea i l'afegeix a items
+     * @param id ID de l'item que volem crear
+     * @param attributes Array amb els atributs de l'item
+     * Complexitat O (items.size)
+     */
     public void createItem(int id, ArrayList<Column> attributes){
         if(existItem(id)) System.out.println("The item with id: " +id+" already exists");
         else {
@@ -27,20 +54,35 @@ public class ItemManager{
         }
     }
 
-    //commplexitat O (IdItems.size)
+    /**
+     * Obte tots els IDs dels items que existeixen
+     * @return IDs dels items existents
+     * Complexitat O(IdItems.size)
+     */
     public ArrayList<Integer> getItems(){
         return IdItems;
     }
 
-    //commplexitat O (items.size)
+
+
+    /**
+     * Elimina l' item passat per paràmetre de items
+     * @param id ID de l'item que volem eliminar
+     * Complexitat O (items.size)
+     */
     public void deleteItem(int id) {
         if(!existItem(id)) System.out.println("The item with id: " +id+" does not exist");
         else items.remove(id);
     }
 
-    //Retornem donat un item, retornem els k items amb menys distancia,k=min(#items,k) items pareguts
-    //Map<Integer ,Double>> mapDistances; id item1  dist
-    //complexiatat O (items.size)
+    
+    /**
+     * Retorna els K items més similars a l'item passat per paràmetre
+     * @param itemId Item del qual volem items similars
+     * @param k Nombre de items similars que volem 
+     * @return Mapa ordenat ascendenment dels items i la seva respectiva distancia a l'item passat per paràmetre
+     * Complexitat O (items.size)
+     */
     public Map<Integer, Double> returnSimilarItems(int itemId , int k) {
         Map<Integer,Double> distances = mapDistances.get(itemId);
         int k2 = Math.min(distances.size(),k); //parametre k
@@ -69,43 +111,45 @@ public class ItemManager{
         return kOr;
     }
 
-    //complexitat O (listItems.size)
-    private void createColumns(List<String> List_items) {
-        int column_id = getColId(List_items.get(0));
-//        System.out.println("Columna del ID: "+ column_id);
-        for (int i = 1; i < List_items.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
+
+
+    /**
+     * Crea les columnes de cada Item existent
+     * @param listItems Llista de tots els items amb les seves característiques
+     * Complexitat O (listItems.size)
+     */
+    private void createColumns(List<String> listItems) {
+        int columnId = getColId(listItems.get(0));
+        for (int i = 1; i < listItems.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
             String id;
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
 
-            //System.out.println();
-            //System.out.println(List_items.get(i));// cada fila de cada item
 
-//            System.out.println(List_items.get(i).length()); // longitud de la fila
 
-            int elem_act = 1;
+            int elemAct = 1;
             String aux = "";
-//            List_items.get(i).charAt(j) != ','
+//            listItems.get(i).charAt(j) != ','
             int j = 0;
-            while (j < List_items.get(i).length()) {
-                if (elem_act == column_id) { // si l'element actual es id, esteima a la columna del ID
+            while (j < listItems.get(i).length()) {
+                if (elemAct == columnId) { // si l'element actual es id, esteima a la columna del ID
                     aux = "";
-                    while (List_items.get(i).charAt(j) != ',') { // aixo es el id del item
-                        aux += List_items.get(i).charAt(j);
+                    while (listItems.get(i).charAt(j) != ',') { // aixo es el id del item
+                        aux += listItems.get(i).charAt(j);
                         ++j;
                     }
                     //System.out.println("IDITEM: " + aux);
                     idInt = Integer.parseInt(aux);
                     IdItems.add(idInt);
                     aux = "";
-                    ++elem_act;
+                    ++elemAct;
                     ++j;
                 } else {// ELEMENT ACTUAL NO ES EL ITEM ID
-                    if (List_items.get(i).charAt(j) == '"') {
+                    if (listItems.get(i).charAt(j) == '"') {
                         ++j;
                         aux = "";
-                        while (!(List_items.get(i).charAt(j) == '"' && List_items.get(i).charAt(j + 1) == ',' && List_items.get(i).charAt(j + 2) != ' ')) {
-                            aux += List_items.get(i).charAt(j);
+                        while (!(listItems.get(i).charAt(j) == '"' && listItems.get(i).charAt(j + 1) == ',' && listItems.get(i).charAt(j + 2) != ' ')) {
+                            aux += listItems.get(i).charAt(j);
                             ++j;
                         }
                         //System.out.println("DESCRIPCIO: " + aux);
@@ -115,7 +159,7 @@ public class ItemManager{
                         aux = "";
                     }
 
-                    else if (List_items.get(i).charAt(j) == ',' || j == List_items.get(i).length() - 1) {
+                    else if (listItems.get(i).charAt(j) == ',' || j == listItems.get(i).length() - 1) {
                         //System.out.println("NI PUTA IDEA: " + aux);
 
                         if (isInt(aux)) {
@@ -135,11 +179,11 @@ public class ItemManager{
                             itmAux.add(actItem);
                         }
                         aux = "";
-                        ++elem_act;
+                        ++elemAct;
                         ++j;
                     }
                     else {
-                        aux += List_items.get(i).charAt(j);
+                        aux += listItems.get(i).charAt(j);
                         ++j;
                     }
 
@@ -152,6 +196,15 @@ public class ItemManager{
 
     //Calcular distàncies entre dos strings-Algorisme de jaro-Winkler
     //complexitat O (s1.size * s2.size)   O (s1.size + s2.size) espacial
+
+
+    /**
+     * Calcula la distancia entre dos strings utilitzant l'algorisme de Jaro-Winkler
+     * @param s1 Primer string a comparar
+     * @param s2 Segon string a comparar
+     * @return Distancia entre els dos strings
+     * Complexitat O(s1.size * s2.size)-> Temporal  O(s1.size + s2.size)-> espacial
+     */
     static double jaroDistance(String s1, String s2) {
         //Strings iguals
         if (s1 == s2) {
@@ -216,7 +269,13 @@ public class ItemManager{
         return jaroDist;
     }
 
-    //commplexitat O (items.size² *  max(getSizeAttributes()))
+
+
+    /**
+     * Rellena la matriu de distancies entre els items
+     * @param itemString String dels items i de les seves columnes
+     * Complexitat O (items.size² *  max(getSizeAttributes()))
+     */
     public void fillMapDistances(List<String> itemString) {
         createColumns(itemString);
         Collections.sort(IdItems);
@@ -273,7 +332,14 @@ public class ItemManager{
         }
     }
 
-    //commplexitat O (1)
+
+
+    /**
+     * Comprova si un string donat és del tipus Int
+     * @param input String que comprovam
+     * @return Retorna si el string és del tipus Int
+     * Complexitat O (1)
+     */
     private boolean isInt(String input) {
         try{
             int inputDbl = Integer.parseInt(input);
@@ -285,7 +351,13 @@ public class ItemManager{
         }
     }
 
-    //commplexitat O (1)
+
+    /**
+     * Comprova si un string donat és del tipus Double
+     * @param input String que comprovam
+     * @return Retorna si el string és del tipus Double
+     * Complexitat O (1)
+     */
     private boolean isDbl(String input) {
         try{
             double inputDbl = Double.parseDouble(input);
@@ -297,12 +369,23 @@ public class ItemManager{
         }
     }
 
-    //commplexitat O (1)
+
+    /**
+     * Comprova si un string donat és del tipus Bool
+     * @param input String que comprovam
+     * @return Retorna si el string és del tipus Bool
+     * Complexitat O (1)
+     */
     private boolean isB(String input) {
         return input.equals("True") || input.equals("False") || input.equals("true") || input.equals("false") || input.equals("TRUE") || input.equals("FALSE");
     }
 
-    //commplexitat O (fila.size)
+    /**
+     * Donada la primera fila del fitxer csv, ens diu la columna on es troba l'atribut Id
+     * @param fila Primera fila del fitxer csv
+     * @return Posició de la columna de l'atribut Id
+     * Complexitat O (fila.size)
+     */
     int getColId(String fila){
         int colAct=1;
         int j = 0;

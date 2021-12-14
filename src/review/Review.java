@@ -1,5 +1,9 @@
 package review;
 
+/**
+ *
+ */
+
 public class Review {
     private double points;
     private String comment;

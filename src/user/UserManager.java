@@ -44,22 +44,40 @@ public class UserManager {
         }
     }
 
-    //complexitat O ( users.size )
+
+
+    /**
+     * Afegeix un usuari no existent als usuaris
+     * @param user activeUser que volem afegir
+     * Complexitat O (users.size)
+     */
     public void addUser(ActiveUser user) {
         String userId = user.getName();
         if (existUser(userId)) System.out.println("This user already exists");
         else {
             users.put(userId, user);
-//            System.out.println("User added");
         }
     }
 
-    //complexitat O ( 1 )
+
+    /**
+     * Obtenir la instància d'un usuari
+     * @param userId Identificador de l'usuari del que volem obtenir la instància
+     * @return Instància de l'activeUser
+     * Complxitat O (1)
+     */
     public ActiveUser getUser(String userId) {
         return users.get(userId);
     }
 
-    //complexitat O ( numReviewsUsuari )
+    /**
+     * Crea una review donat un usuari, una puntuacio, i un comentari i l'afegeix a les reviews realitzades per l'usuari
+     * @param userId User que realitza la review
+     * @param itemId Item que estam valorant
+     * @param points Puntuació que esteim donant a l'item
+     * @param comment Comentari que dona l'usuari a la review
+     * Complexitat O(numReviewsUsuari)
+     */
     public void createReview(String userId, int itemId, double points, String comment) {
         Review r = new Review(points, comment);
         ActiveUser user = getUser(userId);
@@ -67,20 +85,34 @@ public class UserManager {
 //        System.out.println("Review afegida amb exit");
     }
 
-    //complexitat O ( 1 )
+    /**
+     * Dona el nombre de reviews que ha fet un usuari
+     * @param userId Usuari del que volem saber el nombre de reviews
+     * @return Nombre de reviews fetes
+     * Complexitat O (1)
+     */
     public int numReviews(String userId) {
         return users.get(userId).numReviews();
     }
 
-    //complexitat O ( 1 )
-    public int numUsu() { //NOMBRE D'USUARIS QUE HI HA
+    /**
+     * Retorna el nombre d'usuaris totals
+     * @return Nombre usuaris totals
+     * Complexitat O (1)
+     */
+    public int numUsu() {
         return users.size();
     }
 
-    //complexitat O ( users.size )
-    public List<String> getUsers() { //LISTA DE TOTS ELS USUARIS
+
+    /**
+     * Retorna la llista dels identificadors dels usuaris
+     * @return Identificadors de tots els usuaris ordenats per clau
+     * Complexitat O(users.size)
+     */
+    public List<String> getUsers() {
         List<String> ids = new LinkedList<String>();
-        //mapa users ordenat per clau
+
         Map<String, ActiveUser> sortedMap = new TreeMap<String, ActiveUser>(users);
         for (String userId : sortedMap.keySet()) {
             ids.add(userId);
@@ -89,6 +121,12 @@ public class UserManager {
     }
 
     //complexitat O ( numReviewsUsuari )
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
     public double raiAve(String userId) {
         return users.get(userId).raiAve();
     }
@@ -109,12 +147,26 @@ public class UserManager {
         return usrs;
     }
 
-    //complexitat  O(1)
+
+    /**
+     * Retorna la puntuació que ha donat un usuari a un item ,els dos han d'existir i l'usuari l'ha d'haver valorat
+     * @param userId Usuari que ha donat la puntuació
+     * @param itemId Item del que volem la puntuació donada per l'usuari
+     * @return Puntuació donada a l'item per l'usuari
+     * Complexitat O(1)
+     */
     public Double getRaiting(String userId, Integer itemId) {
         return users.get(userId).getReview(itemId).getPoints();
     }
 
-    //complexitat O (items.size * num_reviews_user)
+
+    /**
+     * Donat un usuari i una llista de items, ens retorna els items que l'usuari no ha valorat de la llista
+     * @param userId Usuari que volem
+     * @param items LLista de items
+     * @return Items de la llista donada que l'usuari no ha valorat
+     * Complexitat O(items.size * num_reviews_user)
+     */
     public List<Integer> getNoVal(String userId, List<Integer> items) {
         List<Integer> ret = new LinkedList<>();
         for (Integer item : items) {

@@ -1,16 +1,31 @@
 package item;
 
+/**
+ * Classe que representa les columnes (característiques) que tenen els items
+ */
 public class Column {
-
+    /**
+     * Subclasse que representa una columna de tipus string
+     */
     public static class ColumnString extends Column{
         String valueS;
 
-        //Complexitat O (1)
+        /**
+         * Constructora de la subclasse
+         * @param s Valor que tendra la instància
+         * Complexitat O(1)
+         */
         public ColumnString(String s){
             valueS = s;
         }
 
-        //Complexitat O (1)
+
+
+        /**
+         * Obtenir el valor de la instància
+         * @return Valor del string de la columna
+         * Complexitat O(1)
+         */
         public String getValue(){
             return valueS;
         }
@@ -19,12 +34,22 @@ public class Column {
     public static class ColumnInteger extends Column{
         int valueInt;
 
-        //Complexitat O (1)
+        /**
+         * Constructora de la subclasse
+         * @param i Valor que tendra la instància
+         * Complexitat O (1)
+         */
         public ColumnInteger(int i){
             valueInt = i;
         }
 
-        //Complexitat O (1)
+
+
+        /**
+         * Obtenir el valor de la instància
+         * @return Valor del Int de la columna
+         * Complexitat O(1)
+         */
         public Integer getValue(){
             return valueInt;
         }
@@ -33,12 +58,20 @@ public class Column {
     public static class ColumnDouble extends Column{
         double valueD;
 
-        //Complexitat O (1)
+        /**
+         * Constructora de la subclasse
+         * @param d Valor que tendra la instància
+         * Complexitat O (1)
+         */
         public ColumnDouble(double d){
             valueD = d;
         }
 
-        //Complexitat O (1)
+        /**
+         * Obtenir el valor de la instància
+         * @return Valor del Double de la columna
+         * Complexitat O(1)
+         */
         public Double getValue(){
             return valueD;
         }
@@ -47,12 +80,20 @@ public class Column {
     public static class ColumnBool extends Column{
         boolean valueB;
 
-        //Complexitat O (1)
+        /**
+         * Constructora de la subclasse
+         * @param b Valor que tendra la instància
+         * Complexitat O (1)
+         */
         public ColumnBool(boolean b){
             valueB = b;
         }
 
-        //Complexitat O (1)
+        /**
+         * Obtenir el valor de la instància
+         * @return Valor del Boolean de la columna
+         * Complexitat O(1)
+         */
         public Boolean getValue(){
             return valueB;
         }
