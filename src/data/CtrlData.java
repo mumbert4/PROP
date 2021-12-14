@@ -25,7 +25,7 @@ public class CtrlData {
 
     /* Inicialitzem controlador de dades */
     // complexitat O (1)
-    private void initializeCtrlData() {
+    public void initializeCtrlData() {
         CIF = CtrlItemsFile.getInstance();
         CRF = CtrlRatingsFile.getInstance();
     }

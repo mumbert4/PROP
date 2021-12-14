@@ -296,7 +296,6 @@ public class ItemManager{
                             if (b1 != b2) ++dist;
 
                         } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
-
                             Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
                             Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
                             int i1 = coli1.getValue();
@@ -305,7 +304,6 @@ public class ItemManager{
                             else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
 
                         } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
-
                             Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
                             Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
 

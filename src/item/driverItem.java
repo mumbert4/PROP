@@ -25,7 +25,6 @@ public class driverItem {
             }
             else if (at.charAt(j) == ',' || j == at.length() - 1) {
                 //System.out.println("NI PUTA IDEA: " + aux);
-
                 if (isInt(aux)) {
                     Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
                     cols.add(actItem);
@@ -68,7 +67,7 @@ public class driverItem {
             if(action.equals("createItem")){
                 Integer itemId = sc.nextInt();
                 String atributes = sc.nextLine();
-                item = new Item(itemId,getAtributes(atributes)); // COM CREAR UN VECTOR D'ATRIBUTS?
+                item = new Item(itemId,getAtributes(atributes));
             }
             if(action.equals("getId")){
                 if(item!= null) System.out.println("Id del item: " + item.getId());
