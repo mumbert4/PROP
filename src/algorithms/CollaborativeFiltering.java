@@ -50,7 +50,7 @@ public class CollaborativeFiltering implements RecommendationSystem {
      * */
 
     /**
-     * Seteja a True si esteim utilitzant l'avaluator per el Collaborative Filtering, si ho esta fent voldrem que la recomanacio sigui de tots els items
+     * Seteja a True si esteim utilitzant l'avaluator per el Collaborative Filtering, si ho esta fent voldrem que la recomanació sigui de tots els items
      * Complexitat O(1)
      */
     public void setTrue(){
@@ -236,17 +236,23 @@ public class CollaborativeFiltering implements RecommendationSystem {
         return Math.sqrt(dist);
     }
 
-    //complexitat = O(1)
-//    public ArrayList<String> getCluster(int i){
-//        return CjtClusters.get(i);
-//    }
+    /**
+     * Donat un index d'un cluster, retorna el cluster
+     * @param i Index del cluster que volem
+     * @return Cluster de users
+     * Complexitat O(1)
+     */
+    public ArrayList<String> getCluster(int i){
+        return CjtClusters.get(i);
+    }
 
-    //complexitat O (CjtClusters.size * max(UsersCjt.size))
+
 
     /**
      * Donat el identificador d'un usuari, retorna l'index del cluster al que pertany
      * @param u1 Usuari que esteim cercant
      * @return Index del cluster on es troba l'usuari
+     * Complexitat O ( CjtClusters.size * max(UsersCjt.size) )
      */
     private int findClusterUser(String u1){
         for (Map.Entry<Integer, ArrayList<String>> entry : CjtClusters.entrySet()){
@@ -346,5 +352,7 @@ public class CollaborativeFiltering implements RecommendationSystem {
             }
         }
     }
+
+
 }
 

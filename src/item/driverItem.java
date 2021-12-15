@@ -4,53 +4,59 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class driverItem {
-    static ArrayList<Column> getAtributes(String at){
-        ArrayList<Column> cols = new ArrayList<>();
-        int j = 1;
-        String aux = "";
-        while(j < at.length()){
-            if (at.charAt(j) == '"') {
-                ++j;
-                aux = "";
-                while (!(at.charAt(j) == '"' && at.charAt(j + 1) == ',' && at.charAt(j + 2) != ' ')) {
-                    aux += at.charAt(j);
-                    ++j;
-                }
-                //System.out.println("DESCRIPCIO: " + aux);
-                j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                Column.ColumnString actItem = new Column.ColumnString(aux);
-                System.out.println(aux);
-                cols.add(actItem);
-                aux = "";
-            }
-            else if (at.charAt(j) == ',' || j == at.length() - 1) {
-                //System.out.println("NI PUTA IDEA: " + aux);
-                if (isInt(aux)) {
-                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
-                    cols.add(actItem);
-                    //System.out.println(Integer.parseInt(aux));
-                } else if (isB(aux)) {
-                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
-                    cols.add(actItem);
-                    //System.out.println(Boolean.parseBoolean(aux));
-                } else if (isDbl(aux)) {
-                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
-                    cols.add(actItem);
-                    //System.out.println(Double.parseDouble(aux));
-                } else {
-                    Column.ColumnString actItem = new Column.ColumnString(aux);
-                    cols.add(actItem);
-                }
-                System.out.println(aux);
-                aux = "";
-                ++j;
-            }
-            else {
-                aux += at.charAt(j);
-                ++j;
-            }
-        }
-        return cols;
+    static ArrayList<Pair<String,Column>> getAtributes(){
+        //        ArrayList<Column> cols = new ArrayList<>();
+//        int j = 0;
+//        String aux = "";
+//        while(j < at.length()){
+//            if (at.charAt(j) == '"') {
+//                ++j;
+//                aux = "";
+//                while (!(at.charAt(j) == '"' && at.charAt(j + 1) == ',' && at.charAt(j + 2) != ' ')) {
+//                    aux += at.charAt(j);
+//                    ++j;
+//                }
+//                //System.out.println("DESCRIPCIO: " + aux);
+//                j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
+//                Column.ColumnString actItem = new Column.ColumnString(aux);
+//                cols.add(actItem);
+//                aux = "";
+//            }
+//
+//            else if (at.charAt(j) == ',' || j == at.length() - 1) {
+//                //System.out.println("NI PUTA IDEA: " + aux);
+//
+//
+//                if (isInt(aux)) {
+//                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+//                    cols.add(actItem);
+//                    //System.out.println(Integer.parseInt(aux));
+//                } else if (isB(aux)) {
+//                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+//                    cols.add(actItem);
+//                    //System.out.println(Boolean.parseBoolean(aux));
+//                } else if (isDbl(aux)) {
+//                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+//                    cols.add(actItem);
+//                    //System.out.println(Double.parseDouble(aux));
+//                } else{
+//                    Column.ColumnString actItem = new Column.ColumnString(aux);
+//                    cols.add(actItem);
+//                }
+//                aux = "";
+//                ++j;
+//            }
+//            else {
+//                aux += at.charAt(j);
+//                ++j;
+//            }
+//        }
+//        return cols;
+        Column.ColumnString actItem = new Column.ColumnString("Prova");
+        Pair<String,Column> p = new Pair("Prova", actItem);
+        ArrayList aux = new ArrayList();
+        aux.add(p);
+        return aux;
     }
 
     public static void main(String[] args){
@@ -66,8 +72,8 @@ public class driverItem {
         while(!action.equals("end")){
             if(action.equals("createItem")){
                 Integer itemId = sc.nextInt();
-                String atributes = sc.nextLine();
-                item = new Item(itemId,getAtributes(atributes));
+
+                item = new Item(itemId,getAtributes());
             }
             if(action.equals("getId")){
                 if(item!= null) System.out.println("Id del item: " + item.getId());

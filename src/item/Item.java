@@ -1,6 +1,6 @@
 package item;
 import java.util.*;
-
+import item.Pair;
 
 /**
  *Classe que representa la instància d'un item, format pel seu ID i els seus atributs
@@ -9,7 +9,7 @@ import java.util.*;
 public class Item {
 
     private int id;
-    private ArrayList<Column> attributes;
+    private ArrayList<Pair<String,Column>> attributes;
 
     /**
      * Constructora de la classe item
@@ -25,7 +25,7 @@ public class Item {
      * @param attributes Array dels atributs de l'item
      * Complexitat O (attributes.size)
      */
-    public Item(int id, ArrayList<Column> attributes) {
+    public Item(int id, ArrayList<Pair<String,Column>> attributes) {
         this.id = id;
         this.attributes = attributes;
     }
@@ -61,7 +61,7 @@ public class Item {
      * Complexitat O(1)
      */
     public Column getColumn(int i){
-        return attributes.get(i);
+        return attributes.get(i).getSecond();
     }
 
 }

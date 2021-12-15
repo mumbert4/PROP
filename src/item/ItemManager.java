@@ -10,6 +10,7 @@ import java.util.*;
 
 
 public class ItemManager{
+    Map<String,Integer> ponderacions;
     Map<Integer, Item> items;
     ArrayList<ArrayList<Pair<Integer,Double>>> mapDistances;
     ArrayList<Integer> IdItems;
@@ -21,10 +22,14 @@ public class ItemManager{
      * Complexitat O (1)
      */
     public ItemManager(){
+        ponderacions = new HashMap<>();
         items = new HashMap<>();
         mapDistances = new ArrayList<>();
         IdItems = new ArrayList<>();
     }
+
+
+
 
 
     /**
@@ -45,7 +50,7 @@ public class ItemManager{
      * @param attributes Array amb els atributs de l'item
      * Complexitat O (items.size)
      */
-    public void createItem(int id, ArrayList<Column> attributes){
+    public void createItem(int id, ArrayList<Pair<String,Column>> attributes){
         if(existItem(id)) System.out.println("The item with id: " +id+" already exists");
         else {
             Item item = new Item(id,attributes);
@@ -117,6 +122,29 @@ public class ItemManager{
 
 
 
+    public void fillPonderacions(List<String> ListPond){
+
+        for(String s : ListPond){
+            String aux = "";
+            String col = "";
+            int val = 0;
+            int j = 0;
+            while (j < s.length()){
+                if(s.charAt(j) == ',' || j == s.length() -1){
+                    if(isInt(aux)) val = Integer.parseInt(aux);
+                    else col = aux;
+                    aux ="";
+                }
+                else aux += s.charAt(j);
+                ++j;
+            }
+            ponderacions.put(col,val);
+        }
+    }
+
+
+
+
     /**
      * Crea les columnes de cada Item existent
      * @param listItems Llista de tots els items amb les seves característiques
@@ -125,7 +153,7 @@ public class ItemManager{
     private void createColumns(List<String> listItems) {
         int columnId = getColId(listItems.get(0));
         for (int i = 1; i < listItems.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
-            String id;
+
             ArrayList<Column> itmAux = new ArrayList<>();
             int idInt = -1;
 
@@ -163,7 +191,7 @@ public class ItemManager{
                     }
 
                     else if (listItems.get(i).charAt(j) == ',' || j == listItems.get(i).length() - 1) {
-                        //System.out.println("NI PUTA IDEA: " + aux);
+
 
                         if (isInt(aux)) {
                             Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));

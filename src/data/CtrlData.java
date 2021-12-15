@@ -9,6 +9,7 @@ import java.util.*;
 public class CtrlData {
     private static CtrlItemsFile CIF;
     private static CtrlRatingsFile CRF;
+    private static CtrlPonderacionsFile CPF;
     private static CtrlData singletonO;
 
     // complexitat O (1)
@@ -28,6 +29,11 @@ public class CtrlData {
     public void initializeCtrlData() {
         CIF = CtrlItemsFile.getInstance();
         CRF = CtrlRatingsFile.getInstance();
+        CPF = CtrlPonderacionsFile.getInstance();
+    }
+
+    public List<String> getPonderacions() throws FileNotFoundException {
+        return CPF.getAll("PlantillaPelicules.csv");
     }
 
     // complexitat O (items.csv.size -> mida fitxer)

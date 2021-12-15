@@ -42,6 +42,10 @@ public class CtrlDomain {
         return CData.getItems();
     }
 
+    public List<String> getPonderacions() throws  IOException{
+        return CData.getPonderacions();
+    }
+
     // complexitat O ( rai.size * max(rai.get(i).size) )
     public Map<Integer,Double> getRatings(String userId) throws IOException {
         return CData.getUnknown(userId);

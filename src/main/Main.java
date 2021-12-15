@@ -32,8 +32,9 @@ public class Main {
         for(String s : users) usersInt.add(Integer.parseInt(s));
         Collections.sort(users);
         Collections.sort(usersInt);
-
+        items.fillPonderacions(CDomini.getPonderacions());
         items.fillMapDistances(CDomini.getItems());
+
         manager.setItemMan(items);
 
         CollaborativeFiltering col = new CollaborativeFiltering(manager);
