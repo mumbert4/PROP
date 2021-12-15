@@ -15,8 +15,17 @@ public class CollaborativeFiltering implements RecommendationSystem {
     UserManager manager;
     boolean evaluation;
 
-    //Complexitat O ( items.size² * users.size * max(num_reviews_user)  +  CjtClusters.size * max(UsersCjt.size)) + (users.size * max(num_reviews_usuari²) )  +   (items.size * num_reviews_user)  +
-    // s.size * (itemsVal.size * users.size * max(num_reviews_user) + itemsBons.size * (mapIt1.size + mapIt2.size))  +  (m.size)   )
+    //Complexitat O (
+    //    )
+
+    /**
+     * Retorna els k items que més se li recomanen a l'usuari seguitn l'algoritme de collaborative filtering
+     * @param userId Identificador de l'usuari al que se li vol fer la recomanació
+     * @param k Nombre de items que li volem recomanar
+     * @param Items LLista de possibles items que li podem recomanar a l'usuari
+     * @return Llista amb els k items que més li recomanem
+     * Complexitat O (items.size² * users.size * max(num_reviews_user)  +  CjtClusters.size * max(UsersCjt.size)) + (users.size * max(num_reviews_usuari²) )  +   (items.size * num_reviews_user)  + s.size * (itemsVal.size * users.size * max(num_reviews_user) + itemsBons.size * (mapIt1.size + mapIt2.size))  +  (m.size) )
+     */
     public List<Integer> calculate(String userId, int k,  List<Integer> Items){
         ArrayList<String> conjunt = CjtClusters.get(1);
         buildDifferencesMatrix(Items, conjunt);
