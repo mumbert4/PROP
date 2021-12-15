@@ -5,6 +5,10 @@ import review.Review;
 
 import java.util.*;
 
+/**
+ * Classe UserManager que administrara els usuaris del nostre sistema, conte un Map amb els identificadors dels usuaris i la seva instancia, un itemManager per a que es pugui comunicar
+ * i una instancia privada d'ell mateix ja que es una classe de tipus singleton
+ */
 
 public class UserManager {
     public Map<String, ActiveUser> users;
@@ -12,27 +16,54 @@ public class UserManager {
     private static UserManager manager;
 
     //
+
+    /**
+     * Constructora de la classe UserManager
+     * Complexitat O(1)
+     */
     private UserManager() {
         users = new HashMap<String, ActiveUser>();
     }
 
     //
+
+    /**
+     * Obte la instancia de la classe ja que aquesta es singleton, la crea si no esta iniciada
+     * @return Intancia de la classe
+     * Complexitat O(1)
+     */
     public static UserManager getInstance() {
         if (manager == null) manager = new UserManager();
         return manager;
     }
 
-    //complexitat O ( 1 )
+    /**
+     * Assigna un itemManager al nostre manager
+     * @param itemMan ItemManager que volem assignar
+     * Complexitat O(1)
+     */
     public void setItemMan(ItemManager itemMan) {
         items = itemMan;
     }
 
-    //complexitat O ( users.size )
+    /**
+     * Comprova l'existencia d'un usuari dins del manager
+     * @param userId Usuari que volem saber si existeix o no
+     * @return Si l'usuari existeix
+     * Complexitat O(1)
+     */
     public boolean existUser(String userId) {
         return users.containsKey(userId);
     }
 
-    //complexitat O ( users.size )
+
+    /**
+     * Crea un nou usuari donat els seus paràmetres de creació, comprova que l'usuari no existesqui ja
+     * @param userId Identificador del usuari
+     * @param password Password del usuari
+     * @param confirmPassword Password de confirmació
+     * Complexitat O(users.size)
+     */
     public void createUser(String userId, String password, String confirmPassword) {
         if (existUser(userId))
             System.out.println("The user with name: " + userId + " already exists, please choose another name");
@@ -82,7 +113,7 @@ public class UserManager {
         Review r = new Review(points, comment);
         ActiveUser user = getUser(userId);
         user.addReview(itemId, r);
-//        System.out.println("Review afegida amb exit");
+
     }
 
     /**
@@ -120,23 +151,30 @@ public class UserManager {
         return ids;
     }
 
-    //complexitat O ( numReviewsUsuari )
 
     /**
-     *
-     * @param userId
-     * @return
+     * Retorna la mitjana de valoracions que ha donat un usuari
+     * @param userId Usuari del que volem saber la mitjana de les seves valoracions
+     * @return Mitjana de les valoracions que ha fet l'usuari
+     * Complexitat O(numReviewsUsuari)
      */
     public double raiAve(String userId) {
         return users.get(userId).raiAve();
     }
 
-    //complexitat O ( numReviewsUsuari )  -----------  O (K) espacial
     public Map<Integer, Double> getReviewsUsers(String userId, int k) { //clau:idItem, valor:rating de l'usuari a l'ítem
         return users.get(userId).getReviewsUsers(k);
     }
 
-    //complexitat O ( users.size * max(num_reviews_user) )
+
+
+    /**
+     * Donats dos items, retorna una llista amb els usuaris que han valorat els dos items
+     * @param item1 Item
+     * @param item2 Item
+     * @return Llista dels usuaris que han valorat els 2 items
+     * Complexitat O ( users.size * max(numReviewsUser))
+     */
     public List<String> getUsersItems(Integer item1, Integer item2) {
         List<String> usrs = new LinkedList<>();
         for (Map.Entry<String, ActiveUser> en : users.entrySet()) {
@@ -175,7 +213,14 @@ public class UserManager {
         return ret;
     }
 
-    //complexitat O (items.size * num_reviews_user)
+
+    /**
+     * Donada una llista de items i un usuari, retrona els items que l'usuari ha valorat de la llista
+     * @param userId Usuari que volem saber
+     * @param items Llista de items
+     * @return Items que l'usuari ha valorat de la llista
+     * Complexitat O( items.size * numReviewsUser)
+     */
     public List<Integer> getVal(String userId, ArrayList<Integer> items) {
         List<Integer> ret = new LinkedList<>();
         for (Integer item : items) {
@@ -186,13 +231,21 @@ public class UserManager {
         return ret;
     }
 
-    // compleixtat (users.size * max(num_reviews_usuari²) )
+
+
+    /**
+     * Donat un usuari i una llista d'usuaris, retorna els items que l'usuari no ha valorat de tot el conjunt d'items que els usuaris de la llista han valorat
+     * @param userId Usuari que volem obtenir els items que no ha valorat
+     * @param users Llista d'usuaris que obtenim els items que han valorat
+     * @return Llista dels items que l'usuari no ha valorat pero si que ha valorat algu de la llista de usuaris
+     * Complexitat O (users.size * max(num_reviews_usuari²) )
+     */
     public Set<Integer> itemsNoVal(String userId, List<String> users) {
         Set<Integer> s = new HashSet<>();
         for (String user : users) {
-            Map<Integer, Double> itemsVal = manager.getReviewsUsers(user, numReviews(userId));
+            Map<Integer, Double> itemsVal = manager.getReviewsUsers(user, numReviews(userId)); // Obtenim les reviews de cada usuari
             for (Map.Entry<Integer, Double> e : itemsVal.entrySet()) {
-                if (!manager.getUser(userId).hasValuated(e.getKey())) s.add(e.getKey());
+                if (!manager.getUser(userId).hasValuated(e.getKey())) s.add(e.getKey()); // si l'usuari no g
             }
         }
         return s;

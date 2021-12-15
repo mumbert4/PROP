@@ -32,7 +32,7 @@ public class driverReviewList {
                 String comment = sc.next();
                 Review review = new Review(punts,comment);
                 if (reviewList != null) {
-                    if (!reviewList.itemAlreadyInList(itemId)) {
+                    if (!reviewList.hasValuated(itemId)) {
                         reviewList.addReview(itemId, review);
                         System.out.println("S'ha afegit correctament la valoració " + review.getPoints() + " a l'ítem " + itemId);
                     }
@@ -53,7 +53,7 @@ public class driverReviewList {
                 System.out.print("Introdueix l'id de l'item: ");
                 int itemId = sc.nextInt();
                 if (reviewList != null) {
-                    if (!reviewList.itemAlreadyInList(itemId)) System.out.println("L'usuari no ha avaluat l'ítem " + itemId);
+                    if (!reviewList.hasValuated(itemId)) System.out.println("L'usuari no ha avaluat l'ítem " + itemId);
                     else System.out.println("L'usuari ja ha avaluat aquest ítem!");
                 }
                 else System.out.println("ReviewList no iniciada");

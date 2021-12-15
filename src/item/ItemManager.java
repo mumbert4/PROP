@@ -79,7 +79,7 @@ public class ItemManager{
      * Retorna els K items més similars a l'item passat per paràmetre
      * @param itemId Item del qual volem items similars
      * @param k Nombre de items similars que volem 
-     * @return Mapa ordenat ascendenment dels items i la seva respectiva distancia a l'item passat per paràmetre
+     * @return Llista ordenada ascendenment dels items i la seva respectiva distancia a l'item passat per paràmetre
      * Complexitat O (items.size)
      */
     public List<Integer> returnSimilarItems(int itemId , int k) {
