@@ -1,12 +1,15 @@
 package algorithms;
 
+import item.Pair;
 import user.UserManager;
 
 import java.util.*;
 
 
+
 public class CollaborativeFiltering implements RecommendationSystem {
-    public static Map<Integer , Map<Integer , Double>> differenceMatrix;
+
+    public static Map<Integer,ArrayList<Pair<Integer,Double>>> differenceMatrix;
     private Map<String,Map<Integer, Double>> MatUserItems = new HashMap<>();
     private Map<Integer, ArrayList<String>> CjtClusters = new HashMap<>();
     UserManager manager;
@@ -15,12 +18,18 @@ public class CollaborativeFiltering implements RecommendationSystem {
     //Complexitat O ( items.size² * users.size * max(num_reviews_user)  +  CjtClusters.size * max(UsersCjt.size)) + (users.size * max(num_reviews_usuari²) )  +   (items.size * num_reviews_user)  +
     // s.size * (itemsVal.size * users.size * max(num_reviews_user) + itemsBons.size * (mapIt1.size + mapIt2.size))  +  (m.size)   )
     public List<Integer> calculate(String userId, int k,  List<Integer> Items){
-        ArrayList<String> conjunt = getCluster(1);
+        ArrayList<String> conjunt = CjtClusters.get(1);
         buildDifferencesMatrix(Items, conjunt);
         return recommended(userId, Items, k);
     }
 
+    /**
+     * Constructora de l'algosrisme
+     * @param mana UserManager assignat a l'algorisme
+     * Complexitat O(1)
+     */
     public CollaborativeFiltering(UserManager mana){
+
         differenceMatrix = new HashMap<>();
         manager = mana;
         evaluation = false;
@@ -31,20 +40,28 @@ public class CollaborativeFiltering implements RecommendationSystem {
      * la diferència acumulada entre aquesta valoració i totes les altres valoracions que l'usuari hagi fet.
      * */
 
-    //complexitat O (1)
+    /**
+     * Seteja a True si esteim utilitzant l'avaluator per el Collaborative Filtering, si ho esta fent voldrem que la recomanacio sigui de tots els items
+     * Complexitat O(1)
+     */
     public void setTrue(){
         evaluation = true;
     }
 
-    // complexitat O (items.size² * users.size * max(num_reviews_user) )
+    /**
+     * Rellena la matriu de diferencies entre els items
+     * @param items LLista dels identificadors dels items
+     * @param users LLista dels identificadors dels usuaris
+     * Complexitat O( items.size² * users.size * max(num_reviews_user) )
+     */
     public void buildDifferencesMatrix(List<Integer> items, List<String> users) {
         double dev;
         double suma=0;
-        double avg;
         double numUsrs=1;
         for(int i = 0; i < items.size(); ++i){
             Integer item1 = items.get(i);
             Map<Integer,Double> aux = new HashMap<>();
+            ArrayList<Pair<Integer,Double>> array = new ArrayList<>();
             for(int j = 0; j <= i; ++j){
                 if(i != j){
                     suma=0;
@@ -65,35 +82,88 @@ public class CollaborativeFiltering implements RecommendationSystem {
                             suma+=dev; // SUMA DE LES DESVIACIONS DELS USUARIS QUE HAN VALORAT ITEM1 I ITEM2
                         }
                     }
+                    array.add(new Pair(item2,suma));
                     aux.put(item2, suma);
                 }
             }
-            differenceMatrix.put(item1, aux);
+            differenceMatrix.put(item1,array);
+
         }
     }
 
-    // complexitat O (mapIt1.size + mapIt2.size)            O ( max(mapIt1.size, mapIt2.size) )
+
+    /**
+     * Diu si un arraylist de Pairs, conte un determinat item i la seva distancia
+     * @param a ArrayList de Pairs
+     * @param item Id de l'item concret que esteim cercant
+     * @return Si l'arrayLiist conte l'item
+     * Complexitat O(a.size)
+     */
+    boolean conteItem (ArrayList<Pair<Integer,Double>> a, Integer item){
+        for(Pair p : a){
+            if(p.getFirst()== item) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Donat un arrayList de Pairs, ens retorna la distancia d'un determinat item, previament hem revisat que l'arrayList conte l'item
+     * @param a ArrayList de Pairs
+     * @param item Item que volem saber la distancia
+     * @return Distancia de l'item
+     * Complexitat O(a.size)
+     */
+    double getDistancePair(ArrayList<Pair<Integer,Double>> a , Integer item){
+        for (Pair p : a){
+            if(p.getFirst() == item) return (double)p.getSecond();
+        }
+        return 0;
+    }
+
+
+    /**
+     * Donats dos items, ens retorna la seva distancia que tenen dins de la matriu a l'hora de fer la recomanacio, per aixo a vegades retornam valors negatius
+     * @param item1 Identificador item1
+     * @param item2 Identificador item2
+     * @return Distancio entre els dos items dins de la matriu
+     * Complexitat O(array1.size + array2.size)      espacial= O( max(array1.size, array2.size) )
+     */
     public double getDistance(Integer item1, Integer item2){
-        Map<Integer,Double> mapIt1= differenceMatrix.get(item1);
-        Map<Integer,Double> mapIt2= differenceMatrix.get(item2);
+        ArrayList<Pair<Integer,Double>> array1 = differenceMatrix.get(item1);
+        ArrayList<Pair<Integer,Double>> array2 = differenceMatrix.get(item2);
+
+
         Double diff= 0.0;
-        if(mapIt1 != null && !mapIt1.isEmpty() && mapIt1.containsKey(item2)){
-            if(item1 < item2) diff= -mapIt1.get(item2);
-            else diff = mapIt1.get(item2);
+
+
+        if(array1 != null && !array1.isEmpty() && conteItem(array1,item2)){
+
+            if(item1 < item2) diff= -getDistancePair(array1, item2);
+            else diff = getDistancePair(array1, item2);
         }
-        else if(mapIt2 != null && !mapIt2.isEmpty() && mapIt2.containsKey(item1)){
-            if(item1 < item2) diff= -mapIt2.get(item1);
-            else diff = mapIt2.get(item1);
+
+        else if(array2 != null && !array2.isEmpty() && conteItem(array2,item1)){
+            if(item1 < item2) diff= -getDistancePair(array2,item1);
+            else diff = getDistancePair(array2,item1);
         }
+
         return diff;
     }
 
     //complexitat O ( (CjtClusters.size * max(UsersCjt.size)) + (users.size * max(num_reviews_usuari²) )  +   (items.size * num_reviews_user)  +
     // s.size * (itemsVal.size * users.size * max(num_reviews_user) + itemsBons.size * (mapIt1.size + mapIt2.size))  +  (m.size)   )
+
+    /**
+     * Donat un identificador d'usuari, una llista de items i un enter K, retorna els K items mes recomanats de la llista per a l'usuari, K no es te en compte si tenim la variable evaluation a TRUE
+     * @param userId Identificador de l'usuari al que esteim fent una recomanacio
+     * @param Items LLista dels possibles items que li podem recomanar
+     * @param k Nombre de items que li recomanam
+     * @return LLista dels k items (si evaluation es FALSE) que li recomanam a l'usuari
+     */
     public List<Integer> recommended(String userId, List<Integer> Items, int k){
         int i = findClusterUser(userId); //(CjtClusters.size * max(UsersCjt.size))
 
-        Set<Integer> s = manager.itemsNoVal(userId,getCluster(i)); // (users.size * max(num_reviews_usuari²) )
+        Set<Integer> s = manager.itemsNoVal(userId,CjtClusters.get(i)); // (users.size * max(num_reviews_usuari²) )
         List<Integer> itemsVal = manager.getVal(userId, (ArrayList<Integer>) Items); // (items.size * num_reviews_user)
 
         Double mitjUs = manager.raiAve(userId);
@@ -133,7 +203,7 @@ public class CollaborativeFiltering implements RecommendationSystem {
         return finalRecommendation;
     }
 
-    /**public void writeCjtClusters() {
+    /*public void writeCjtClusters() {
         for (int i = 1; i <= CjtClusters.size(); ++i) {
             ArrayList<String> userInK = CjtClusters.get(i); //Los usuarios que pertenecen al cluster i
             System.out.println("Los usuarios que pertenecen al cluster " + i + " son:");
@@ -143,6 +213,8 @@ public class CollaborativeFiltering implements RecommendationSystem {
         }
     }*/
     //complexitat O (idItems.size)
+
+
     public double distance(Map<Integer, Double> c1, Map<Integer, Double> c2, ArrayList<Integer> idItems) {
         double dist = 0;
         for (int i = 0; i < idItems.size(); ++i) {
@@ -156,11 +228,17 @@ public class CollaborativeFiltering implements RecommendationSystem {
     }
 
     //complexitat = O(1)
-    public ArrayList<String> getCluster(int i){
-        return CjtClusters.get(i);
-    }
+//    public ArrayList<String> getCluster(int i){
+//        return CjtClusters.get(i);
+//    }
 
     //complexitat O (CjtClusters.size * max(UsersCjt.size))
+
+    /**
+     * Donat el identificador d'un usuari, retorna l'index del cluster al que pertany
+     * @param u1 Usuari que esteim cercant
+     * @return Index del cluster on es troba l'usuari
+     */
     private int findClusterUser(String u1){
         for (Map.Entry<Integer, ArrayList<String>> entry : CjtClusters.entrySet()){
             ArrayList<String> UsersCjt = entry.getValue();
@@ -260,3 +338,4 @@ public class CollaborativeFiltering implements RecommendationSystem {
         }
     }
 }
+
