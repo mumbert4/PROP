@@ -64,4 +64,8 @@ public class Item {
         return attributes.get(i).getSecond();
     }
 
+    public String nameColumn(int i){
+        return attributes.get(i).getFirst();
+    }
+
 }

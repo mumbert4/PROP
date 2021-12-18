@@ -143,6 +143,19 @@ public class ItemManager{
     }
 
 
+    /**
+     * Donat un arrayList de pair de strings(nom columnes) i int (posicio), ens retorna el nom de la columna que esta a la posicio i
+     * @param a ArrayList de pairs de strings(nom columnes) i int (posicio)
+     * @param i Posicio de l'string que volem
+     * @return Nom de la columna a la posició i
+     * Complexitat O (a.size)
+     */
+    String obtenirCol(ArrayList<Pair<String,Integer>> a, int i){
+        for (Pair p : a){
+            if((int)p.getSecond() == i) return (String)p.getFirst();
+        }
+        return "";
+    }
 
 
     /**
@@ -151,10 +164,31 @@ public class ItemManager{
      * Complexitat O (listItems.size)
      */
     private void createColumns(List<String> listItems) {
-        int columnId = getColId(listItems.get(0));
+        ArrayList<Pair<String,Integer>> a = getCols(listItems.get(0));
+        int columnId = 0;
+
+//        for (Pair p : a){
+//            System.out.println("Columna:"+ p.getFirst() + " esta a la posicio :" + p.getSecond());
+//        }
+        Pair<String,Integer> p_aux = new Pair<>("id", -1) ;
+        for (Pair p : a){
+            if(p.getFirst().equals("id")){
+                columnId = (int)p.getSecond();
+                p_aux = p;
+            }
+        }
+//        System.out.println();
+//        System.out.println();
+//        System.out.println();
+        a.remove(p_aux);
+
+//        for (Pair p : a){
+//            System.out.println("Columna:"+ p.getFirst() + " esta a la posicio :" + p.getSecond());
+//        }
+        
         for (int i = 1; i < listItems.size(); ++i) {// començam a 1 perque la 1 a fila no ens importa
 
-            ArrayList<Column> itmAux = new ArrayList<>();
+            ArrayList<Pair<String,Column>> itmAux = new ArrayList<>();
             int idInt = -1;
 
 
@@ -186,7 +220,7 @@ public class ItemManager{
                         //System.out.println("DESCRIPCIO: " + aux);
                         j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
                         Column.ColumnString actItem = new Column.ColumnString(aux);
-                        itmAux.add(actItem);
+                        itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                         aux = "";
                     }
 
@@ -195,19 +229,19 @@ public class ItemManager{
 
                         if (isInt(aux)) {
                             Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
-                            itmAux.add(actItem);
+                            itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Integer.parseInt(aux));
                         } else if (isB(aux)) {
                             Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
-                            itmAux.add(actItem);
+                            itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Boolean.parseBoolean(aux));
                         } else if (isDbl(aux)) {
                             Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
-                            itmAux.add(actItem);
+                            itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Double.parseDouble(aux));
                         } else{
                             Column.ColumnString actItem = new Column.ColumnString(aux);
-                            itmAux.add(actItem);
+                            itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                         }
                         aux = "";
                         ++elemAct;
@@ -318,41 +352,46 @@ public class ItemManager{
                 int id2 = IdItems.get(j);
                 double dist = 0;
                 if (i != j) {
-
+;
 
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
-                        if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
-                            Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
-                            Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
-                            boolean b1 = colb1.getValue();
-                            boolean b2 = colb2.getValue();
-                            if (b1 != b2) ++dist;
+//                        System.out.println("Evaluant: " + items.get(id1).nameColumn(k));
+                        if(ponderacions.containsKey(items.get(id1).nameColumn(k))){
+//                            System.out.println("S'ha evaluat");
+                            int p = ponderacions.get(items.get(id1).nameColumn(k));
+                            if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
+                                Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
+                                Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
+                                boolean b1 = colb1.getValue();
+                                boolean b2 = colb2.getValue();
+                                if (b1 != b2) dist += (1*p);
 
-                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
-                            Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
-                            Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
-                            int i1 = coli1.getValue();
-                            int i2 = coli2.getValue();
-                            if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2));
-                            else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1));
+                            } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
+                                Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
+                                Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
+                                int i1 = coli1.getValue();
+                                int i2 = coli2.getValue();
+                                if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2))*p;
+                                else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1))*p;
 
-                        } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
-                            Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
-                            Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
+                            } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
+                                Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
+                                Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
 
-                            double d1 = cold1.getValue();
-                            double d2 = cold2.getValue();
+                                double d1 = cold1.getValue();
+                                double d2 = cold2.getValue();
 
-                            if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2));
-                            else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1));
-                        } else {
+                                if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2)) *p ;
+                                else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1))*p;
+                            } else {
 
-                            Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
-                            Column.ColumnString cols2 = (Column.ColumnString) items.get(id2).getColumn(k);
+                                Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
+                                Column.ColumnString cols2 = (Column.ColumnString) items.get(id2).getColumn(k);
 
-                            String s1 = cols1.getValue();
-                            String s2 = cols2.getValue();
-                            dist += (1 - jaroWinkler(s1, s2));
+                                String s1 = cols1.getValue();
+                                String s2 = cols2.getValue();
+                                dist += (1 - jaroWinkler(s1, s2)) *p;
+                            }
                         }
                     }
 
@@ -423,24 +462,49 @@ public class ItemManager{
      * @return Posició de la columna de l'atribut Id
      * Complexitat O (fila.size)
      */
-    int getColId(String fila){
+    ArrayList<Pair<String,Integer>> getCols(String fila){
+        ArrayList<Pair<String,Integer>> a = new ArrayList<>();
         int colAct=1;
         int j = 0;
         String aux = "";
+
         while(j < fila.length()){
-            if(fila.charAt(j)==','){
-                if (aux.equals("id")) return colAct;
+            if(fila.charAt(j)==',' || j == fila.length()-1){
+                if (aux.equals("id")){
+                    a.add(new Pair("id",colAct));
+                    aux ="";
+                    ++colAct;
+
+                }
                 else{
+                    a.add(new Pair<>(aux,colAct));
                     aux = "";
                     ++colAct;
-                    ++j;
+
                 }
             }
             else{
                 aux += fila.charAt(j);
-                ++j;
             }
+            ++j;
         }
-        return 0;
+        return a;
     }
 }
+//
+//for(String s : ListPond){
+//        String aux = "";
+//        String col = "";
+//        int val = 0;
+//        int j = 0;
+//        while (j < s.length()){
+//        if(s.charAt(j) == ',' || j == s.length() -1){
+//        if(isInt(aux)) val = Integer.parseInt(aux);
+//        else col = aux;
+//        aux ="";
+//        }
+//        else aux += s.charAt(j);
+//        ++j;
+//        }
+//        ponderacions.put(col,val);
+//        }
