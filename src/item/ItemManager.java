@@ -371,8 +371,8 @@ public class ItemManager{
                                 Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
                                 int i1 = coli1.getValue();
                                 int i2 = coli2.getValue();
-                                if (i1 + i2 != 0) dist += (Math.abs(i1 - i2) / (i1 + i2))*p;
-                                else dist += (Math.abs(i1 - i2) / (i1 + i2 + 1))*p;
+
+                                 dist += Math.abs(i1 - i2) *p;
 
                             } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
                                 Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
@@ -380,9 +380,7 @@ public class ItemManager{
 
                                 double d1 = cold1.getValue();
                                 double d2 = cold2.getValue();
-
-                                if (d1 + d2 != 0) dist += (Math.abs(d1 - d2) / (d1 + d2)) *p ;
-                                else dist += (Math.abs(d1 - d2) / (d1 + d2 + 1))*p;
+                                dist += (Math.abs(d1 - d2) )*p;
                             } else {
 
                                 Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
