@@ -5,58 +5,50 @@ import java.util.Scanner;
 
 public class driverItem {
     static ArrayList<Pair<String,Column>> getAtributes(){
-        //        ArrayList<Column> cols = new ArrayList<>();
-//        int j = 0;
-//        String aux = "";
-//        while(j < at.length()){
-//            if (at.charAt(j) == '"') {
-//                ++j;
-//                aux = "";
-//                while (!(at.charAt(j) == '"' && at.charAt(j + 1) == ',' && at.charAt(j + 2) != ' ')) {
-//                    aux += at.charAt(j);
-//                    ++j;
-//                }
-//                //System.out.println("DESCRIPCIO: " + aux);
-//                j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-//                Column.ColumnString actItem = new Column.ColumnString(aux);
-//                cols.add(actItem);
-//                aux = "";
-//            }
-//
-//            else if (at.charAt(j) == ',' || j == at.length() - 1) {
-//                //System.out.println("NI PUTA IDEA: " + aux);
-//
-//
-//                if (isInt(aux)) {
-//                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
-//                    cols.add(actItem);
-//                    //System.out.println(Integer.parseInt(aux));
-//                } else if (isB(aux)) {
-//                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
-//                    cols.add(actItem);
-//                    //System.out.println(Boolean.parseBoolean(aux));
-//                } else if (isDbl(aux)) {
-//                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
-//                    cols.add(actItem);
-//                    //System.out.println(Double.parseDouble(aux));
-//                } else{
-//                    Column.ColumnString actItem = new Column.ColumnString(aux);
-//                    cols.add(actItem);
-//                }
-//                aux = "";
-//                ++j;
-//            }
-//            else {
-//                aux += at.charAt(j);
-//                ++j;
-//            }
-//        }
-//        return cols;
-        Column.ColumnString actItem = new Column.ColumnString("Prova");
-        Pair<String,Column> p = new Pair("Prova", actItem);
-        ArrayList aux = new ArrayList();
-        aux.add(p);
-        return aux;
+
+        ArrayList<Pair<String,Column>> atributes = new ArrayList<>();
+         System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
+         System.out.println("Si es una descripcio, s'ha de possar com desc descripcio");
+         Scanner sc = new Scanner(System.in);
+         String atribut = sc.next();
+         while(!atribut.equals("f")){
+             if(atribut.equals("desc")){
+
+                 String valor = sc.nextLine();
+//                 System.out.println(valor);
+                 Column.ColumnString actItem = new Column.ColumnString(valor);
+                 atributes.add(new Pair<>(atribut,actItem));
+             }
+             else {
+                 System.out.println("Ara insereix el valor de l'atribut: ");
+                 String valor = sc.next();
+                 if (isInt(valor)) {
+//                     System.out.println("Atribut " + atribut + " afegit com Integer");
+                     Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(valor));
+                     atributes.add(new Pair<>(atribut,actItem));
+                     //System.out.println(Integer.parseInt(aux));
+                 } else if (isB(valor)) {
+//                     System.out.println("Atribut " + atribut + " afegit com Boolean");
+                     Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(valor));
+                     atributes.add(new Pair<>(atribut,actItem));
+                     //System.out.println(Boolean.parseBoolean(aux));
+                 } else if (isDbl(valor)) {
+//                     System.out.println("Atribut " + atribut + " afegit com Double");
+                     Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(valor));
+                     atributes.add(new Pair<>(atribut,actItem));
+                     //System.out.println(Double.parseDouble(aux));
+                 } else{
+//                     System.out.println("Atribut " + atribut + " afegit com String");
+                     Column.ColumnString actItem = new Column.ColumnString(valor);
+                     atributes.add(new Pair<>(atribut,actItem));
+                 }
+             }
+
+             System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
+             atribut = sc.next();
+         }
+
+        return atributes;
     }
 
     public static void main(String[] args){
