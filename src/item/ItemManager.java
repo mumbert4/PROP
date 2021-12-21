@@ -219,7 +219,7 @@ public class ItemManager{
                         }
                         //System.out.println("DESCRIPCIO: " + aux);
                         j += 2; //PER COMENÇAR LA SEUENT ITERACIO EN UN STRING
-                        Column.ColumnString actItem = new Column.ColumnString(aux);
+                        ColumnString actItem = new ColumnString(aux);
                         itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                         aux = "";
                     }
@@ -228,19 +228,19 @@ public class ItemManager{
 
 
                         if (isInt(aux)) {
-                            Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(aux));
+                            ColumnInteger actItem = new ColumnInteger(Integer.parseInt(aux));
                             itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Integer.parseInt(aux));
                         } else if (isB(aux)) {
-                            Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(aux));
+                            ColumnBool actItem = new ColumnBool(Boolean.parseBoolean(aux));
                             itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Boolean.parseBoolean(aux));
                         } else if (isDbl(aux)) {
-                            Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(aux));
+                            ColumnDouble actItem = new ColumnDouble(Double.parseDouble(aux));
                             itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                             //System.out.println(Double.parseDouble(aux));
                         } else{
-                            Column.ColumnString actItem = new Column.ColumnString(aux);
+                            ColumnString actItem = new ColumnString(aux);
                             itmAux.add(new Pair<>(obtenirCol(a,elemAct),actItem));
                         }
                         aux = "";
@@ -333,6 +333,17 @@ public class ItemManager{
     }
 
 
+    public List<Column> getAllValuesColumn(int k){
+
+        List<Column> allValues = new LinkedList<>();
+
+        for (Map.Entry<Integer, Item> entry : items.entrySet()){
+            Column act = entry.getValue().getColumn(k);
+            allValues.add(act);
+        }
+        return allValues;
+    }
+
 
     /**
      * Rellena la matriu de distancies entre els items
@@ -352,48 +363,47 @@ public class ItemManager{
                 int id2 = IdItems.get(j);
                 double dist = 0;
                 if (i != j) {
-;
-
                     for (int k = 0; k < items.get(id1).getSizeAttributes(); ++k) {
-//                        System.out.println("Evaluant: " + items.get(id1).nameColumn(k));
+                        List<Column> allValues;
+
                         if(ponderacions.containsKey(items.get(id1).nameColumn(k))){
-//                            System.out.println("S'ha evaluat");
+//                            System.out.println("Evaluant: " + items.get(id1).nameColumn(k));
                             int p = ponderacions.get(items.get(id1).nameColumn(k));
-                            if (items.get(id1).getColumn(k) instanceof Column.ColumnBool) {
-                                Column.ColumnBool colb1 = (Column.ColumnBool) items.get(id1).getColumn(k);
-                                Column.ColumnBool colb2 = (Column.ColumnBool) items.get(id2).getColumn(k);
-                                boolean b1 = colb1.getValue();
-                                boolean b2 = colb2.getValue();
-                                if (b1 != b2) dist += (1*p);
+                            if (items.get(id1).getColumn(k) instanceof ColumnBool) {
+                                // Calcul de diferencia entre dues columnes bool
+                                ColumnBool colb1 = (ColumnBool) items.get(id1).getColumn(k);
+                                //Agafem tots els valors de la columna k per poder calcular la mitjana i la desviació
+                                allValues = getAllValuesColumn(k);
+                                dist += colb1.difference(items.get(id2).getColumn(k), allValues) * p;
 
-                            } else if (items.get(id1).getColumn(k) instanceof Column.ColumnInteger) {
-                                Column.ColumnInteger coli1 = (Column.ColumnInteger) items.get(id1).getColumn(k);
-                                Column.ColumnInteger coli2 = (Column.ColumnInteger) items.get(id2).getColumn(k);
-                                int i1 = coli1.getValue();
-                                int i2 = coli2.getValue();
 
-                                 dist += Math.abs(i1 - i2) *p;
+                            } else if (items.get(id1).getColumn(k) instanceof ColumnInteger) {
+                                // Calcul de diferencia entre dues columnes integer
+                                ColumnInteger colint1 = (ColumnInteger) items.get(id1).getColumn(k);
+                                //Agafem tots els valors de la columna k per poder calcular la mitjana i la desviació
+                                allValues = getAllValuesColumn(k);
+                                dist += colint1.difference(items.get(id2).getColumn(k),allValues) * p;
 
-                            } else if (items.get(id1).getColumn(k) instanceof Column.ColumnDouble) {
-                                Column.ColumnDouble cold1 = (Column.ColumnDouble) items.get(id1).getColumn(k);
-                                Column.ColumnDouble cold2 = (Column.ColumnDouble) items.get(id2).getColumn(k);
 
-                                double d1 = cold1.getValue();
-                                double d2 = cold2.getValue();
-                                dist += (Math.abs(d1 - d2) )*p;
+                            } else if (items.get(id1).getColumn(k) instanceof ColumnDouble) {
+                                // Calcul de diferencia entre dues columnes double
+                                ColumnDouble cold1 = (ColumnDouble) items.get(id1).getColumn(k);
+                                //Agafem tots els valors de la columna k per poder calcular la mitjana i la desviació
+                                allValues = getAllValuesColumn(k);
+                                dist += cold1.difference(items.get(id2).getColumn(k),allValues) * p;
+
                             } else {
 
-                                Column.ColumnString cols1 = (Column.ColumnString) items.get(id1).getColumn(k);
-                                Column.ColumnString cols2 = (Column.ColumnString) items.get(id2).getColumn(k);
+                                // Calcul de diferencia entre dues columnes string
+                                ColumnString cols1 = (ColumnString) items.get(id1).getColumn(k);
+                                //Agafem tots els valors de la columna k per poder calcular la mitjana i la desviació
+                                allValues = getAllValuesColumn(k);
+                                dist += cols1.difference(items.get(id2).getColumn(k),allValues) * p;
 
-                                String s1 = cols1.getValue();
-                                String s2 = cols2.getValue();
-                                dist += (1 - jaroWinkler(s1, s2)) *p;
                             }
                         }
                     }
 
-                    
                     internArray.add(new Pair(id2,dist));
                 }
 

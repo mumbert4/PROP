@@ -4,49 +4,47 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class driverItem {
+    public static Scanner sc = new Scanner(System.in);
     static ArrayList<Pair<String,Column>> getAtributes(){
-
         ArrayList<Pair<String,Column>> atributes = new ArrayList<>();
-         System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
-         System.out.println("Si es una descripcio, s'ha de possar com desc descripcio");
-         Scanner sc = new Scanner(System.in);
-         String atribut = sc.next();
-         while(!atribut.equals("f")){
-             if(atribut.equals("desc")){
-
-                 String valor = sc.nextLine();
-//                 System.out.println(valor);
-                 Column.ColumnString actItem = new Column.ColumnString(valor);
-                 atributes.add(new Pair<>(atribut,actItem));
-             }
-             else {
-                 System.out.println("Ara insereix el valor de l'atribut: ");
-                 String valor = sc.next();
-                 if (isInt(valor)) {
+        System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
+        System.out.println("Si es una descripcio, s'ha de possar com desc descripcio");
+        String atribut = sc.next();
+        System.out.println(atribut);
+        while(!atribut.equals("f")){
+            if(atribut.equals("desc")){
+                String valor = sc.next();
+                System.out.println(valor);
+                ColumnString actItem = new ColumnString(valor);
+                atributes.add(new Pair<>(atribut,actItem));
+            }
+            else {
+                System.out.println("Ara insereix el valor de l'atribut: ");
+                String valor = sc.next();
+                if (isInt(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Integer");
-                     Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(valor));
-                     atributes.add(new Pair<>(atribut,actItem));
-                     //System.out.println(Integer.parseInt(aux));
-                 } else if (isB(valor)) {
+                    ColumnInteger actItem = new ColumnInteger(Integer.parseInt(valor));
+                    atributes.add(new Pair<>(atribut,actItem));
+                    //System.out.println(Integer.parseInt(aux));
+                } else if (isB(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Boolean");
-                     Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(valor));
-                     atributes.add(new Pair<>(atribut,actItem));
-                     //System.out.println(Boolean.parseBoolean(aux));
-                 } else if (isDbl(valor)) {
+                    ColumnBool actItem = new ColumnBool(Boolean.parseBoolean(valor));
+                    atributes.add(new Pair<>(atribut,actItem));
+                    //System.out.println(Boolean.parseBoolean(aux));
+                } else if (isDbl(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Double");
-                     Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(valor));
-                     atributes.add(new Pair<>(atribut,actItem));
-                     //System.out.println(Double.parseDouble(aux));
-                 } else{
+                    ColumnDouble actItem = new ColumnDouble(Double.parseDouble(valor));
+                    atributes.add(new Pair<>(atribut,actItem));
+                    //System.out.println(Double.parseDouble(aux));
+                } else{
 //                     System.out.println("Atribut " + atribut + " afegit com String");
-                     Column.ColumnString actItem = new Column.ColumnString(valor);
-                     atributes.add(new Pair<>(atribut,actItem));
-                 }
-             }
-
-             System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
-             atribut = sc.next();
-         }
+                    ColumnString actItem = new ColumnString(valor);
+                    atributes.add(new Pair<>(atribut,actItem));
+                }
+            }
+            System.out.println("Insereix l'atribut que vols declarar, o escriu f si has acabat");
+            atribut = sc.next();
+        }
 
         return atributes;
     }
@@ -63,9 +61,10 @@ public class driverItem {
         action = sc.next();
         while(!action.equals("end")){
             if(action.equals("createItem")){
-                Integer itemId = sc.nextInt();
-
-                item = new Item(itemId,getAtributes());
+                String p = sc.next();
+                Integer itemId = Integer.parseInt(p);
+                System.out.println(itemId);
+                //item = new Item(itemId,getAtributes());
             }
             if(action.equals("getId")){
                 if(item!= null) System.out.println("Id del item: " + item.getId());
@@ -76,7 +75,9 @@ public class driverItem {
                 else  System.out.println("Item no iniciat");
             }
             else if(action.equals("getCol")){
-                Integer i = sc.nextInt();
+                String p = sc.next();
+                Integer i = Integer.parseInt(p);
+                System.out.println(i);
                 if(item!= null) System.out.println("Atribut: " + item.getColumn(i));
                 else  System.out.println("Item no iniciat");
             }

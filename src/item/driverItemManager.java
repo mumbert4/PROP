@@ -17,7 +17,7 @@ public class driverItemManager {
 
                 String valor = sc.nextLine();
 //                 System.out.println(valor);
-                Column.ColumnString actItem = new Column.ColumnString(valor);
+                ColumnString actItem = new ColumnString(valor);
                 atributes.add(new Pair<>(atribut,actItem));
             }
             else {
@@ -25,22 +25,22 @@ public class driverItemManager {
                 String valor = sc.next();
                 if (isInt(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Integer");
-                    Column.ColumnInteger actItem = new Column.ColumnInteger(Integer.parseInt(valor));
+                    ColumnInteger actItem = new ColumnInteger(Integer.parseInt(valor));
                     atributes.add(new Pair<>(atribut,actItem));
                     //System.out.println(Integer.parseInt(aux));
                 } else if (isB(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Boolean");
-                    Column.ColumnBool actItem = new Column.ColumnBool(Boolean.parseBoolean(valor));
+                    ColumnBool actItem = new ColumnBool(Boolean.parseBoolean(valor));
                     atributes.add(new Pair<>(atribut,actItem));
                     //System.out.println(Boolean.parseBoolean(aux));
                 } else if (isDbl(valor)) {
 //                     System.out.println("Atribut " + atribut + " afegit com Double");
-                    Column.ColumnDouble actItem = new Column.ColumnDouble(Double.parseDouble(valor));
+                    ColumnDouble actItem = new ColumnDouble(Double.parseDouble(valor));
                     atributes.add(new Pair<>(atribut,actItem));
                     //System.out.println(Double.parseDouble(aux));
                 } else{
 //                     System.out.println("Atribut " + atribut + " afegit com String");
-                    Column.ColumnString actItem = new Column.ColumnString(valor);
+                    ColumnString actItem = new ColumnString(valor);
                     atributes.add(new Pair<>(atribut,actItem));
                 }
             }
@@ -71,8 +71,8 @@ public class driverItemManager {
             else if(action.equals("createItem")){
                 Integer item_id = sc.nextInt();
                 if(manager != null){
-                    if(!manager.existItem(item_id)) manager.createItem(item_id, getAtributes());
-                    else System.out.println("Ja existeix aquestv item al manager");
+                    //if(!manager.existItem(item_id)) manager.createItem(item_id, getAtributes());
+                    //else System.out.println("Ja existeix aquestv item al manager");
                 }
                 else System.out.println("Manager no iniciat");
             }
