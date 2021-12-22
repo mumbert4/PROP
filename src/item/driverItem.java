@@ -2,6 +2,7 @@ package item;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import estructures.Pair;
 
 public class driverItem {
     public static Scanner sc = new Scanner(System.in);

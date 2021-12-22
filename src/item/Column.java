@@ -1,5 +1,6 @@
 package item;
 import java.util.List;
+import estructures.Pair;
 
 
 public abstract class Column {

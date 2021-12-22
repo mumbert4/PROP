@@ -15,8 +15,6 @@ public class UserManager {
     ItemManager items;
     private static UserManager manager;
 
-    //
-
     /**
      * Constructora de la classe UserManager
      * Complexitat O(1)
@@ -24,8 +22,6 @@ public class UserManager {
     private UserManager() {
         users = new HashMap<String, ActiveUser>();
     }
-
-    //
 
     /**
      * Obte la instancia de la classe ja que aquesta es singleton, la crea si no esta iniciada
@@ -58,43 +54,33 @@ public class UserManager {
 
 
     /**
-     * Crea un nou usuari donat els seus paràmetres de creació, comprova que l'usuari no existesqui ja
+     * Crea un nou usuari donat els seus paràmetres de creació
      * @param userId Identificador del usuari
      * @param password Password del usuari
-     * @param confirmPassword Password de confirmació
      * Complexitat O(users.size)
      */
-    public void createUser(String userId, String password, String confirmPassword) {
-        if (existUser(userId))
-            System.out.println("The user with name: " + userId + " already exists, please choose another name");
-        else if (!(password.equals(confirmPassword))) System.out.println("Passwords do not match, try again");
-        else {
-            ActiveUser user = new ActiveUser(userId, password);
-            users.put(userId, user);
-//            System.out.println("User successfully created");
-        }
+    public void createUser(String userId, String password) {
+        ActiveUser user = new ActiveUser(userId, password);
+        users.put(userId, user);
     }
-
 
 
     /**
-     * Afegeix un usuari no existent als usuaris
-     * @param user activeUser que volem afegir
+     * Esborra un usuari existent als usuaris
+     * @param user ActiveUser que volem eliminar
      * Complexitat O (users.size)
      */
-    public void addUser(ActiveUser user) {
-        String userId = user.getName();
-        if (existUser(userId)) System.out.println("This user already exists");
-        else {
-            users.put(userId, user);
-        }
+    public void deleteUser(String user) {
+        users.remove(user);
     }
+
+
 
 
     /**
      * Obtenir la instància d'un usuari
      * @param userId Identificador de l'usuari del que volem obtenir la instància
-     * @return Instància de l'activeUser
+     * @return Instància de l'ActiveUser
      * Complxitat O (1)
      */
     public ActiveUser getUser(String userId) {

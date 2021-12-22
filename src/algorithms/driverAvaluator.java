@@ -1,5 +1,6 @@
 package algorithms;
 
+import data.CtrlData;
 import domain.CtrlDomain;
 import item.ItemManager;
 import user.UserManager;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 
 public class driverAvaluator {
     public static void main(String args[]) throws IOException{
+        CtrlData CD = null;
         UserManager users = null;
         ItemManager items = null;
         ContentBasedFiltering cb = null;
@@ -18,6 +20,7 @@ public class driverAvaluator {
         Scanner sc = new Scanner(System.in);
         CollaborativeFiltering col = null;
         Avaluator av = null;
+        Kmeans km = null;
         System.out.println("Instruccions");
         System.out.println("\t 1-Initialize : inicialitza l'avaluador, l'ItemManager, el UserManager i els algoritmes de Content Based i Collaborative Filtering");
         System.out.println("\t 2-Evaluate <String- UserId>  : donat un userId evalua la prediccio dels nostres algoritmes");
@@ -25,7 +28,8 @@ public class driverAvaluator {
         String action = sc.next();
         while(!action.equals("end")){
             if(action.equals("Initialize")){
-                if(av ==null){
+                if(av == null){
+                    CD = CtrlData.getInstance();
                     users = UserManager.getInstance();
                     CDomini = CtrlDomain.getInstance();
                     CDomini.obtainData(users);
@@ -33,13 +37,12 @@ public class driverAvaluator {
                     items.fillPonderacions(CDomini.getPonderacions());
                     items.fillMapDistances(CDomini.getItems());
                     users.setItemMan(items);
+                    km.kmeans(users, items.getItems(), 3);
                     cb = new ContentBasedFiltering(users,items);
-                    col = new CollaborativeFiltering(users);
-                    col.kmeans(users, items.getItems(), 3);
-                    col.buildDifferencesMatrix(items.getItems(), col.getCluster(1) );
+                    col = new CollaborativeFiltering(users, km);
+                    col.buildDifferencesMatrix(items.getItems(), users.getUsers());
                     av = new Avaluator();
                     System.out.println("Tot inicialitzat correctament");
-
                 }
                 else {
                     System.out.println("Ja esta inicilitzat");
@@ -51,16 +54,14 @@ public class driverAvaluator {
                     String userId = sc.next();
                     col.setTrue();
                     if(users.existUser(userId)) {
-
                         List<Integer> colItenms = col.calculate(userId,0,items.getItems());
                         int aux = users.numReviews(userId);
                         int k = items.getItems().size() - aux;
                         Map<Integer,Double> unknown = CDomini.getRatings(userId);
                         List<Integer> cbItems = cb.calculate(userId,k,items.getItems());
-                        av.evaluate(colItenms, cbItems, unknown);
+                        av.evaluate(colItenms, "col", unknown);
                     }
                     else System.out.println("L'usuari donat no exiteix");
-
                 }
                 else System.out.println("Inicialitza primer tot");
             }

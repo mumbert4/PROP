@@ -1,7 +1,6 @@
 package item;
 import java.util.*;
-import item.Pair;
-
+import estructures.Pair;
 /**
  *Classe que representa la instància d'un item, format pel seu ID i els seus atributs
  */
@@ -67,5 +66,10 @@ public class Item {
     public String nameColumn(int i){
         return attributes.get(i).getFirst();
     }
+
+    public ArrayList<Pair<String, Column>> getAttributes() {
+        return attributes;
+    }
+
 
 }

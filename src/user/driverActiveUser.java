@@ -25,7 +25,6 @@ public class driverActiveUser {
         String action;
         action = sc.next();
         while(!action.equals("end")){
-
             if(action.equals("createUser")){
                 String user_name = sc.next();
                 String passwd = sc.next();
@@ -44,7 +43,7 @@ public class driverActiveUser {
             else if(action.equals("updatePasswd")){
                 String passwd = sc.next();
                 if(usr != null){
-                    usr.updatePasswd(passwd);
+                    usr.changePassword(passwd);
                     System.out.println("Password actualitzat");
                 }
                 else System.out.println("No hi ha usuari creat");
@@ -60,11 +59,11 @@ public class driverActiveUser {
                 else System.out.println("No hi ha usuari creat");
             }
             else if(action.equals("addReview")){
-                Integer item_id, points;
-                String comment;
-                item_id = sc.nextInt();
-                points = sc.nextInt();
-                comment = sc.next();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
+                String p = sc.next();
+                Double points = Double.parseDouble(p);
+                String comment = sc.next();
                 if(usr != null){
                     if(usr.hasValuated(item_id)) System.out.println("L'usuari ja ha valorat aquest item, utilitzeu les funcions de settejar atributs d'una review");
                     else{
@@ -82,9 +81,11 @@ public class driverActiveUser {
                 else System.out.println("No hi ha usuari creat");
             }
             else if(action.equals("setPoints")){
-                Integer item_id, points;
-                item_id = sc.nextInt();
-                points = sc.nextInt();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
+                String p = sc.next();
+                Double points = Double.parseDouble(p);
+                String comment = sc.next();
                 if(usr != null){
                     if(usr.hasValuated(item_id)){
                         usr.setPoints(item_id, points);
@@ -95,9 +96,9 @@ public class driverActiveUser {
                 else System.out.println("No hi ha usuari creat");
             }
             else if(action.equals("setComment")){
-                Integer item_id = sc.nextInt();
-                String comment= sc.next();
-
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
+                String comment = sc.next();
                 if(usr != null){
                     if(usr.hasValuated(item_id)){
                         usr.setComment(item_id,comment);
@@ -115,15 +116,16 @@ public class driverActiveUser {
 
             else if(action.equals("getReviews")){
                 if(usr != null){
-                  Map<Integer,Double> revs = usr.getReviewsUsers(usr.numReviews());
-                  for(Map.Entry<Integer,Double> e : revs.entrySet() ){
-                      System.out.println("Item:" + e.getKey() + " Puntuacio:"+e.getValue());
-                  }
+                    Map<Integer,Double> revs = usr.getReviewsUsers(usr.numReviews());
+                    for(Map.Entry<Integer,Double> e : revs.entrySet() ){
+                        System.out.println("Item:" + e.getKey() + " Puntuacio:"+e.getValue());
+                    }
                 }
                 else System.out.println("No hi ha usuari creat");
             }
             else if(action.equals("hasValuated")){
-                Integer item_id = sc.nextInt();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
                 if(usr != null) System.out.println(usr.hasValuated(item_id));
                 else System.out.println("No hi ha usuari creat");
             }

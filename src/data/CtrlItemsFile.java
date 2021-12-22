@@ -22,9 +22,14 @@ public class CtrlItemsFile {
     private CtrlItemsFile() {}
 
     // complexitat O (filename.size -> tamany fitxer)
-    public List<String> getAll(String filename) throws FileNotFoundException {
+    public List<String> getAll(String filename)  {
         LinkedList<String> items = new LinkedList<String>();
-        FileReader fr = new FileReader("DATA/"+filename);
+        FileReader fr = null;
+        try {
+            fr = new FileReader("DATA/"+filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Scanner scan = new Scanner(fr);
 
         while(scan.hasNextLine()) {

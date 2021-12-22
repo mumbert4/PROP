@@ -29,13 +29,13 @@ public class driverHybridApproach {
                     CDomini = CtrlDomain.getInstance();
                     CDomini.obtainData(users);
                     items = new ItemManager();
-                    items.fillPonderacions(CDomini.getPonderacions());
-                    items.fillMapDistances(CDomini.getItems());
+                    //items.fillPonderacions(CDomini.getPonderacions());
+                    //items.fillMapDistances(CDomini.getItems());
                     users.setItemMan(items);
                     cb = new ContentBasedFiltering(users,items);
-                    col = new CollaborativeFiltering(users);
-                    col.kmeans(users, items.getItems(), 3);
-                    col.buildDifferencesMatrix(items.getItems(), col.getCluster(1) );
+                    //col = new CollaborativeFiltering(users);
+                    //col.kmeans(users, items.getItems(), 3);
+                    //col.buildDifferencesMatrix(items.getItems(), col.getCluster(1) );
                     hb = new HybridApproach(cb, col);
                     System.out.println("Tot inicialitzat correctament");
 

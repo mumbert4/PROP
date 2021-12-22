@@ -8,13 +8,10 @@ import java.util.Map;
  */
 
 public class Avaluator {
-
     /**
      * Constructora de la classe
      */
     public Avaluator(){}
-
-
 
     /**
      * Calcul del Discounted Cumulative Gain
@@ -34,18 +31,17 @@ public class Avaluator {
         }
         return dcg;
     }
-
-
-
     /**
      * Evalua la fiabilitat de la prediccio dels nostres algorismes
-     * @param col Solucio de l'algorisme Collaborative Filtering
-     * @param cb Solucio de l'algorisme Content Based
+     * @param rec Solucio de l'algorisme Collaborative Filtering
+     * @param type Solucio de l'algorisme Content Based
      * @param unknown Mapa de l'identificador dels items i la puntuacio que l'usuari dona segons el fitxer raiting.test.unknown.csv
-     * Complexitat ( col.size * unknown.size + cb.size * unknown.size )
+     * @return
      */
-    public void evaluate(List<Integer> col, List<Integer> cb, Map<Integer,Double> unknown){
-        System.out.println ("Collaborative: "+ DCG(col,unknown));
-        System.out.println ("Content Based: "+ DCG(cb,unknown));
+    public double evaluate(List<Integer> rec, String type, Map<Integer,Double> unknown){
+        if (type.equals("col")) System.out.println ("Collaborative: "+ DCG(rec,unknown));
+        else if (type.equals("con")) System.out.println ("Content Based: "+ DCG(rec,unknown));
+        return DCG(rec,unknown);
     }
 }
+

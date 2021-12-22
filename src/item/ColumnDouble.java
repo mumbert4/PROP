@@ -1,6 +1,7 @@
 package item;
 
 import java.util.List;
+import estructures.Pair;
 
 public class ColumnDouble extends Column{
     double valueD;

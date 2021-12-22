@@ -1,6 +1,7 @@
 package item;
 
 import java.util.*;
+import estructures.Pair;
 /**
  * Aquesta classe ens gestiona i guarda tots els items del sistema i al distancia que hi ha entre els items
  * Disposa d'un map de Items, amb el seu identificador com a clau i la seva instància de la classe Item com a valor
@@ -40,6 +41,11 @@ public class ItemManager{
      */
     public boolean existItem(int id){
         return items.containsKey(id);
+    }
+
+
+    public Item getItem(int id) {
+        return items.get(id);
     }
 
 
@@ -163,7 +169,7 @@ public class ItemManager{
      * @param listItems Llista de tots els items amb les seves característiques
      * Complexitat O (listItems.size)
      */
-    private void createColumns(List<String> listItems) {
+    public void createColumns(List<String> listItems) {
         ArrayList<Pair<String,Integer>> a = getCols(listItems.get(0));
         int columnId = 0;
 
@@ -261,76 +267,8 @@ public class ItemManager{
 
 
 
-    /**
-     * Calcula la distancia entre dos strings utilitzant l'algorisme de Jaro-Winkler
-     * @param s1 Primer string a comparar
-     * @param s2 Segon string a comparar
-     * @return Distancia entre els dos strings
-     * Complexitat O(s1.size * s2.size)-> Temporal  O(s1.size + s2.size)-> espacial
-     */
-    static double jaroDistance(String s1, String s2) {
-        //Strings iguals
-        if (s1 == s2) {
-            return 1.0;
-        }
-        //Mida dels dos strings
-        int n = s1.length(), m = s2.length();
-        if (n == 0 || m == 0) return 0.0;
-        int maxDist = (int)Math.floor(Math.max(n, m)/2) - 1;
-        int match = 0;
 
-        //Hashes pels matches
-        int hashS1[] = new int[n];
-        int hashS2[] = new int[m];
 
-        for (int i = 0; i < n; i++) {
-            //Mira si hi ha algun match
-            for (int j = Math.max(0, i - maxDist); j < Math.min(m, i + maxDist + 1); j++) {
-                //Tenim match
-                if (s1.charAt(i) == s2.charAt(j) && hashS2[j] == 0) {
-                    hashS1[i] = hashS2[j] = 1;
-                    match++;
-                    break;
-                }
-            }
-        }
-        //No tenim match
-        if (match == 0) {
-            return 0.0;
-        }
-        //Nombre de transposicions
-        double t = 0;
-        int point = 0;
-        for (int i = 0; i < n; i++) {
-            if (hashS1[i] == 1) {
-                while (hashS2[point] == 0) {
-                    point++;
-                }
-
-                if (s1.charAt(i) != s2.charAt(point++)) {
-                    t++;
-                }
-            }
-        }
-        t /= 2;
-        return (((double)match)/((double)n) + ((double)match)/((double)m) + ((double)match - t)/((double)match))/ 3.0;
-    }
-
-    //commplexitat O (s1.size * s2.size)  O (s1.size + s2.size) espacial
-    static double jaroWinkler(String s1, String s2){
-        double jaroDist = jaroDistance(s1, s2);
-        if (jaroDist > 0.7) {
-            int prefix = 0;
-            for (int i = 0; i < Math.min(s1.length(), s2.length()); i++) {
-                if (s1.charAt(i) == s2.charAt(i)) {
-                    prefix++;
-                } else break;
-            }
-            prefix = Math.min(4, prefix);
-            jaroDist += 0.1 * prefix * (1 - jaroDist);
-        }
-        return jaroDist;
-    }
 
 
     public List<Column> getAllValuesColumn(int k){
@@ -351,8 +289,8 @@ public class ItemManager{
      * Complexitat O (items.size² *  max(getSizeAttributes()))
      */
     public void fillMapDistances(List<String> itemString) {
-        createColumns(itemString);
         Collections.sort(IdItems);
+        System.out.println(IdItems);
 
         //Calcutating distances
         for(int i = 0; i < IdItems.size(); ++i){
@@ -367,6 +305,7 @@ public class ItemManager{
                         List<Column> allValues;
 
                         if(ponderacions.containsKey(items.get(id1).nameColumn(k))){
+                            System.out.println("Evaluant: " + items.get(id1).nameColumn(k));
 //                            System.out.println("Evaluant: " + items.get(id1).nameColumn(k));
                             int p = ponderacions.get(items.get(id1).nameColumn(k));
                             if (items.get(id1).getColumn(k) instanceof ColumnBool) {

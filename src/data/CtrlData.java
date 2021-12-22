@@ -37,14 +37,14 @@ public class CtrlData {
     }
 
     // complexitat O (items.csv.size -> mida fitxer)
-    public List<String> getItems() throws FileNotFoundException {
+    public List<String> getItems() {
         return CIF.getAll("items.csv");
     }
 
     // complexitat O ( rai.size * max(rai.get(i).size) )
     public Map<Integer,Double> getUnknown(String userId) throws FileNotFoundException {
         List<String> rai = CRF.getAll("ratings.test.unknown.csv");
-        System.out.println(userId);
+        //System.out.println(userId);
         Map<Integer,Double> mapa = new HashMap<>();
         boolean trobat = false;
         String aux = "";
@@ -119,15 +119,15 @@ public class CtrlData {
             colAct = 0;
             for(int j = 0; j < rai.get(i).length(); ++j){
                 if(rai.get(i).charAt(j) == ',' || j == rai.get(i).length()-1){
-                  if(colAct == colUs) user = aux;
-                  else if(colAct == colIt) item = Integer.valueOf(aux);
-                  else raiting = Double.valueOf(aux);
-                  ++colAct;
-                  aux = "";
+                    if(colAct == colUs) user = aux;
+                    else if(colAct == colIt) item = Integer.valueOf(aux);
+                    else raiting = Double.valueOf(aux);
+                    ++colAct;
+                    aux = "";
                 }
                 else aux += rai.get(i).charAt(j);
             }
-            if(!(manager.existUser(user))) manager.createUser(user,"","");
+            if(!(manager.existUser(user))) manager.createUser(user,"");
             manager.createReview(user, item, raiting,"");
         }
     }

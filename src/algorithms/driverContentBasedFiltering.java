@@ -4,7 +4,6 @@ import domain.CtrlDomain;
 import item.ItemManager;
 import user.UserManager;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -32,9 +31,7 @@ public class driverContentBasedFiltering {
                     items.fillMapDistances(CDomini.getItems());
                     users.setItemMan(items);
                     cb = new ContentBasedFiltering(users,items);
-
                     System.out.println("Tot inicialitzat correctament");
-
                 }
                 else {
                     System.out.println("Ja esta inicilitzat");
@@ -45,7 +42,8 @@ public class driverContentBasedFiltering {
                     System.out.print("Insereix el userId: ");
                     String userId = sc.next();
                     System.out.print("Insereix el valor K: ");
-                    Integer k = sc.nextInt();
+                    String p = sc.next();
+                    Integer k = Integer.parseInt(p);
                     if(users.existUser(userId)) {
                         List<Integer> recommendations = cb.calculate(userId,k,items.getItems());
                         System.out.println("Items recomanats a l'usuari "+ userId + " :"+recommendations);
@@ -57,6 +55,5 @@ public class driverContentBasedFiltering {
             }
             action = sc.next();
         }
-
     }
 }

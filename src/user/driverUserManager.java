@@ -28,11 +28,11 @@ public class driverUserManager {
             else if (action.equals("createUser")){
                 String user_name,passwd, conf_passwd;
                 user_name = sc.next();
-                passwd = sc.next();;
+                passwd = sc.next();
                 conf_passwd = sc.next();
                 if(manager != null){
                     if (!manager.existUser(user_name)){
-                        manager.createUser(user_name,passwd,conf_passwd);
+                        manager.createUser(user_name,passwd);
                         if (manager.existUser(user_name))System.out.println("User creat");
                     }
                     else System.out.println("L'usuari ja existeix");
@@ -67,8 +67,10 @@ public class driverUserManager {
             }
             else if (action.equals("createReview")){
                 String user_name = sc.next();
-                Integer item_id = sc.nextInt();
-                Double points = sc.nextDouble();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
+                String p = sc.next();
+                Double points = Double.parseDouble(p);
                 String comment = sc.next();
                 if(manager != null){
                     if (manager.existUser(user_name)){
@@ -115,7 +117,8 @@ public class driverUserManager {
             }
             else if (action.equals("getRaiting")){
                 String user_name = sc.next();
-                Integer item_id = sc.nextInt();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
                 if(manager != null){
                     if (manager.existUser(user_name)){
                         if(manager.getUser(user_name).hasValuated(item_id)) System.out.println(manager.getRaiting(user_name,item_id));
@@ -127,7 +130,8 @@ public class driverUserManager {
             }
             else if (action.equals("hasValuated")){
                 String user_name = sc.next();
-                Integer item_id = sc.nextInt();
+                String id = sc.next();
+                Integer item_id = Integer.parseInt(id);
                 if(manager != null){
                     if (manager.existUser(user_name)){
                         System.out.println(manager.getUser(user_name).hasValuated(item_id));

@@ -1,4 +1,4 @@
-package item;
+package estructures;
 
 
 /**
@@ -6,7 +6,7 @@ package item;
  * @param <F> Tipus del primer element que volem que contengui el Pair
  * @param <S> Tipus del segon element que volem que contengui el Pair
  */
-public class Pair <F,S> {
+public class Pair<F,S> {
     private F first;
     private S second;
 

@@ -1,17 +1,15 @@
 package algorithms;
 
 import domain.CtrlDomain;
-import item.ItemManager;
 import user.UserManager;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 public class driverCollaborativeFiltering {
     public static void main(String args[]) throws IOException{
         UserManager users = null;
-        ItemManager items = null;
+        //ItemManager items = null;
         CollaborativeFiltering col = null;
         CtrlDomain CDomini = null;
         Scanner sc = new Scanner(System.in);
@@ -28,13 +26,13 @@ public class driverCollaborativeFiltering {
                     users = UserManager.getInstance();
                     CDomini = CtrlDomain.getInstance();
                     CDomini.obtainData(users);
-                    items = new ItemManager();
+                    //items = new ItemManager();
 //                    items.fillMapDistances(CDomini.getItems());
 //                    items.fillPonderacions(CDomini.getPonderacions());
-                    users.setItemMan(items);
-                    col = new CollaborativeFiltering(users);
-                    col.kmeans(users, items.getItems(), 3);
-                    col.buildDifferencesMatrix(items.getItems(), col.getCluster(1) );
+                    //users.setItemMan(items);
+                    //col = new CollaborativeFiltering(users);
+                    //col.kmeans(users, items.getItems(), 3);
+                    //col.buildDifferencesMatrix(items.getItems(), col.getCluster(1) );
                     System.out.println("Tot inicialitzat correctament");
                 }
                 else System.out.println("Ja esta inicialitzat");
@@ -46,8 +44,8 @@ public class driverCollaborativeFiltering {
                     System.out.print("Insereix el valor K: ");
                     Integer k = sc.nextInt();
                     if(users.existUser(userId)) {
-                        List<Integer> recommendations = col.calculate(userId,k,items.getItems());
-                        System.out.println("Items recomanats a l'usuari "+ userId + " :"+recommendations);
+                        //List<Integer> recommendations = col.calculate(userId,k,items.getItems());
+                        //System.out.println("Items recomanats a l'usuari "+ userId + " :"+recommendations);
                     }
                     else System.out.println("L'usuari donat no exiteix");
 

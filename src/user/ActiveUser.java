@@ -42,7 +42,7 @@ public class ActiveUser {
      * @param newPasswd nou password del usuari
      * Complexitat O(1)
      */
-    public void updatePasswd(String newPasswd){
+    public void changePassword(String newPasswd){
         password = newPasswd;
     }
 
@@ -63,8 +63,6 @@ public class ActiveUser {
     public String getPassword(){
         return password;
     }
-
-
 
     /**
      * Afegeix una review nova a la llista de reviews
@@ -96,15 +94,13 @@ public class ActiveUser {
         r.setComment(comment);
     }
 
-
-
     /**
      * Actualitza els punts d'una review feta per l'usuari
      * @param itemId Item del qual volem actualitzar la seva review
      * @param points Nova puntuació que li donarem al item
      * Complexitat O(1)
      */
-    public void setPoints(int itemId, int points){
+    public void setPoints(int itemId, Double points){
         Review r = reviews.getReview(itemId);
         r.setPoints(points);
     }
@@ -119,8 +115,6 @@ public class ActiveUser {
         return reviews.getReview(itemId);
     }
 
-
-
     /**
      * Retorna la mitjana de les valoracions que ha realitzat el usuari
      * @return Mitjana de valoració de les reviews del usuari
@@ -129,8 +123,6 @@ public class ActiveUser {
     public double raiAve(){
         return reviews.getRaitings();
     }
-
-
 
     /**
      * Obte les K reviews amb més valoració que ha donat l'usuari
@@ -141,8 +133,6 @@ public class ActiveUser {
     public Map<Integer,Double> getReviewsUsers(int k) {
         return reviews.getReviewsU(k);
     }
-
-
 
     /**
      * Comprova si l'usuari ha valorat un item
